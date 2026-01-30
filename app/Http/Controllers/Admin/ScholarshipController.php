@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Scholarship;
 use Illuminate\Http\Request;
 
 class ScholarshipController extends Controller
@@ -12,7 +13,8 @@ class ScholarshipController extends Controller
      */
     public function index()
     {
-        //
+        $scholarships = Scholarship::latest()->paginate(10); // paginate 10 per page
+        return view('admin.scholarships.index', compact('scholarships'));
     }
 
     /**
@@ -20,7 +22,7 @@ class ScholarshipController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.scholarships.create');
     }
 
     /**
@@ -28,7 +30,21 @@ class ScholarshipController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'amount' => 'required|numeric|min:0',
+            'eligibility_criteria' => 'nullable|string',
+            'application_deadline' => 'required|date|after:today',
+            'status' => 'required|in:active,inactive',
+            'max_recipients' => 'required|integer|min:1',
+            'academic_year' => 'required|string|max:20',
+        ]);
+
+        Scholarship::create($request->all());
+
+        return redirect()->route('admin.scholarships.index')
+                         ->with('success', 'Scholarship created successfully.');
     }
 
     /**
@@ -36,7 +52,8 @@ class ScholarshipController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $scholarship = Scholarship::findOrFail($id);
+        return view('admin.scholarships.show', compact('scholarship'));
     }
 
     /**
@@ -44,7 +61,8 @@ class ScholarshipController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $scholarship = Scholarship::findOrFail($id);
+        return view('admin.scholarships.edit', compact('scholarship'));
     }
 
     /**
@@ -52,7 +70,23 @@ class ScholarshipController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $scholarship = Scholarship::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'amount' => 'required|numeric|min:0',
+            'eligibility_criteria' => 'nullable|string',
+            'application_deadline' => 'required|date|after:today',
+            'status' => 'required|in:active,inactive',
+            'max_recipients' => 'required|integer|min:1',
+            'academic_year' => 'required|string|max:20',
+        ]);
+
+        $scholarship->update($request->all());
+
+        return redirect()->route('admin.scholarships.index')
+                         ->with('success', 'Scholarship updated successfully.');
     }
 
     /**
@@ -60,6 +94,10 @@ class ScholarshipController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $scholarship = Scholarship::findOrFail($id);
+        $scholarship->delete();
+
+        return redirect()->route('admin.scholarships.index')
+                         ->with('success', 'Scholarship deleted successfully.');
     }
 }

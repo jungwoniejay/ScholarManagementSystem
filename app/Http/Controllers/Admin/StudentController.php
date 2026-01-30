@@ -14,7 +14,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::latest()->paginate(10);
-        return view('admin.student.index', compact('students'));
+        return view('admin.students.index', compact('students'));
     }
 
     /**
@@ -22,33 +22,36 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.student.create');
+        return view('admin.students.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
-            'enrollment_year' => 'nullable|integer',
-            'course' => 'nullable|string|max:100',
-            'gpa' => 'nullable|numeric|min:0|max:4',
-            'status' => 'nullable|string|max:50',
-        ]);
+   public function store(Request $request)
+{
+    $data = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:students,email',
+        'phone' => 'nullable|string|max:20',
+        'address' => 'nullable|string|max:255',
+        'date_of_birth' => 'nullable|date',
+        'gender' => 'nullable|in:male,female,other',
+        'enrollment_year' => 'nullable|integer',
+        'course' => 'nullable|string|max:100',
+        'gpa' => 'nullable|numeric|min:0|max:4',
+        'status' => 'nullable|string|max:50',
+    ]);
 
-        Student::create($data);
+    $data['user_id'] = auth()->id(); // 👈 auto-assign
 
-        return redirect()->route('admin.students.index')->with('success', 'Student created successfully.');
-    }
+    Student::create($data);
+
+    return redirect()->route('admin.students.index')
+        ->with('success', 'Student created successfully.');
+}
+
 
     /**
      * Display the specified resource.
@@ -63,7 +66,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        return view('admin.student.edit', compact('student'));
+        return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -72,7 +75,6 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:students,email,' . $student->id,

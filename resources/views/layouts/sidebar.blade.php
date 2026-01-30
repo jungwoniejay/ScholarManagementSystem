@@ -1,25 +1,106 @@
-<div class="w-64 bg-white shadow-sm flex flex-col border-r border-gray-200">
+<div class="w-64 bg-white shadow-xl flex flex-col border-r border-slate-200/60 relative overflow-hidden">
+    <!-- Decorative gradient background -->
+    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 pointer-events-none"></div>
+    
     <!-- Sidebar Header -->
-    <div class="px-6 py-5 border-b border-gray-200">
-        <h1 class="text-lg font-semibold text-gray-900">Admin Dashboard</h1>
-        <p class="text-xs text-gray-500 mt-1">Scholarship Management</p>
+    <div class="px-6 py-6 border-b border-slate-200/60 relative">
+        <div class="flex items-center space-x-3 mb-2">
+            <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">ScholarHub</h1>
+                <p class="text-xs text-slate-500 font-medium">Admin Portal</p>
+            </div>
+        </div>
     </div>
 
     <!-- Sidebar Navigation -->
-    <nav class="flex-1 py-4 overflow-y-auto">
+    <nav class="flex-1 py-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
         @php
             $links = [
-                ['route' => 'admin.students.index', 'label' => 'Manage Students', 'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'],
-                ['route' => 'admin.donators.index', 'label' => 'Manage Donators', 'icon' => 'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z'],
-                ['route' => 'admin.scholarships.index', 'label' => 'Scholarships', 'icon' => 'M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222'],
-                ['route' => 'admin.rules.index', 'label' => 'AI Rules', 'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
-                ['route' => 'admin.applications.screened', 'label' => 'Review Applications', 'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01'],
-                ['route' => 'admin.documents.verify', 'label' => 'Verify Documents', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
-                ['route' => 'admin.applications.review', 'label' => 'Approve Applications', 'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
-                ['route' => 'admin.applications.shortlist', 'label' => 'Shortlist Applicants', 'icon' => 'M5 13l4 4L19 7'],
-                ['route' => 'admin.funds.monitor', 'label' => 'Monitor Funds', 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
-                ['route' => 'admin.reports.index', 'label' => 'Reports', 'icon' => 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z'],
-                ['route' => 'admin.accounts.index', 'label' => 'Admin Accounts', 'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'],
+                [
+                    'route' => 'admin.students.index', 
+                    'label' => 'Manage Students', 
+                    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+                    'color' => 'emerald'
+                ],
+                [
+                    'route' => 'admin.donators.index', 
+                    'label' => 'Manage Donators', 
+                    'icon' => 'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z',
+                    'color' => 'blue'
+                ],
+                [
+                    'route' => 'admin.scholarships.index', 
+                    'label' => 'Scholarships', 
+                    'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                    'color' => 'purple'
+                ],
+                [
+                    'route' => 'admin.rules.index', 
+                    'label' => 'AI Rules', 
+                    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+                    'color' => 'indigo'
+                ],
+                [
+                    'route' => 'admin.applications.screened', 
+                    'label' => 'Review Applications', 
+                    'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
+                    'color' => 'amber'
+                ],
+                [
+                    'route' => 'admin.documents.verify', 
+                    'label' => 'Verify Documents', 
+                    'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+                    'color' => 'teal'
+                ],
+                [
+                    'route' => 'admin.applications.review', 
+                    'label' => 'Approve Applications', 
+                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+                    'color' => 'green'
+                ],
+                [
+                    'route' => 'admin.applications.shortlist', 
+                    'label' => 'Shortlist Applicants', 
+                    'icon' => 'M5 13l4 4L19 7',
+                    'color' => 'cyan'
+                ],
+                [
+                    'route' => 'admin.funds.monitor', 
+                    'label' => 'Monitor Funds', 
+                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                    'color' => 'violet'
+                ],
+                [
+                    'route' => 'admin.reports.index', 
+                    'label' => 'Reports', 
+                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                    'color' => 'rose'
+                ],
+                [
+                    'route' => 'admin.accounts.index', 
+                    'label' => 'Admin Accounts', 
+                    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+                    'color' => 'slate'
+                ],
+            ];
+
+            $colorClasses = [
+                'emerald' => ['active' => 'bg-emerald-50 text-emerald-700 shadow-sm', 'icon' => 'text-emerald-600', 'hover' => 'hover:bg-emerald-50'],
+                'blue' => ['active' => 'bg-blue-50 text-blue-700 shadow-sm', 'icon' => 'text-blue-600', 'hover' => 'hover:bg-blue-50'],
+                'purple' => ['active' => 'bg-purple-50 text-purple-700 shadow-sm', 'icon' => 'text-purple-600', 'hover' => 'hover:bg-purple-50'],
+                'indigo' => ['active' => 'bg-indigo-50 text-indigo-700 shadow-sm', 'icon' => 'text-indigo-600', 'hover' => 'hover:bg-indigo-50'],
+                'amber' => ['active' => 'bg-amber-50 text-amber-700 shadow-sm', 'icon' => 'text-amber-600', 'hover' => 'hover:bg-amber-50'],
+                'teal' => ['active' => 'bg-teal-50 text-teal-700 shadow-sm', 'icon' => 'text-teal-600', 'hover' => 'hover:bg-teal-50'],
+                'green' => ['active' => 'bg-green-50 text-green-700 shadow-sm', 'icon' => 'text-green-600', 'hover' => 'hover:bg-green-50'],
+                'cyan' => ['active' => 'bg-cyan-50 text-cyan-700 shadow-sm', 'icon' => 'text-cyan-600', 'hover' => 'hover:bg-cyan-50'],
+                'violet' => ['active' => 'bg-violet-50 text-violet-700 shadow-sm', 'icon' => 'text-violet-600', 'hover' => 'hover:bg-violet-50'],
+                'rose' => ['active' => 'bg-rose-50 text-rose-700 shadow-sm', 'icon' => 'text-rose-600', 'hover' => 'hover:bg-rose-50'],
+                'slate' => ['active' => 'bg-slate-100 text-slate-700 shadow-sm', 'icon' => 'text-slate-600', 'hover' => 'hover:bg-slate-50'],
             ];
         @endphp
 
@@ -27,37 +108,96 @@
             @foreach ($links as $link)
                 @php
                     $isActive = request()->routeIs($link['route']);
+                    $colors = $colorClasses[$link['color']] ?? $colorClasses['slate'];
                 @endphp
                 
                 <a href="{{ route($link['route']) }}" 
-                   class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-150 {{ $isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 mr-3 flex-shrink-0 {{ $isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}" 
-                         fill="none" 
-                         stroke="currentColor" 
-                         viewBox="0 0 24 24">
-                        <path stroke-linecap="round" 
-                              stroke-linejoin="round" 
-                              stroke-width="2" 
-                              d="{{ $link['icon'] }}" />
-                    </svg>
-                    <span class="truncate">{{ $link['label'] }}</span>
+                   class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 {{ $isActive ? $colors['active'] : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-200 {{ $isActive ? 'bg-gradient-to-br from-' . $link['color'] . '-500 to-' . $link['color'] . '-600 shadow-lg shadow-' . $link['color'] . '-500/30' : 'bg-slate-100 group-hover:bg-' . $link['color'] . '-100' }}">
+                        <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-slate-500 group-hover:' . $colors['icon'] }}" 
+                             fill="none" 
+                             stroke="currentColor" 
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" 
+                                  stroke-linejoin="round" 
+                                  stroke-width="2" 
+                                  d="{{ $link['icon'] }}" />
+                        </svg>
+                    </div>
+                    <span class="truncate flex-1">{{ $link['label'] }}</span>
+                    @if($isActive)
+                        <svg class="w-4 h-4 text-{{ $link['color'] }}-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                    @endif
                 </a>
             @endforeach
         </div>
     </nav>
 
-    <!-- Sidebar Footer -->
-    <div class="px-6 py-4 border-t border-gray-200">
-        <div class="flex items-center">
-            <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
+    <!-- Quick Stats in Sidebar -->
+    <div class="px-6 py-4 border-t border-slate-200/60">
+        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 mb-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-slate-600">System Status</span>
+                <div class="flex items-center space-x-1">
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-bold text-emerald-600">Active</span>
+                </div>
             </div>
-            <div class="ml-3">
-                <p class="text-sm font-medium text-gray-900">Admin User</p>
-                <p class="text-xs text-gray-500">System Administrator</p>
+            <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-600">Pending Reviews</span>
+                    <span class="font-bold text-amber-600">{{ \App\Models\Application::where('status', 'pending')->count() }}</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-600">Active Students</span>
+                    <span class="font-bold text-emerald-600">{{ \App\Models\Student::count() }}</span>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Sidebar Footer -->
+    <div class="px-6 py-4 border-t border-slate-200/60 bg-slate-50">
+        <div class="flex items-center space-x-3">
+            <div class="relative">
+                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+                <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-slate-900 truncate">{{ Auth::user()->name ?? 'Admin User' }}</p>
+                <p class="text-xs text-slate-500 truncate">System Administrator</p>
+            </div>
+            <button class="p-2 hover:bg-slate-200 rounded-lg transition-colors" title="Logout">
+                <svg class="w-4 h-4 text-slate-500 hover:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            </button>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Custom scrollbar styling */
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: rgb(203 213 225);
+        border-radius: 20px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(148 163 184);
+    }
+</style>

@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class FundController extends Controller
 {
-    //
+    public function monitor()
+    {
+        return view('funds.monitor');
+    }
 }

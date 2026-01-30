@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DocumentController extends Controller
+class SettingsController extends Controller
 {
-    public function verify()
+    public function index()
     {
-        return view('admin.documents.verify');
+        return view('admin.settings.index');
     }
 }

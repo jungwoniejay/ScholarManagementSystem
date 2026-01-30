@@ -34,4 +34,9 @@ class Application extends Model
     {
         return $this->belongsTo(Scholarship::class);
     }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

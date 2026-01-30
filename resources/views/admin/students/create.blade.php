@@ -1,11 +1,7 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Add Student') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="flex h-screen">
+@section('content')
+<div class="flex h-screen">
         @include('layouts.sidebar') <!-- your sidebar -->
 
         <div class="flex-1 p-6 bg-gray-50 overflow-auto">
@@ -92,4 +88,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection
