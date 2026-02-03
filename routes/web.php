@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\StudentApplicationController;
+use App\Http\Controllers\StudentDocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,11 @@ Route::get('/', function () {
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (auth()->user()->role === 'admin') {
+        return view('dashboard');
+    } else {
+        return view('student.dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 /*
@@ -45,6 +51,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Student Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+    Route::get('/applications', [StudentApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/documents', [StudentDocumentController::class, 'index'])->name('documents.index');
 });
 
 /*

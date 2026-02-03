@@ -18,18 +18,18 @@ class SearchController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        // Search across multiple models
+        // Search across multiple models with pagination
         $students = Student::with('user')
             ->whereHas('user', function($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%")
                   ->orWhere('email', 'like', "%{$query}%");
             })
             ->orWhere('student_id', 'like', "%{$query}%")
-            ->get();
+            ->paginate(10, ['*'], 'students_page');
 
         $scholarships = Scholarship::where('name', 'like', "%{$query}%")
             ->orWhere('description', 'like', "%{$query}%")
-            ->get();
+            ->paginate(10, ['*'], 'scholarships_page');
 
         $applications = Application::with(['student.user', 'scholarship'])
             ->whereHas('student.user', function($q) use ($query) {
@@ -38,7 +38,7 @@ class SearchController extends Controller
             ->orWhereHas('scholarship', function($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%");
             })
-            ->get();
+            ->paginate(10, ['*'], 'applications_page');
 
         return view('admin.search.results', compact('students', 'scholarships', 'applications', 'query'));
     }
