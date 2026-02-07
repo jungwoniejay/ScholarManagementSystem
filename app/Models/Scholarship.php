@@ -30,4 +30,9 @@ class Scholarship extends Model
     {
         return $this->hasMany(Application::class);
     }
+
+    public function donators()
+    {
+        return $this->belongsToMany(Donator::class, 'donator_scholarship', 'scholarship_id', 'donator_id');
+    }
 }

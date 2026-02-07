@@ -1,55 +1,62 @@
-<div class="w-64 bg-white shadow-xl flex flex-col border-r border-slate-200/60 relative overflow-hidden">
+<div class="w-64 bg-white shadow-xl flex flex-col border-r border-slate-200/60 fixed left-0 top-0 h-screen z-50">
     <!-- Decorative gradient background -->
-    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 right-0 h-40 bg-gradient-to-br from-emerald-600/10 via-teal-600/5 to-green-700/5 pointer-events-none z-0"></div>
     
     <!-- Sidebar Header -->
-    <div class="px-6 py-6 border-b border-slate-200/60 relative">
-        <div class="flex items-center space-x-3 mb-2">
-            <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="px-6 py-6 border-b border-slate-200/60 relative z-10 flex-shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
             </div>
             <div>
-                <h1 class="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">ScholarHub</h1>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">ScholarHub</h1>
                 <p class="text-xs text-slate-500 font-medium">Admin Portal</p>
             </div>
         </div>
     </div>
 
     <!-- Sidebar Navigation -->
-    <nav class="flex-1 py-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+    <nav class="flex-1 py-6 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent min-h-0">
         @php
             $links = [
                 [
-                    'route' => 'admin.students.index', 
-                    'label' => 'Manage Students', 
-                    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+                    'route' => 'admin.dashboard', 
+                    'label' => 'Dashboard', 
+                    'icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
                     'color' => 'emerald'
                 ],
                 [
-                    'route' => 'admin.donators.index', 
-                    'label' => 'Manage Donators', 
-                    'icon' => 'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z',
-                    'color' => 'blue'
+                    'route' => 'admin.students.index', 
+                    'label' => 'Students', 
+                    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+                    'color' => 'emerald'
                 ],
                 [
                     'route' => 'admin.scholarships.index', 
                     'label' => 'Scholarships', 
                     'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
-                    'color' => 'purple'
-                ],
-                [
-                    'route' => 'admin.rules.index', 
-                    'label' => 'AI Rules', 
-                    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
-                    'color' => 'indigo'
+                    'color' => 'blue'
                 ],
                 [
                     'route' => 'admin.applications.screened', 
-                    'label' => 'Review Applications', 
-                    'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
-                    'color' => 'amber'
+                    'label' => 'Applications', 
+                    'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+                    'color' => 'amber',
+                    'badge' => \App\Models\Application::where('status', 'pending')->count()
+                ],
+                [
+                    'route' => 'admin.donators.index', 
+                    'label' => 'Donors', 
+                    'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+                    'color' => 'cyan'
+                ],
+                [
+                    'route' => 'admin.funds.monitor', 
+                    'label' => 'Funds', 
+                    'icon' => 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                    'color' => 'purple'
                 ],
                 [
                     'route' => 'admin.documents.verify', 
@@ -59,20 +66,20 @@
                 ],
                 [
                     'route' => 'admin.applications.review', 
-                    'label' => 'Approve Applications', 
-                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+                    'label' => 'Review Applications', 
+                    'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
                     'color' => 'green'
                 ],
                 [
                     'route' => 'admin.applications.shortlist', 
-                    'label' => 'Shortlist Applicants', 
+                    'label' => 'Shortlist', 
                     'icon' => 'M5 13l4 4L19 7',
-                    'color' => 'cyan'
+                    'color' => 'indigo'
                 ],
                 [
-                    'route' => 'admin.funds.monitor', 
-                    'label' => 'Monitor Funds', 
-                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                    'route' => 'admin.rules.index', 
+                    'label' => 'AI Rules', 
+                    'icon' => 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
                     'color' => 'violet'
                 ],
                 [
@@ -88,45 +95,48 @@
                     'color' => 'slate'
                 ],
             ];
-
-            $colorClasses = [
-                'emerald' => ['active' => 'bg-emerald-50 text-emerald-700 shadow-sm', 'icon' => 'text-emerald-600', 'hover' => 'hover:bg-emerald-50'],
-                'blue' => ['active' => 'bg-blue-50 text-blue-700 shadow-sm', 'icon' => 'text-blue-600', 'hover' => 'hover:bg-blue-50'],
-                'purple' => ['active' => 'bg-purple-50 text-purple-700 shadow-sm', 'icon' => 'text-purple-600', 'hover' => 'hover:bg-purple-50'],
-                'indigo' => ['active' => 'bg-indigo-50 text-indigo-700 shadow-sm', 'icon' => 'text-indigo-600', 'hover' => 'hover:bg-indigo-50'],
-                'amber' => ['active' => 'bg-amber-50 text-amber-700 shadow-sm', 'icon' => 'text-amber-600', 'hover' => 'hover:bg-amber-50'],
-                'teal' => ['active' => 'bg-teal-50 text-teal-700 shadow-sm', 'icon' => 'text-teal-600', 'hover' => 'hover:bg-teal-50'],
-                'green' => ['active' => 'bg-green-50 text-green-700 shadow-sm', 'icon' => 'text-green-600', 'hover' => 'hover:bg-green-50'],
-                'cyan' => ['active' => 'bg-cyan-50 text-cyan-700 shadow-sm', 'icon' => 'text-cyan-600', 'hover' => 'hover:bg-cyan-50'],
-                'violet' => ['active' => 'bg-violet-50 text-violet-700 shadow-sm', 'icon' => 'text-violet-600', 'hover' => 'hover:bg-violet-50'],
-                'rose' => ['active' => 'bg-rose-50 text-rose-700 shadow-sm', 'icon' => 'text-rose-600', 'hover' => 'hover:bg-rose-50'],
-                'slate' => ['active' => 'bg-slate-100 text-slate-700 shadow-sm', 'icon' => 'text-slate-600', 'hover' => 'hover:bg-slate-50'],
-            ];
         @endphp
 
         <div class="space-y-1 px-3">
             @foreach ($links as $link)
                 @php
                     $isActive = request()->routeIs($link['route']);
-                    $colors = $colorClasses[$link['color']] ?? $colorClasses['slate'];
                 @endphp
                 
-                <a href="{{ route($link['route']) }}" 
-                   class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 {{ $isActive ? $colors['active'] : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-200 {{ $isActive ? 'bg-gradient-to-br from-' . $link['color'] . '-500 to-' . $link['color'] . '-600 shadow-lg shadow-' . $link['color'] . '-500/30' : 'bg-slate-100 group-hover:bg-' . $link['color'] . '-100' }}">
-                        <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-slate-500 group-hover:' . $colors['icon'] }}" 
-                             fill="none" 
-                             stroke="currentColor" 
+                <a href="{{ route($link['route']) }}"
+                   class="group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-300 relative {{ $isActive ? 'bg-gradient-to-r from-' . $link['color'] . '-50 to-' . $link['color'] . '-50/50 text-' . $link['color'] . '-700 shadow-sm' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
+                    
+                    <!-- Active indicator -->
+                    @if($isActive)
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-{{ $link['color'] }}-500 to-{{ $link['color'] }}-600 rounded-r-full"></div>
+                    @endif
+
+                    <!-- Icon -->
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-300 {{ $isActive ? 'bg-gradient-to-br from-' . $link['color'] . '-500 to-' . $link['color'] . '-600 shadow-lg shadow-' . $link['color'] . '-500/30 scale-105' : 'bg-slate-100 group-hover:bg-slate-200' }}">
+                        <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-700' }}"
+                             fill="none"
+                             stroke="currentColor"
                              viewBox="0 0 24 24">
-                            <path stroke-linecap="round" 
-                                  stroke-linejoin="round" 
-                                  stroke-width="2" 
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
                                   d="{{ $link['icon'] }}" />
                         </svg>
                     </div>
+
+                    <!-- Label -->
                     <span class="truncate flex-1">{{ $link['label'] }}</span>
+
+                    <!-- Badge -->
+                    @if(isset($link['badge']) && $link['badge'] > 0)
+                        <span class="ml-auto px-2 py-0.5 text-xs font-bold bg-{{ $link['color'] }}-600 text-white rounded-full {{ $isActive ? 'animate-pulse' : '' }}">
+                            {{ $link['badge'] }}
+                        </span>
+                    @endif
+
+                    <!-- Arrow indicator for active state -->
                     @if($isActive)
-                        <svg class="w-4 h-4 text-{{ $link['color'] }}-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-4 h-4 text-{{ $link['color'] }}-600 ml-2" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                         </svg>
                     @endif
@@ -135,49 +145,72 @@
         </div>
     </nav>
 
-    <!-- Quick Stats in Sidebar -->
-    <div class="px-6 py-4 border-t border-slate-200/60">
-        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 mb-3">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-semibold text-slate-600">System Status</span>
-                <div class="flex items-center space-x-1">
+    <!-- Quick Stats Card -->
+    <div class="px-6 py-4 border-t border-slate-200/60 flex-shrink-0">
+        <div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 rounded-2xl p-4 shadow-sm border border-emerald-100/50">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2">
                     <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                    <span class="text-xs font-bold text-emerald-600">Active</span>
+                    <span class="text-xs font-bold text-emerald-700">System Status</span>
                 </div>
+                <span class="text-xs font-semibold text-emerald-600 bg-emerald-100/50 px-2 py-0.5 rounded-full">Live</span>
             </div>
-            <div class="space-y-2">
-                <div class="flex items-center justify-between text-xs">
-                    <span class="text-slate-600">Pending Reviews</span>
-                    <span class="font-bold text-amber-600">{{ \App\Models\Application::where('status', 'pending')->count() }}</span>
+            
+            <div class="space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-xs text-slate-600 font-medium">Pending</span>
+                    </div>
+                    <span class="text-sm font-bold text-amber-600">{{ \App\Models\Application::where('status', 'pending')->count() }}</span>
                 </div>
-                <div class="flex items-center justify-between text-xs">
-                    <span class="text-slate-600">Active Students</span>
-                    <span class="font-bold text-emerald-600">{{ \App\Models\Student::count() }}</span>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <span class="text-xs text-slate-600 font-medium">Students</span>
+                    </div>
+                    <span class="text-sm font-bold text-emerald-600">{{ \App\Models\Student::count() }}</span>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span class="text-xs text-slate-600 font-medium">Programs</span>
+                    </div>
+                    <span class="text-sm font-bold text-blue-600">{{ \App\Models\Scholarship::where('status', 'active')->count() }}</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Sidebar Footer -->
-    <div class="px-6 py-4 border-t border-slate-200/60 bg-slate-50">
+    <!-- User Profile Footer -->
+    <div class="px-6 py-4 border-t border-slate-200/60 bg-gradient-to-r from-slate-50/50 to-emerald-50/30 flex-shrink-0">
         <div class="flex items-center space-x-3">
-            <div class="relative">
-                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+            <div class="relative flex-shrink-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <span class="text-white font-bold text-base">{{ substr(Auth::user()->name ?? 'A', 0, 1) }}</span>
                 </div>
-                <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
+                <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></div>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-slate-900 truncate">{{ Auth::user()->name ?? 'Admin User' }}</p>
-                <p class="text-xs text-slate-500 truncate">System Administrator</p>
+                <p class="text-sm font-bold text-slate-900 truncate">{{ Auth::user()->name ?? 'Admin User' }}</p>
+                <p class="text-xs text-slate-500 truncate">Administrator</p>
             </div>
-            <button class="p-2 hover:bg-slate-200 rounded-lg transition-colors" title="Logout">
-                <svg class="w-4 h-4 text-slate-500 hover:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-            </button>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="p-2 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-200 group" title="Logout">
+                    <svg class="w-5 h-5 text-slate-400 group-hover:text-red-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -195,9 +228,25 @@
     .scrollbar-thin::-webkit-scrollbar-thumb {
         background-color: rgb(203 213 225);
         border-radius: 20px;
+        border: 2px solid transparent;
     }
 
     .scrollbar-thin::-webkit-scrollbar-thumb:hover {
         background-color: rgb(148 163 184);
+    }
+
+    /* Smooth transitions for hover states */
+    .group:hover .group-hover\:scale-105 {
+        transform: scale(1.05);
+    }
+
+    /* Pulse animation for badges */
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: .8;
+        }
     }
 </style>

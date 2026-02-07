@@ -34,12 +34,37 @@ Route::get('/', function () {
 */
 
 Route::get('/dashboard', function () {
-    if (auth()->user()->role === 'admin') {
-        return view('dashboard');
+    $user = auth()->user();
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    } elseif ($user->role === 'donator') {
+        return redirect()->route('donator.dashboard');
+    } elseif ($user->role === 'student') {
+        return redirect()->route('student.dashboard');
     } else {
-        return view('student.dashboard');
+        return redirect()->route('admin.dashboard');
     }
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Donator Dashboard
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/donator/dashboard', function () {
+    return view('donator.dashboard');
+})->middleware(['auth'])->name('donator.dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Student Dashboard
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/student/dashboard', function () {
+    return view('student.dashboard');
+})->middleware(['auth'])->name('student.dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +102,9 @@ Route::middleware(['auth', 'admin'])
 
         // Admin Dashboard
         Route::get('/dashboard', function () {
-            return view('dashboard'); 
+            $totalDonors = \App\Models\Donator::count();
+            $totalDonorFunds = \App\Models\Donator::sum('total_fund');
+            return view('dashboard', compact('totalDonors', 'totalDonorFunds'));
         })->name('dashboard');
 
         // Search

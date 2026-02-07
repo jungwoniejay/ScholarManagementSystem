@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-auth-neon-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -37,6 +37,22 @@
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <!-- Role -->
+        <div class="mt-4">
+            <x-input-label :value="__('Register as')" />
+            <div class="mt-2">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="role" value="student" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm text-gray-700">{{ __('Student') }}</span>
+                </label>
+                <label class="inline-flex items-center ml-6">
+                    <input type="radio" name="role" value="donator" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm text-gray-700">{{ __('Donator') }}</span>
+                </label>
+            </div>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

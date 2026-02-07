@@ -1,92 +1,136 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex min-h-screen bg-slate-100">
+
+    {{-- Sidebar --}}
     @include('layouts.sidebar')
 
-    <div class="flex-1 p-6 bg-gray-50 overflow-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-semibold">Students</h1>
-            <a href="{{ route('admin.students.create') }}"
-               class="px-4 py-2 bg-cyan-600 text-white rounded shadow hover:bg-cyan-700 transition">
-                + Add Student
-            </a>
-        </div>
+    {{-- Main --}}
+    <div class="flex-1 p-6 lg:p-8 overflow-auto">
+        <div class="max-w-7xl mx-auto space-y-6">
 
-        <div class="bg-white shadow rounded-lg overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Course</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                    </tr>
-                </thead>
+            {{-- Header --}}
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-800">Students</h1>
+                    <p class="text-sm text-slate-500">Manage all registered students</p>
+                </div>
 
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($students as $student)
-                        <tr>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">
-                                {{ $student->first_name }} {{ $student->last_name }}
-                            </td>
+                <a href="{{ route('admin.students.create') }}"
+                   class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white text-sm font-semibold rounded-lg shadow hover:bg-cyan-700 transition">
+                    + Add Student
+                </a>
+            </div>
 
-                            <td class="px-6 py-4 text-sm text-gray-700">
-                                {{ $student->email }}
-                            </td>
+            {{-- Table Card --}}
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
 
-                            <td class="px-6 py-4 text-sm text-gray-700">
-                                {{ $student->phone ?? '—' }}
-                            </td>
+                {{-- Table --}}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">
+                                    Name
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">
+                                    Email
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">
+                                    Phone
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">
+                                    Course
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">
+                                    Status
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
 
-                            <td class="px-6 py-4 text-sm text-gray-700">
-                                {{ $student->course ?? '—' }}
-                            </td>
+                        <tbody class="divide-y divide-slate-200 bg-white">
+                            @forelse($students as $student)
+                                <tr class="hover:bg-slate-50 transition">
 
-                            <td class="px-6 py-4 text-sm">
-                                <span class="px-2 py-1 rounded text-xs font-semibold
-                                    {{ $student->status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
-                                    {{ ucfirst($student->status ?? 'N/A') }}
-                                </span>
-                            </td>
+                                    {{-- Name --}}
+                                    <td class="px-6 py-4">
+                                        <div class="font-semibold text-slate-800">
+                                            {{ $student->first_name }} {{ $student->last_name }}
+                                        </div>
+                                    </td>
 
-                            <td class="px-6 py-4 text-sm flex gap-2">
-                                <a href="{{ route('admin.students.show', $student) }}"
-                                   class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                    View
-                                </a>
+                                    {{-- Email --}}
+                                    <td class="px-6 py-4 text-sm text-slate-600">
+                                        {{ $student->email }}
+                                    </td>
 
-                                <a href="{{ route('admin.students.edit', $student) }}"
-                                   class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-                                    Edit
-                                </a>
+                                    {{-- Phone --}}
+                                    <td class="px-6 py-4 text-sm text-slate-600">
+                                        {{ $student->phone ?? '—' }}
+                                    </td>
 
-                                <form action="{{ route('admin.students.destroy', $student) }}"
-                                      method="POST"
-                                      onsubmit="return confirm('Are you sure?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                No students found.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                    {{-- Course --}}
+                                    <td class="px-6 py-4 text-sm text-slate-600">
+                                        {{ $student->course ?? '—' }}
+                                    </td>
 
-            <div class="p-4">
-                {{ $students->links() }}
+                                    {{-- Status --}}
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold
+                                            {{ $student->status === 'active'
+                                                ? 'bg-emerald-100 text-emerald-700'
+                                                : 'bg-slate-100 text-slate-600' }}">
+                                            {{ ucfirst($student->status ?? 'N/A') }}
+                                        </span>
+                                    </td>
+
+                                    {{-- Actions --}}
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+
+                                            <a href="{{ route('admin.students.show', $student) }}"
+                                               class="px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition">
+                                                View
+                                            </a>
+
+                                            <a href="{{ route('admin.students.edit', $student) }}"
+                                               class="px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 rounded hover:bg-amber-200 transition">
+                                                Edit
+                                            </a>
+
+                                            <form action="{{ route('admin.students.destroy', $student) }}"
+                                                  method="POST"
+                                                  onsubmit="return confirm('Are you sure you want to delete this student?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded hover:bg-red-200 transition">
+                                                    Delete
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-10 text-center text-slate-400">
+                                        No students found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Pagination --}}
+                <div class="px-6 py-4 border-t border-slate-200">
+                    {{ $students->links() }}
+                </div>
             </div>
         </div>
     </div>

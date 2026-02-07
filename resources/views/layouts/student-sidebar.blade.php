@@ -22,29 +22,59 @@
         @php
             $links = [
                 [
-                    'route' => 'dashboard',
-                    'label' => 'Dashboard',
-                    'icon' => 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z',
-                    'color' => 'blue'
-                ],
-                [
                     'route' => 'profile.edit',
                     'label' => 'My Profile',
                     'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
                     'color' => 'indigo'
                 ],
-
                 [
-                    'route' => 'applications.index', // Assuming a route for viewing applications
-                    'label' => 'My Applications',
+                    'route' => 'documents.index',
+                    'label' => 'Documents',
                     'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+                    'color' => 'teal'
+                ],
+                [
+                    'label' => 'Scholarships',
+                    'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                    'color' => 'purple',
+                    'sub' => [
+                        [
+                            'route' => '#', // Placeholder for Available Scholarships
+                            'label' => 'Available Scholarships',
+                        ],
+                        [
+                            'route' => 'applications.index',
+                            'label' => 'My Applications',
+                        ],
+                        [
+                            'route' => '#', // Placeholder for Awarded Scholarships
+                            'label' => 'Awarded Scholarships',
+                        ],
+                    ]
+                ],
+                [
+                    'route' => '#', // Placeholder for Application Tracker
+                    'label' => 'Application Tracker',
+                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
                     'color' => 'emerald'
                 ],
                 [
-                    'route' => 'documents.index', // Assuming a route for documents
-                    'label' => 'My Documents',
-                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
-                    'color' => 'teal'
+                    'route' => '#', // Placeholder for Notifications
+                    'label' => 'Notifications',
+                    'icon' => 'M15 17h5l-5 5V17zM4 12H3a2 2 0 00-2 2v4a2 2 0 002 2h1m8-10V3a2 2 0 00-2-2H5a2 2 0 00-2 2v4h10z',
+                    'color' => 'blue'
+                ],
+                [
+                    'route' => '#', // Placeholder for Scholarship History
+                    'label' => 'Scholarship History',
+                    'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+                    'color' => 'orange'
+                ],
+                [
+                    'route' => '#', // Placeholder for Settings
+                    'label' => 'Settings',
+                    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+                    'color' => 'gray'
                 ],
             ];
 
@@ -54,36 +84,73 @@
                 'purple' => ['active' => 'bg-purple-50 text-purple-700 shadow-sm', 'icon' => 'text-purple-600', 'hover' => 'hover:bg-purple-50'],
                 'emerald' => ['active' => 'bg-emerald-50 text-emerald-700 shadow-sm', 'icon' => 'text-emerald-600', 'hover' => 'hover:bg-emerald-50'],
                 'teal' => ['active' => 'bg-teal-50 text-teal-700 shadow-sm', 'icon' => 'text-teal-600', 'hover' => 'hover:bg-teal-50'],
+                'orange' => ['active' => 'bg-orange-50 text-orange-700 shadow-sm', 'icon' => 'text-orange-600', 'hover' => 'hover:bg-orange-50'],
+                'gray' => ['active' => 'bg-gray-50 text-gray-700 shadow-sm', 'icon' => 'text-gray-600', 'hover' => 'hover:bg-gray-50'],
             ];
         @endphp
 
         <div class="space-y-1 px-3">
-            @foreach ($links as $link)
+            @foreach ($links as $index => $link)
                 @php
-                    $isActive = request()->routeIs($link['route']);
+                    $isActive = isset($link['route']) ? request()->routeIs($link['route']) : false;
                     $colors = $colorClasses[$link['color']] ?? $colorClasses['blue'];
+                    $hasSub = isset($link['sub']) && is_array($link['sub']);
                 @endphp
 
-                <a href="{{ route($link['route']) }}"
-                   class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 {{ $isActive ? $colors['active'] : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-200 {{ $isActive ? 'bg-gradient-to-br from-' . $link['color'] . '-500 to-' . $link['color'] . '-600 shadow-lg shadow-' . $link['color'] . '-500/30' : 'bg-slate-100 group-hover:bg-' . $link['color'] . '-100' }}">
-                        <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-slate-500 group-hover:' . $colors['icon'] }}"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="{{ $link['icon'] }}" />
-                        </svg>
+                @if($hasSub)
+                    <div class="relative">
+                        <button onclick="toggleSubMenu('submenu-{{ $index }}')"
+                                class="group flex items-center w-full px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 {{ $isActive ? $colors['active'] : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-200 {{ $isActive ? 'bg-gradient-to-br from-' . $link['color'] . '-500 to-' . $link['color'] . '-600 shadow-lg shadow-' . $link['color'] . '-500/30' : 'bg-slate-100 group-hover:bg-' . $link['color'] . '-100' }}">
+                                <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-slate-500 group-hover:' . $colors['icon'] }}"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="{{ $link['icon'] }}" />
+                                </svg>
+                            </div>
+                            <span class="truncate flex-1">{{ $link['label'] }}</span>
+                            <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" id="arrow-{{ $index }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                        <div id="submenu-{{ $index }}" class="ml-12 mt-1 space-y-1 hidden">
+                            @foreach ($link['sub'] as $subLink)
+                                @php
+                                    $subIsActive = isset($subLink['route']) && $subLink['route'] !== '#' ? request()->routeIs($subLink['route']) : false;
+                                @endphp
+                                <a href="{{ isset($subLink['route']) && $subLink['route'] !== '#' ? route($subLink['route']) : '#' }}"
+                                   class="block px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 {{ $subIsActive ? 'bg-' . $link['color'] . '-100 text-' . $link['color'] . '-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                                    {{ $subLink['label'] }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
-                    <span class="truncate flex-1">{{ $link['label'] }}</span>
-                    @if($isActive)
-                        <svg class="w-4 h-4 text-{{ $link['color'] }}-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                    @endif
-                </a>
+                @else
+                    <a href="{{ isset($link['route']) && $link['route'] !== '#' ? route($link['route']) : '#' }}"
+                       class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 {{ $isActive ? $colors['active'] : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
+                        <div class="w-9 h-9 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-200 {{ $isActive ? 'bg-gradient-to-br from-' . $link['color'] . '-500 to-' . $link['color'] . '-600 shadow-lg shadow-' . $link['color'] . '-500/30' : 'bg-slate-100 group-hover:bg-' . $link['color'] . '-100' }}">
+                            <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-slate-500 group-hover:' . $colors['icon'] }}"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="{{ $link['icon'] }}" />
+                            </svg>
+                        </div>
+                        <span class="truncate flex-1">{{ $link['label'] }}</span>
+                        @if($isActive)
+                            <svg class="w-4 h-4 text-{{ $link['color'] }}-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        @endif
+                    </a>
+                @endif
             @endforeach
         </div>
     </nav>
@@ -157,3 +224,18 @@
         background-color: rgb(148 163 184);
     }
 </style>
+
+<script>
+    function toggleSubMenu(submenuId) {
+        const submenu = document.getElementById(submenuId);
+        const arrow = document.getElementById('arrow-' + submenuId.split('-')[1]);
+
+        if (submenu.classList.contains('hidden')) {
+            submenu.classList.remove('hidden');
+            arrow.classList.add('rotate-90');
+        } else {
+            submenu.classList.add('hidden');
+            arrow.classList.remove('rotate-90');
+        }
+    }
+</script>
