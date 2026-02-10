@@ -35,6 +35,36 @@
 
             <!-- Right Side Navigation -->
             <div class="hidden sm:flex sm:items-center sm:space-x-3">
+                <!-- Language Switcher -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="inline-flex items-center px-3 py-2 text-sm font-medium rounded-xl text-slate-600 bg-slate-50 hover:bg-slate-100 focus:outline-none transition-all duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                        </svg>
+                        {{ strtoupper(app()->getLocale()) }}
+                        <svg class="fill-current h-4 w-4 ml-1 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                        <div class="py-1">
+                            <a href="{{ route('lang.switch', 'en') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 {{ app()->getLocale() === 'en' ? 'bg-emerald-50 text-emerald-800' : '' }}">
+                                <span class="mr-3">🇺🇸</span>
+                                English
+                            </a>
+                            <a href="{{ route('lang.switch', 'es') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 {{ app()->getLocale() === 'es' ? 'bg-emerald-50 text-emerald-800' : '' }}">
+                                <span class="mr-3">🇪🇸</span>
+                                Español
+                            </a>
+                            <a href="{{ route('lang.switch', 'fr') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 {{ app()->getLocale() === 'fr' ? 'bg-emerald-50 text-emerald-800' : '' }}">
+                                <span class="mr-3">🇫🇷</span>
+                                Français
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Notifications -->
                 <button class="relative p-2.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all duration-200">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
