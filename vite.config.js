@@ -1,16 +1,18 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
+            refresh: mode === 'development',
         }),
     ],
     build: {
-        manifest: true,       // Required for Laravel to locate assets
-        outDir: 'public/build', // Ensure assets go here
-        emptyOutDir: true,    // Clean old build files
+        manifest: true,           // Laravel needs this
+        outDir: 'public/build',   // must be public/build
+        emptyOutDir: true,
+        assetsDir: 'assets',
     },
-});
+    base: mode === 'production' ? '/build/' : '/',
+}));
