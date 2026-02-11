@@ -18,8 +18,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application
+# Copy application code
 COPY . .
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions for storage & bootstrap/cache
 RUN mkdir -p storage/framework/{cache,sessions,views} \
