@@ -33,6 +33,13 @@ WORKDIR /var/www/html
 COPY . .
 
 # ------------------------------
+# Set environment to production
+# ------------------------------
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV DB_CONNECTION=mysql
+
+# ------------------------------
 # Install PHP dependencies
 # ------------------------------
 RUN composer install --no-dev --optimize-autoloader
@@ -51,10 +58,11 @@ RUN npm install && npm run build
 # ------------------------------
 # Clear caches & link storage
 # ------------------------------
+# Skip artisan commands that rely on the database
 RUN php artisan config:clear \
     && php artisan cache:clear \
     && php artisan view:clear \
-    && php artisan storage:link
+    && php artisan storage:link || true
 
 # ------------------------------
 # Expose port
