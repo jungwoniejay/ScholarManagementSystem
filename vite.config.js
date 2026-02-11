@@ -8,6 +8,10 @@ export default defineConfig(({ mode }) => ({
             refresh: mode === 'development',
         }),
     ],
+    server: {
+        host: '0.0.0.0',
+        cors: true,
+    },
     build: {
         manifest: true,           // Laravel needs this
         outDir: 'public/build',   // must be public/build
