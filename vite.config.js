@@ -9,7 +9,9 @@ export default defineConfig(({ mode }) => ({
         }),
     ],
     server: {
-        host: '0.0.0.0',
+        host: 'localhost',    // <-- change this
+        port: 5174,           // <-- fixed port
+        strictPort: true,     // ensures it doesn't pick random port
         cors: true,
     },
     build: {
