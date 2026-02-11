@@ -1,31 +1,40 @@
 FROM php:8.2-fpm
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     zip \
     unzip \
+    libzip-dev \
     nodejs \
     npm \
-    libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+ && docker-php-ext-install pdo pdo_mysql zip \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
+# Set working directory
+WORKDIR /var/www/html
 
+# Copy application
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+# Set permissions for storage & bootstrap/cache
+RUN mkdir -p storage/framework/{cache,sessions,views} \
+    && chmod -R 775 storage bootstrap/cache
 
+# Build frontend assets
 RUN npm install && npm run build
 
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# Clear caches
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear
 
-EXPOSE 8000
+# Expose port
+EXPOSE 8080
 
-CMD php artisan serve --host=0.0.0.0 --port=${PORT}
+# Start command
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
