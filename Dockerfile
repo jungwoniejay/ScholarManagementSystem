@@ -40,12 +40,17 @@ RUN composer install --no-dev --optimize-autoloader
 # ------------------------------
 # Install Node dependencies & build frontend assets (Vite)
 # ------------------------------
-# Verbose logging ensures we can see what happens in Railway logs
 RUN npm install --verbose
 RUN npm run build --verbose
 
 # Verify the build output
 RUN echo "Listing public/build directory:" && ls -la public/build
+
+# ------------------------------
+# Run migrations and seed admin user
+# ------------------------------
+RUN php artisan migrate --force \
+ && php artisan db:seed --class=AdminUserSeeder || true
 
 # ------------------------------
 # Clear caches and fix permissions
