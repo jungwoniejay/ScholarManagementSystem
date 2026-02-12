@@ -40,18 +40,17 @@ RUN composer install --no-dev --optimize-autoloader
 # ------------------------------
 # Build frontend assets (Vite)
 # ------------------------------
-ENV NODE_ENV=production
 RUN npm install
-RUN npm run build
+RUN npx vite build
 
 # ------------------------------
-# Ensure caches & storage directories exist, set permissions
+# Clear caches and fix permissions
 # ------------------------------
-RUN mkdir -p storage/framework/{cache,sessions,views} \
- && chmod -R 775 storage bootstrap/cache \
- && php artisan config:clear \
+RUN php artisan config:clear \
  && php artisan cache:clear \
  && php artisan view:clear \
+ && mkdir -p storage/framework/{cache,sessions,views} \
+ && chmod -R 775 storage bootstrap/cache \
  && php artisan storage:link || true
 
 # ------------------------------
