@@ -38,14 +38,21 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # ------------------------------
-# Build frontend assets
+# Build frontend assets (Vite)
 # ------------------------------
-RUN npm install && npm run build
+ENV NODE_ENV=production
+RUN npm install
+RUN npm run build
 
 # ------------------------------
-# Set permissions
+# Ensure caches & storage directories exist, set permissions
 # ------------------------------
-RUN chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/framework/{cache,sessions,views} \
+ && chmod -R 775 storage bootstrap/cache \
+ && php artisan config:clear \
+ && php artisan cache:clear \
+ && php artisan view:clear \
+ && php artisan storage:link || true
 
 # ------------------------------
 # Expose Railway port
@@ -53,6 +60,6 @@ RUN chmod -R 775 storage bootstrap/cache
 EXPOSE 8080
 
 # ------------------------------
-# Start Laravel using the Railway $PORT
+# Start Laravel using Railway $PORT
 # ------------------------------
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT:-8080}"]
+CMD sh -c "php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
