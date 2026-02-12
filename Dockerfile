@@ -1,7 +1,7 @@
 # ------------------------------
 # Base PHP image
 # ------------------------------
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # ------------------------------
 # Install system dependencies
@@ -33,22 +33,9 @@ WORKDIR /var/www/html
 COPY . .
 
 # ------------------------------
-# Set environment to production
-# ------------------------------
-ENV APP_ENV=production
-ENV APP_DEBUG=false
-ENV DB_CONNECTION=mysql
-
-# ------------------------------
 # Install PHP dependencies
 # ------------------------------
 RUN composer install --no-dev --optimize-autoloader
-
-# ------------------------------
-# Make storage & cache folders
-# ------------------------------
-RUN mkdir -p storage/framework/{cache,sessions,views} \
-    && chmod -R 775 storage bootstrap/cache
 
 # ------------------------------
 # Build frontend assets
@@ -56,20 +43,16 @@ RUN mkdir -p storage/framework/{cache,sessions,views} \
 RUN npm install && npm run build
 
 # ------------------------------
-# Clear caches & link storage
+# Set permissions
 # ------------------------------
-# Skip artisan commands that rely on the database
-RUN php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan view:clear \
-    && php artisan storage:link || true
+RUN chmod -R 775 storage bootstrap/cache
 
 # ------------------------------
-# Expose port
+# Expose Railway port
 # ------------------------------
 EXPOSE 8080
 
 # ------------------------------
-# Start command (Laravel dev server)
+# Start Laravel using the Railway $PORT
 # ------------------------------
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT:-8080}"]
