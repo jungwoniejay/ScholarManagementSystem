@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\StudentApplicationController;
 use App\Http\Controllers\StudentDocumentController;
-
+use App\Http\Controllers\DonationController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -170,5 +170,24 @@ Route::get('/lang/{locale}', function ($locale) {
 | Auth Routes
 |--------------------------------------------------------------------------
 */
+Route::get('donators', [DonationController::class, 'index'])
+    ->name('donators');
 
+Route::post('donators/store', [DonationController::class, 'store'])
+    ->name('donators.store');
+
+Route::get('donators/create', [DonationController::class, 'create'])
+    ->name('donators.create');
+
+Route::get('donators/{donation}/edit', [DonationController::class, 'edit'])
+    ->name('donators.edit');
+
+Route::put('donators/{donation}', [DonationController::class, 'update'])
+    ->name('donators.update');
+
+Route::delete('donators/{donation}', [DonationController::class, 'destroy'])
+    ->name('donators.destroy');
+
+Route::get('donators/{donation}', [DonationController::class, 'show'])
+    ->name('donators.show');
 require __DIR__ . '/auth.php';
