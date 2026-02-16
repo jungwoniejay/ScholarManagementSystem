@@ -24,7 +24,16 @@
 <body class="bg-slate-50 font-sans antialiased">
 
     {{-- Sidebar --}}
+    @if(auth()->user()->isAdmin())
     @include('layouts.sidebar')
+
+    @elseif(auth()->user()->isDonator())
+        @include('layouts.donator-sidebar')
+
+    @else
+        @include('layouts.students-sidebar')
+    @endif
+
 
     {{-- Main content --}}
     <div class="ml-64 min-h-screen flex flex-col">
@@ -33,10 +42,10 @@
 
         {{-- Page Heading --}}
         @isset($header)
-            <header class="bg-white shadow-sm border-b border-slate-200">
-                <div class="py-6 px-6">
-                    {{ $header }}
-                </div>
+            <header class="bg-white shadow">
+                    <div class="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-9">
+                        {{ $header }}
+                    </div>
             </header>
         @endisset
 

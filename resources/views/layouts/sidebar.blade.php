@@ -1,4 +1,7 @@
-<div class="w-64 bg-white shadow-xl flex flex-col border-r border-slate-200/60 fixed left-0 top-0 h-screen z-50">
+<div class="hidden md:flex w-64 bg-white shadow-xl flex-col
+            border-r border-slate-200/60
+            fixed left-0 top-0 h-screen z-50">
+
     <!-- Decorative gradient background -->
     <div class="absolute top-0 left-0 right-0 h-40 bg-gradient-to-br from-emerald-600/10 via-teal-600/5 to-green-700/5 pointer-events-none z-0"></div>
     
