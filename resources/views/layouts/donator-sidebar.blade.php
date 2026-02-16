@@ -1,5 +1,4 @@
-<nav class="bg-white shadow-lg h-full">
-    <div class="p-4">
+<div class="hidden lg:flex lg:flex-col w-60 bg-white border-r border-gray-100 min-h-screen p-6 fixed">    <div class="p-4">
         <div class="flex items-center space-x-3 mb-8">
             <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,4 +79,6 @@
             </button>
         </form>
     </div>
-</nav>
+</div>
+
+

@@ -8,7 +8,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
-{
+{ 
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isDonator()
+    {
+        return $this->role === 'donator';
+    }
+
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 

@@ -1,4 +1,4 @@
-<x-student-layout>
+<x-app-layout>
     <x-slot name="header">
         My Applications
     </x-slot>
@@ -47,4 +47,4 @@
             @endforelse
         </div>
     </div>
-</x-student-layout>
+</x-app-layout>

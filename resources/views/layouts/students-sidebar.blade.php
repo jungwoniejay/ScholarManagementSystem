@@ -1,22 +1,31 @@
-    <div class="hidden lg:flex lg:flex-col w-60 bg-white border-r border-gray-100 min-h-screen p-6 fixed"> 
-        <!-- Decorative gradient background -->
-        <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 pointer-events-none"></div>
+<div class="hidden lg:flex lg:flex-col w-40 bg-white border-r border-gray-100 min-h-screen p-6 fixed"> 
 
-        <!-- Sidebar Header -->
-        <div class="px-6 py-6 border-b border-slate-200/60 relative">
-            <div class="flex items-center space-x-3 mb-2">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ScholarHub</h1>
-                    <p class="text-xs text-slate-500 font-medium">Student Portal</p>
-                </div>
+   <div class="px-3 py-2 border-b border-slate-200">
+
+        <div class="flex items-center gap-2">
+        
+            <!-- Smaller Logo -->
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 
+                        rounded-lg flex items-center justify-center 
+                        shadow-sm shadow-blue-500/20">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
             </div>
-        </div>
 
+            <!-- Smaller Text -->
+            <div class="leading-tight">
+                <h1 class="text-sm font-semibold text-slate-800">
+                    ScholarHub
+                </h1>
+                <p class="text-[10px] text-slate-500">
+                    Student Portal
+                </p>
+            </div>
+
+        </div>
+        
         <!-- Sidebar Navigation -->
         <nav class="flex-1 py-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
             @php
@@ -155,30 +164,7 @@
             </div>
         </nav>
 
-        <!-- Quick Stats in Sidebar -->
-        <div class="px-6 py-4 border-t border-slate-200/60">
-            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-3">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-semibold text-slate-600">Application Status</span>
-                    <div class="flex items-center space-x-1">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                        <span class="text-xs font-bold text-blue-600">Active</span>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-600">My Applications</span>
-                        <span class="font-bold text-indigo-600">{{ \App\Models\Application::whereHas('student', function($q) { $q->where('user_id', auth()->id()); })->count() }}</span>
-                    </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-600">Available Scholarships</span>
-                        <span class="font-bold text-purple-600">{{ \App\Models\Scholarship::where('status', 'active')->count() }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar Footer -->
+         <!-- Sidebar Footer -->
         <div class="px-6 py-4 border-t border-slate-200/60 bg-slate-50">
             <div class="flex items-center space-x-3">
                 <div class="relative">
@@ -204,6 +190,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <style>
         /* Custom scrollbar styling */
