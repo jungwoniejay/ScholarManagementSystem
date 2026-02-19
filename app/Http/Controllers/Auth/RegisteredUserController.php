@@ -66,10 +66,11 @@ class RegisteredUserController extends Controller
             ]);
         } elseif ($request->role === 'admin') {
             AdminAccount::create([
-                'user_id' => $user->id,
-                'name' => $request->name,
+                'full_name' => $request->name,
                 'email' => $request->email,
                 'role' => 'admin',
+                'contact_number' => '',
+                'password' => $user->password,
             ]);
         }
 
