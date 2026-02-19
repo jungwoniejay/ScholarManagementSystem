@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Donator;
 use App\Models\Student;
+use App\Models\AdminAccount;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:student,donator'],
+            'role' => ['required', 'in:student,donator,admin'],
         ]);
 
         $user = User::create([
@@ -62,6 +63,13 @@ class RegisteredUserController extends Controller
                 'first_name' => $request->name,
                 'last_name' => '',
                 'email' => $request->email,
+            ]);
+        } elseif ($request->role === 'admin') {
+            AdminAccount::create([
+                'user_id' => $user->id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'admin',
             ]);
         }
 
