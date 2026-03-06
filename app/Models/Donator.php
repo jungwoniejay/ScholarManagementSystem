@@ -36,4 +36,12 @@ class Donator extends Model
     {
         return $this->belongsToMany(Scholarship::class, 'donator_scholarship', 'donator_id', 'scholarship_id');
     }
+
+    /**
+     * Get the donations for this donator.
+     */
+    public function donations()
+    {
+        return $this->hasMany(Donation::class, 'donator_id', 'donator_id');
+    }
 }

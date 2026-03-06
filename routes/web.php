@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\DonationController as AdminDonationController;
 use App\Http\Controllers\StudentApplicationController;
 use App\Http\Controllers\StudentDocumentController;
 use App\Http\Controllers\DonationController;
@@ -166,6 +167,13 @@ Route::middleware(['auth', 'admin'])
         // Funds
         Route::get('funds/monitor', [FundController::class, 'monitor'])
             ->name('funds.monitor');
+
+        // Donations
+        Route::get('donations', [AdminDonationController::class, 'index'])
+            ->name('donations.index');
+
+        Route::get('donations/{donation}', [AdminDonationController::class, 'show'])
+            ->name('donations.show');
 
         // Notifications
         Route::get('/notifications', [NotificationController::class, 'all'])

@@ -51,10 +51,6 @@
                     <input type="radio" name="role" value="donator" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                     <span class="ml-2 text-sm text-gray-700">{{ __('Donator') }}</span>
                 </label>
-                <label class="inline-flex items-center ml-6">
-                    <input type="radio" name="role" value="admin" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                    <span class="ml-2 text-sm text-gray-700">{{ __('Admin') }}</span>
-                </label>
             </div>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>

@@ -26,7 +26,26 @@ class DonationController extends Controller
             'donation_date' => 'required|date',
         ]);
 
-        Donation::create($request->all());
+        // Get the logged-in user's donator record
+        $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
+
+        $donationData = $request->all();
+        
+        // Auto-link to donator if user is logged in as donator
+        if ($donator) {
+            $donationData['donator_id'] = $donator->donator_id;
+            // Auto-fill donor_name and email from donator if not provided
+            $donationData['donor_name'] = $donationData['donor_name'] ?? $donator->contact_person;
+            $donationData['email'] = $donationData['email'] ?? $donator->email;
+        }
+
+        Donation::create($donationData);
+
+        // Update donator's total_fund if linked
+        if ($donator) {
+            $donator->increment('total_fund', $request->amount);
+            $donator->increment('available_fund', $request->amount);
+        }
 
         return redirect()->route('donators')
             ->with('success', 'Donation added successfully');

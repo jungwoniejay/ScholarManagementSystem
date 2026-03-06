@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:student,donator,admin'],
+            'role' => ['required', 'in:student,donator'],
         ]);
 
         $user = User::create([
@@ -64,14 +64,6 @@ class RegisteredUserController extends Controller
                 'last_name' => '',
                 'email' => $request->email,
             ]);
-        } elseif ($request->role === 'admin') {
-            AdminAccount::create([
-                'full_name' => $request->name,
-                'email' => $request->email,
-                'role' => 'admin',
-                'contact_number' => '',
-                'password' => Hash::make($request->password),
-            ]);
         }
 
         event(new Registered($user));
@@ -80,10 +72,8 @@ class RegisteredUserController extends Controller
 
         if ($user->role === 'donator') {
             return redirect()->route('donator.dashboard');
-        } elseif ($user->role === 'student') {
-            return redirect()->route('student.dashboard');
         } else {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('student.dashboard');
         }
     }
 }

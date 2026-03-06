@@ -92,6 +92,58 @@
                             <p class="text-gray-500">No scholarships assigned.</p>
                         @endif
                     </div>
+
+                    <!-- Donations History -->
+                    <div class="mt-8">
+                        <h4 class="text-md font-semibold mb-4">Donation History</h4>
+                        @php
+                            $donations = $donator->donations()->orderBy('donation_date', 'desc')->get();
+                        @endphp
+                        @if($donations->count() > 0)
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-white">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        @foreach($donations as $donation)
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap">{{ $donation->id }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap font-semibold text-green-600">₱{{ number_format($donation->amount, 2) }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    @if($donation->method)
+                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                            {{ $donation->method }}
+                                                        </span>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">{{ $donation->donation_date->format('M d, Y') }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                    {{ $donation->message ?? '-' }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                                <p class="text-sm text-blue-800">
+                                    <strong>Total Donations:</strong> {{ $donations->count() }} | 
+                                    <strong>Total Amount:</strong> ₱{{ number_format($donations->sum('amount'), 2) }}
+                                </p>
+                            </div>
+                        @else
+                            <p class="text-gray-500">No donations recorded yet.</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
