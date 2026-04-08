@@ -159,46 +159,13 @@ class StudentScholarshipController extends Controller
      */
     public function show(Scholarship $scholarship)
     {
-        // Check if scholarship is approved
-        if ($scholarship->approval_status !== 'approved') {
-            abort(403, 'This scholarship is not available for application.');
-        }
-
-        // Check if scholarship is active
-        if ($scholarship->status !== 'active') {
-            abort(403, 'This scholarship is currently inactive.');
-        }
-
         $student = Student::where('user_id', auth()->id())->first();
-        
-        // Check if student already has an application for this scholarship
-        $existingApplication = null;
-        if ($student) {
-            $existingApplication = Application::where('student_id', $student->id)
-                ->where('scholarship_id', $scholarship->id)
-                ->first();
-            
-            // If student has a resolved application (completed, rejected, declined) for this scholarship,
-            // they cannot apply again but can still view the scholarship details
-            if ($existingApplication && in_array($existingApplication->status, ['completed', 'rejected', 'declined'])) {
-                // Don't abort - just show the scholarship with "already applied" message
-                $scholarship->load(['applications', 'donators']);
-                return view('student.scholarships.show', compact('scholarship', 'existingApplication'));
-            }
-        }
-        
-        // For students without resolved applications, check if they can apply
-        if (!$existingApplication) {
-            // Check if application deadline has passed
-            if ($scholarship->application_deadline && $scholarship->application_deadline->isPast()) {
-                abort(403, 'The application deadline for this scholarship has passed.');
-            }
 
-            // Check if scholarship is fully funded
-            if ($scholarship->isFullyFunded()) {
-                abort(403, 'This scholarship has reached its maximum funding and is no longer accepting applications.');
-            }
-        }
+        $existingApplication = $student
+            ? Application::where('student_id', $student->id)
+                ->where('scholarship_id', $scholarship->id)
+                ->first()
+            : null;
 
         $scholarship->load(['applications', 'donators']);
 

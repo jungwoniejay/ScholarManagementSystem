@@ -1,18 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Admin Settings
-        </h2>
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">General Settings</h2>
     </x-slot>
-
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-2">Settings</h3>
-                <p class="text-gray-600">
-                    Manage system configuration and preferences here.
-                </p>
-            </div>
+    <div class="max-w-3xl mx-auto">
+        <div class="rounded-2xl p-6" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <h3 class="text-lg font-bold mb-2" style="color:#e2e8f0;">Settings</h3>
+            <p style="color:#8b949e;">Manage system configuration and preferences here.</p>
         </div>
     </div>
 </x-app-layout>

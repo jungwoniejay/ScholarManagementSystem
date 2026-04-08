@@ -1,115 +1,64 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="p-6">
-    <div class="flex items-center gap-4 mb-8">
-        <a href="{{ route('admin.announcements.index') }}" class="text-slate-500 hover:text-slate-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Edit Announcement</h2>
+    </x-slot>
+    <div class="max-w-4xl mx-auto">
+        <a href="{{ route('admin.announcements.index') }}" class="inline-flex items-center gap-1 text-sm mb-4" style="color:#8b949e;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Back to Announcements
         </a>
-        <h1 class="text-3xl font-bold text-slate-900">Edit Announcement</h1>
+        <div class="rounded-2xl p-6" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <h1 class="text-xl font-bold mb-6" style="color:#e2e8f0;">Edit Announcement</h1>
+            @php $is = 'background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;'; $ls = 'color:#8b949e;'; @endphp
+            <form method="POST" action="{{ route('admin.announcements.update', $announcement) }}" class="space-y-4">
+                @csrf @method('PUT')
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Title</label>
+                        <input type="text" name="title" value="{{ old('title', $announcement->title) }}" required
+                               class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">
+                        @error('title')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Type</label>
+                        <select name="type" required class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">
+                            @foreach(['info','warning','success','danger'] as $t)
+                            <option value="{{ $t }}" {{ old('type',$announcement->type)===$t?'selected':'' }}>{{ ucfirst($t) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Message</label>
+                    <textarea name="body" rows="5" required class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">{{ old('body', $announcement->body) }}</textarea>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    @foreach([['name'=>'show_on_landing','label'=>'Show on Landing Page','val'=>$announcement->show_on_landing],['name'=>'show_on_student_dashboard','label'=>'Student Dashboard','val'=>$announcement->show_on_student_dashboard],['name'=>'is_active','label'=>'Active','val'=>$announcement->is_active]] as $cb)
+                    <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg" style="background:#0A1628;border:1px solid #1E3A8A;">
+                        <input type="checkbox" name="{{ $cb['name'] }}" value="1" {{ old($cb['name'],$cb['val']) ? 'checked' : '' }} style="accent-color:#FFD700;">
+                        <span class="text-sm" style="{{ $ls }}">{{ $cb['label'] }}</span>
+                    </label>
+                    @endforeach
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Starts At (Optional)</label>
+                        <input type="datetime-local" name="starts_at" value="{{ old('starts_at', $announcement->starts_at?->format('Y-m-d\TH:i')) }}"
+                               class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Ends At (Optional)</label>
+                        <input type="datetime-local" name="ends_at" value="{{ old('ends_at', $announcement->ends_at?->format('Y-m-d\TH:i')) }}"
+                               class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">
+                    </div>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="submit" class="px-6 py-2.5 text-sm font-semibold rounded-xl"
+                            style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">Update Announcement</button>
+                    <a href="{{ route('admin.announcements.index') }}" class="px-6 py-2.5 text-sm font-medium rounded-xl"
+                       style="background:#0A1628;border:1px solid #1E3A8A;color:#8b949e;">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 max-w-4xl">
-        <form method="POST" action="{{ route('admin.announcements.update', $announcement) }}" class="space-y-6">
-            @csrf @method('PUT')
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- Title --}}
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Title</label>
-                    <input type="text" name="title" value="{{ old('title', $announcement->title) }}"
-                           class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all @error('title') border-red-500 ring-red-200 @enderror"
-                           placeholder="Enter announcement title" required>
-                    @error('title')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Type --}}
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Type</label>
-                    <select name="type" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all @error('type') border-red-500 ring-red-200 @enderror" required>
-                        <option value="">Select type</option>
-                        <option value="info" {{ old('type', $announcement->type) == 'info' ? 'selected' : '' }}>Info</option>
-                        <option value="warning" {{ old('type', $announcement->type) == 'warning' ? 'selected' : '' }}>Warning</option>
-                        <option value="success" {{ old('type', $announcement->type) == 'success' ? 'selected' : '' }}>Success</option>
-                        <option value="danger" {{ old('type', $announcement->type) == 'danger' ? 'selected' : '' }}>Danger</option>
-                    </select>
-                    @error('type')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            {{-- Body --}}
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
-                <textarea name="body" rows="6" 
-                          class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-vertical @error('body') border-red-500 ring-red-200 @enderror"
-                          placeholder="Enter announcement message" required>{{ old('body', $announcement->body) }}</textarea>
-                @error('body')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Visibility Options --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input type="checkbox" name="show_on_landing" value="1" {{ old('show_on_landing', $announcement->show_on_landing) ? 'checked' : '' }} 
-                               class="w-5 h-5 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500">
-                        <span class="ml-3 text-sm font-semibold text-slate-700">Show on Landing Page</span>
-                    </label>
-                    <p class="text-xs text-slate-500 ml-8">Visible to all visitors on homepage</p>
-                </div>
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input type="checkbox" name="show_on_student_dashboard" value="1" {{ old('show_on_student_dashboard', $announcement->show_on_student_dashboard) ? 'checked' : '' }}
-                               class="w-5 h-5 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500">
-                        <span class="ml-3 text-sm font-semibold text-slate-700">Student Dashboard</span>
-                    </label>
-                    <p class="text-xs text-slate-500 ml-8">Visible to logged-in students</p>
-                </div>
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', $announcement->is_active) ? 'checked' : '' }}
-                               class="w-5 h-5 text-emerald-600 bg-slate-100 border-slate-300 rounded focus:ring-emerald-500">
-                        <span class="ml-3 text-sm font-semibold text-slate-700">Active</span>
-                    </label>
-                </div>
-            </div>
-
-            {{-- Date Range --}}
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Starts At (Optional)</label>
-                    <input type="datetime-local" name="starts_at" value="{{ old('starts_at', $announcement->starts_at?->format('Y-m-d\TH:i')) }}"
-                           class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Ends At (Optional)</label>
-                    <input type="datetime-local" name="ends_at" value="{{ old('ends_at', $announcement->ends_at?->format('Y-m-d\TH:i')) }}"
-                           class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                </div>
-            </div>
-
-            {{-- Actions --}}
-            <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-slate-200">
-                <button type="submit" 
-                        class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-8 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 text-lg">
-                    <svg class="w-5 h-5 inline-block mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    Update Announcement
-                </button>
-                <a href="{{ route('admin.announcements.index') }}" 
-                   class="flex-1 sm:w-auto text-center text-slate-700 hover:text-slate-900 font-semibold py-3 px-8 border border-slate-300 rounded-xl hover:bg-slate-50 transition-all duration-200">
-                    Cancel
-                </a>
-            </div>
-        </form>
-    </div>
-</div>
-@endsection
-
+</x-app-layout>

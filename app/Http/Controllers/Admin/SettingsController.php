@@ -11,4 +11,10 @@ class SettingsController extends Controller
     {
         return view('admin.settings.index');
     }
+
+    public function update(Request $request)
+    {
+        // Settings update logic
+        return back()->with('success', 'Settings updated successfully.');
+    }
 }

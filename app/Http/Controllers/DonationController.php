@@ -15,40 +15,33 @@ class DonationController extends Controller
 
     public function create()
     {
-        return view('donator.create');
+        $scholarships = \App\Models\Scholarship::where('status', 'active')->orderBy('name')->get();
+        return view('donator.create', compact('scholarships'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'donor_name' => 'required',
-            'amount' => 'required|numeric',
-            'donation_date' => 'required|date',
+            'scholarship_id' => 'required|exists:scholarships,id',
+            'donor_name'     => 'required',
+            'amount'         => 'required|numeric',
+            'donation_date'  => 'required|date',
         ]);
 
-        // Get the logged-in user's donator record
         $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
 
-        $donationData = $request->all();
-        
-        // Auto-link to donator if user is logged in as donator
+        $donationData = $request->only(['scholarship_id', 'donor_name', 'email', 'amount', 'method', 'message', 'donation_date']);
+
         if ($donator) {
             $donationData['donator_id'] = $donator->donator_id;
-            // Auto-fill donor_name and email from donator if not provided
             $donationData['donor_name'] = $donationData['donor_name'] ?? $donator->contact_person;
-            $donationData['email'] = $donationData['email'] ?? $donator->email;
+            $donationData['email']      = $donationData['email'] ?? $donator->email;
         }
 
         Donation::create($donationData);
 
-        // Update donator's total_fund if linked
-        if ($donator) {
-            $donator->increment('total_fund', $request->amount);
-            $donator->increment('available_fund', $request->amount);
-        }
-
-        return redirect()->route('donators')
-            ->with('success', 'Donation added successfully');
+        return redirect()->route('donator.donations.index')
+            ->with('success', 'Donation submitted and awaiting admin approval.');
     }
 
     public function show(Donation $donation)
@@ -71,7 +64,7 @@ class DonationController extends Controller
 
         $donation->update($request->all());
 
-        return redirect()->route('donators')
+        return redirect()->route('donator.donations.index')
             ->with('success', 'Donation updated');
     }
 
@@ -79,7 +72,7 @@ class DonationController extends Controller
     {
         $donation->delete();
 
-        return redirect()->route('donators')
+        return redirect()->route('donator.donations.index')
             ->with('success', 'Donation deleted');
     }
 }

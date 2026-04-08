@@ -1,91 +1,70 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Add Student</h2>
+    </x-slot>
 
-@section('content')
-<div class="flex h-screen">
-        @include('layouts.sidebar') <!-- your sidebar -->
+    <div class="max-w-3xl mx-auto">
+        <a href="{{ route('admin.students.index') }}" class="inline-flex items-center gap-1 text-sm mb-4" style="color:#8b949e;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Back to Students
+        </a>
 
-        <div class="flex-1 p-6 bg-gray-50 overflow-auto">
-            <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
-                <h1 class="text-2xl font-semibold mb-6">Add Student</h1>
+        <div class="rounded-2xl p-6" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <h1 class="text-xl font-bold mb-6" style="color:#e2e8f0;">Add Student</h1>
 
-                @if ($errors->any())
-                    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
-                        <ul class="list-disc pl-5">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+            @if($errors->any())
+                <div class="mb-4 p-4 rounded-lg text-sm" style="background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3);">
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+                    </ul>
+                </div>
+            @endif
 
-                <form action="{{ route('admin.students.store') }}" method="POST" class="space-y-4">
-                    @csrf
+            <form action="{{ route('admin.students.store') }}" method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @csrf
+                @php
+                $inputStyle = 'background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;';
+                $labelStyle = 'color:#8b949e;';
+                @endphp
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input type="text" name="first_name" value="{{ old('first_name') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
+                @foreach([
+                    ['label'=>'First Name','name'=>'first_name','type'=>'text','value'=>old('first_name')],
+                    ['label'=>'Last Name','name'=>'last_name','type'=>'text','value'=>old('last_name')],
+                    ['label'=>'Email','name'=>'email','type'=>'email','value'=>old('email')],
+                    ['label'=>'Phone','name'=>'phone','type'=>'text','value'=>old('phone')],
+                    ['label'=>'Address','name'=>'address','type'=>'text','value'=>old('address')],
+                    ['label'=>'Date of Birth','name'=>'date_of_birth','type'=>'date','value'=>old('date_of_birth')],
+                    ['label'=>'Enrollment Year','name'=>'enrollment_year','type'=>'number','value'=>old('enrollment_year')],
+                    ['label'=>'Course','name'=>'course','type'=>'text','value'=>old('course')],
+                    ['label'=>'GPA','name'=>'gpa','type'=>'number','value'=>old('gpa')],
+                    ['label'=>'Status','name'=>'status','type'=>'text','value'=>old('status')],
+                ] as $field)
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="{{ $labelStyle }}">{{ $field['label'] }}</label>
+                    <input type="{{ $field['type'] }}" name="{{ $field['name'] }}" value="{{ $field['value'] }}"
+                           {{ in_array($field['name'],['gpa']) ? 'step=0.01' : '' }}
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="{{ $inputStyle }}">
+                </div>
+                @endforeach
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input type="text" name="last_name" value="{{ old('last_name') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="{{ $labelStyle }}">Gender</label>
+                    <select name="gender" class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $inputStyle }}">
+                        <option value="">Select Gender</option>
+                        <option value="male" {{ old('gender')=='male'?'selected':'' }}>Male</option>
+                        <option value="female" {{ old('gender')=='female'?'selected':'' }}>Female</option>
+                        <option value="other" {{ old('gender')=='other'?'selected':'' }}>Other</option>
+                    </select>
+                </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Phone</label>
-                        <input type="text" name="phone" value="{{ old('phone') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Address</label>
-                        <input type="text" name="address" value="{{ old('address') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Gender</label>
-                        <select name="gender" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                            <option value="">Select Gender</option>
-                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
-                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
-                            <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Enrollment Year</label>
-                        <input type="number" name="enrollment_year" value="{{ old('enrollment_year') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Course</label>
-                        <input type="text" name="course" value="{{ old('course') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">GPA</label>
-                        <input type="number" step="0.01" name="gpa" value="{{ old('gpa') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <input type="text" name="status" value="{{ old('status') }}" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-cyan-500 focus:border-cyan-500">
-                    </div>
-
-                    <div class="pt-4">
-                        <button type="submit" class="px-6 py-2 bg-cyan-600 text-white rounded shadow hover:bg-cyan-700 transition">Save</button>
-                    </div>
-                </form>
-            </div>
+                <div class="sm:col-span-2 flex gap-3 pt-2">
+                    <button type="submit" class="px-6 py-2.5 text-sm font-semibold rounded-xl transition"
+                            style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">Save Student</button>
+                    <a href="{{ route('admin.students.index') }}" class="px-6 py-2.5 text-sm font-medium rounded-xl transition"
+                       style="background:#0A1628;border:1px solid #1E3A8A;color:#8b949e;">Cancel</a>
+                </div>
+            </form>
         </div>
     </div>
-@endsection
+</x-app-layout>

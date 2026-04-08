@@ -196,14 +196,14 @@
 
             <div class="shb-bottom">
                 <div class="shb-links">
-                    <a href="{{ route('privacy.policy') }}" class="shb-link" target="_blank">
+                    <a href="{{ route('privacy-policy') }}" class="shb-link" target="_blank">
                         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 2l6 3v5c0 5.25-3.75 9.75-6 11-2.25-1.25-6-5.75-6-11V5l6-3z"/>
                         </svg>
                         Privacy Policy
                     </a>
                     <div class="shb-dot"></div>
-                    <a href="{{ route('terms.conditions') }}" class="shb-link" target="_blank">
+                    <a href="{{ route('terms-and-conditions') }}" class="shb-link" target="_blank">
                         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                         </svg>

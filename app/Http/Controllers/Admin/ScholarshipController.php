@@ -100,4 +100,16 @@ class ScholarshipController extends Controller
         return redirect()->route('admin.scholarships.index')
                          ->with('success', 'Scholarship deleted successfully.');
     }
+
+    public function approve(Scholarship $scholarship)
+    {
+        $scholarship->update(['approval_status' => 'approved']);
+        return redirect()->back()->with('success', 'Scholarship approved. Students can now apply.');
+    }
+
+    public function reject(Scholarship $scholarship)
+    {
+        $scholarship->update(['approval_status' => 'rejected']);
+        return redirect()->back()->with('success', 'Scholarship rejected.');
+    }
 }

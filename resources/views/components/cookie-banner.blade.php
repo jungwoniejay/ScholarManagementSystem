@@ -127,9 +127,9 @@
         </div>
 
         <div class="acb-links">
-            <a href="{{ route('privacy.policy') }}" class="acb-link" target="_blank">Privacy Policy</a>
+            <a href="{{ route('privacy-policy') }}" class="acb-link" target="_blank">Privacy Policy</a>
             <div class="acb-sep"></div>
-            <a href="{{ route('terms.conditions') }}" class="acb-link" target="_blank">Terms & Conditions</a>
+            <a href="{{ route('terms-and-conditions') }}" class="acb-link" target="_blank">Terms & Conditions</a>
         </div>
 
         <div class="acb-btns">

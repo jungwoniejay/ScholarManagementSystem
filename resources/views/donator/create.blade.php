@@ -1,80 +1,108 @@
-<x-app-layout>
-    <div class="px-8 py-10 max-w-3xl mx-auto">
+@extends('layouts.app')
+@section('content')
+<div class="px-6 py-8 max-w-2xl mx-auto">
 
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">
-            Add New Donation
-        </h1>
-
-        @if ($errors->any())
-            <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg">
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('donators.store') }}" method="POST" class="bg-white shadow rounded-2xl p-6 space-y-4">
-            @csrf
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Donor Name <span class="text-red-500">*</span></label>
-                <input type="text" name="donor_name" 
-                       class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                       value="{{ old('donor_name') }}" required>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" name="email" 
-                       class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                       value="{{ old('email') }}">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Amount <span class="text-red-500">*</span></label>
-                <input type="number" step="0.01" name="amount" 
-                       class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                       value="{{ old('amount') }}" required>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Method</label>
-                <select name="method" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Select Method</option>
-                    <option value="Cash" {{ old('method') == 'Cash' ? 'selected' : '' }}>Cash</option>
-                    <option value="GCash" {{ old('method') == 'GCash' ? 'selected' : '' }}>GCash</option>
-                    <option value="Bank Transfer" {{ old('method') == 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Donation Date <span class="text-red-500">*</span></label>
-                <input type="date" name="donation_date" 
-                       class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                       value="{{ old('donation_date') }}" required>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea name="message" rows="3" 
-                          class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('message') }}</textarea>
-            </div>
-
-            <div class="pt-4">
-                <button type="submit" 
-                        class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
-                    Save Donation
-                </button>
-
-                <a href="{{ route('donators') }}" 
-                   class="ml-4 px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
-                   Cancel
-                </a>
-            </div>
-
-        </form>
-
+    {{-- Header --}}
+    <div class="flex items-center gap-3 mb-6">
+        <a href="{{ route('donator.donations.index') }}" class="flex items-center gap-1 text-sm" style="color:#8b949e;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back
+        </a>
+        <h1 class="text-2xl font-bold text-white">Add New Donation</h1>
     </div>
-</x-app-layout>
+
+    @if($errors->any())
+        <div class="mb-6 px-4 py-3 rounded-lg text-sm" style="background:rgba(248,113,113,0.15);color:#F87171;border:1px solid rgba(248,113,113,0.3);">
+            <ul class="list-disc list-inside space-y-1">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('donator.donations.store') }}" method="POST"
+          class="rounded-xl border p-6 space-y-5" style="background:#0F2044;border-color:#1E3A8A;">
+        @csrf
+
+        @php
+            $inputStyle = "background:#0A1628;border-color:#1E3A8A;color:#fff;";
+            $labelStyle = "color:#8b949e;";
+        @endphp
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Donor Name <span style="color:#F87171;">*</span></label>
+            <input type="text" name="donor_name" value="{{ old('donor_name') }}" required
+                   class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none"
+                   style="{{ $inputStyle }}">
+        </div>
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Email</label>
+            <input type="email" name="email" value="{{ old('email') }}"
+                   class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none"
+                   style="{{ $inputStyle }}">
+        </div>
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Scholarship <span style="color:#F87171;">*</span></label>
+            <select name="scholarship_id" required
+                    class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none"
+                    style="{{ $inputStyle }}">
+                <option value="">Select Scholarship</option>
+                @foreach($scholarships as $scholarship)
+                    <option value="{{ $scholarship->id }}" {{ old('scholarship_id') == $scholarship->id ? 'selected' : '' }}>
+                        {{ $scholarship->name }} — ₱{{ number_format($scholarship->amount, 2) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Amount <span style="color:#F87171;">*</span></label>
+            <input type="number" step="0.01" name="amount" value="{{ old('amount') }}" required
+                   class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none"
+                   style="{{ $inputStyle }}">
+        </div>
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Method</label>
+            <select name="method" class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none" style="{{ $inputStyle }}">
+                <option value="">Select Method</option>
+                <option value="Cash" {{ old('method') == 'Cash' ? 'selected' : '' }}>Cash</option>
+                <option value="GCash" {{ old('method') == 'GCash' ? 'selected' : '' }}>GCash</option>
+                <option value="Bank Transfer" {{ old('method') == 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Donation Date <span style="color:#F87171;">*</span></label>
+            <input type="date" name="donation_date" value="{{ old('donation_date') }}" required
+                   class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none"
+                   style="{{ $inputStyle }}">
+        </div>
+
+        <div>
+            <label class="block text-xs font-medium mb-1" style="{{ $labelStyle }}">Message</label>
+            <textarea name="message" rows="3"
+                      class="w-full rounded-lg px-3 py-2 text-sm border focus:outline-none"
+                      style="{{ $inputStyle }}">{{ old('message') }}</textarea>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+            <button type="submit"
+                    class="px-6 py-2 rounded-xl text-sm font-bold"
+                    style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">
+                Save Donation
+            </button>
+            <a href="{{ route('donator.donations.index') }}"
+               class="px-6 py-2 rounded-xl text-sm font-medium"
+               style="background:rgba(255,255,255,0.05);color:#8b949e;border:1px solid #1E3A8A;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+@endsection

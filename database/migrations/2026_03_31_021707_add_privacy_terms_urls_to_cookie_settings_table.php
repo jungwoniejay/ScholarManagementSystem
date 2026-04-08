@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cookie_settings', function (Blueprint $table) {
-            $table->string('privacy_url')->default('/privacy-policy')->after('show_on_student_dashboard');
-            $table->string('terms_url')->default('/terms-and-conditions')->after('privacy_url');
+            if (!Schema::hasColumn('cookie_settings', 'privacy_url')) {
+                $table->string('privacy_url')->default('/privacy-policy')->after('show_on_student_dashboard');
+            }
+            if (!Schema::hasColumn('cookie_settings', 'terms_url')) {
+                $table->string('terms_url')->default('/terms-and-conditions')->after('privacy_url');
+            }
         });
     }
 

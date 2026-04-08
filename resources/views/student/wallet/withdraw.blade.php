@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-student-layout>
 <div class="p-4 sm:p-6 lg:p-8 max-w-2xl mx-auto">
 
     {{-- Header --}}
@@ -151,4 +151,4 @@
         if (r.checked) r.closest('.method-card').click();
     });
 </script>
-</x-app-layout>
+</x-student-layout>

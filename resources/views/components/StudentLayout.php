@@ -8,6 +8,6 @@ class StudentLayout extends Component
 {
     public function render()
     {
-        return view('layouts.student-layout');
+        return view('layouts.student');
     }
 }

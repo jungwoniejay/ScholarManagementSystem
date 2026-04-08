@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Donator;
+use App\Models\StudentWallet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,5 +39,19 @@ class Student extends Model
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(StudentWallet::class);
+    }
+
+    public function getOrCreateWallet(): StudentWallet
+    {
+        return $this->wallet ?? $this->wallet()->create([
+            'balance'         => 0,
+            'total_received'  => 0,
+            'total_withdrawn' => 0,
+        ]);
     }
 }

@@ -1,133 +1,107 @@
 <x-app-layout>
-    <div class="px-8 py-10 max-w-7xl mx-auto">
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Scholarships</h2>
+    </x-slot>
 
-        <!-- Back to Dashboard -->
-        <a href="{{ route('admin.dashboard') }}"
-           class="inline-flex items-center gap-2 mb-6 text-sm font-medium text-gray-600 hover:text-gray-900 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 19l-7-7 7-7"/>
-            </svg>
-            Back to Dashboard
-        </a>
+    <div class="max-w-7xl mx-auto space-y-6">
 
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-extrabold text-gray-900">Scholarships</h1>
-                <p class="text-sm text-gray-500 mt-1">
-                    Manage available scholarships and their application status
-                </p>
+                <h1 class="text-2xl font-bold" style="color:#e2e8f0;">Scholarships</h1>
+                <p class="text-sm" style="color:#8b949e;">Manage available scholarships and their application status</p>
             </div>
-
             <a href="{{ route('admin.scholarships.create') }}"
-               class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition shadow-sm font-medium">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 4v16m8-8H4"/>
-                </svg>
-                Add Scholarship
+               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition"
+               style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">
+                + Add Scholarship
             </a>
         </div>
 
-        <!-- Success Alert -->
         @if(session('success'))
-            <div class="mb-6 flex items-center gap-3 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl shadow-sm">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>{{ session('success') }}</span>
+            <div class="px-4 py-3 rounded-lg text-sm font-medium" style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);">
+                {{ session('success') }}
             </div>
         @endif
 
-        <!-- Table -->
-        <div class="overflow-x-auto bg-white rounded-3xl shadow-lg border border-gray-200">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">
-                            Name
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">
-                            Amount
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">
-                            Deadline
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">
-                            Status
-                        </th>
-                        <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody class="divide-y divide-gray-100">
-                    @forelse($scholarships as $scholarship)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 font-medium text-gray-900">
-                                {{ $scholarship->name }}
-                            </td>
-
-                            <td class="px-6 py-4 text-gray-800">
-                                {{ $scholarship->formattedAmount }}
-                            </td>
-
-                            <td class="px-6 py-4 text-gray-800">
-                                {{ $scholarship->application_deadline->format('M d, Y') }}
-                            </td>
-
+        <div class="rounded-xl overflow-hidden" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr style="background:#0A1628;border-bottom:1px solid #1E3A8A;">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Amount</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Deadline</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Approval</th>
+                            <th class="px-6 py-3 text-center text-xs font-semibold uppercase" style="color:#8b949e;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($scholarships as $scholarship)
+                        <tr style="border-bottom:1px solid #1E3A8A;">
+                            <td class="px-6 py-4 text-sm font-semibold" style="color:#e2e8f0;">{{ $scholarship->name }}</td>
+                            <td class="px-6 py-4 text-sm font-semibold" style="color:#4ade80;">{{ $scholarship->formattedAmount }}</td>
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $scholarship->application_deadline->format('M d, Y') }}</td>
                             <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold
-                                    {{ $scholarship->status === 'active'
-                                        ? 'bg-green-100 text-green-800'
-                                        : 'bg-red-100 text-red-800' }}">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full"
+                                    style="{{ $scholarship->status === 'active' ? 'background:rgba(34,197,94,0.15);color:#4ade80;' : 'background:rgba(248,113,113,0.15);color:#f87171;' }}">
                                     {{ ucfirst($scholarship->status) }}
                                 </span>
                             </td>
-
                             <td class="px-6 py-4">
-                                <div class="flex justify-center gap-2">
+                                @php
+                                    $approvalStyle = match($scholarship->approval_status ?? 'pending') {
+                                        'approved' => 'background:rgba(34,197,94,0.15);color:#4ade80;',
+                                        'rejected' => 'background:rgba(248,113,113,0.15);color:#f87171;',
+                                        default    => 'background:rgba(251,191,36,0.15);color:#fbbf24;',
+                                    };
+                                @endphp
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full" style="{{ $approvalStyle }}">
+                                    {{ ucfirst($scholarship->approval_status ?? 'pending') }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex justify-center gap-2 flex-wrap">
                                     <a href="{{ route('admin.scholarships.show', $scholarship->id) }}"
-                                       class="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition text-sm font-medium">
-                                        View
-                                    </a>
-
+                                       class="px-3 py-1 text-xs font-semibold rounded"
+                                       style="background:rgba(96,165,250,0.15);color:#60a5fa;">View</a>
                                     <a href="{{ route('admin.scholarships.edit', $scholarship->id) }}"
-                                       class="px-4 py-1.5 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition text-sm font-medium">
-                                        Edit
-                                    </a>
-
-                                    <form action="{{ route('admin.scholarships.destroy', $scholarship->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Are you sure you want to delete this scholarship?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="px-4 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition text-sm font-medium">
-                                            Delete
-                                        </button>
+                                       class="px-3 py-1 text-xs font-semibold rounded"
+                                       style="background:rgba(251,191,36,0.15);color:#fbbf24;">Edit</a>
+                                    @if(($scholarship->approval_status ?? 'pending') !== 'approved')
+                                        <form action="{{ route('admin.scholarships.approve', $scholarship->id) }}" method="POST" class="inline">
+                                            @csrf @method('PATCH')
+                                            <button type="submit" class="px-3 py-1 text-xs font-semibold rounded"
+                                                    style="background:rgba(34,197,94,0.15);color:#4ade80;">Approve</button>
+                                        </form>
+                                    @endif
+                                    @if(($scholarship->approval_status ?? 'pending') !== 'rejected')
+                                        <form action="{{ route('admin.scholarships.reject', $scholarship->id) }}" method="POST" class="inline">
+                                            @csrf @method('PATCH')
+                                            <button type="submit" class="px-3 py-1 text-xs font-semibold rounded"
+                                                    style="background:rgba(248,113,113,0.15);color:#f87171;">Reject</button>
+                                        </form>
+                                    @endif
+                                    <form action="{{ route('admin.scholarships.destroy', $scholarship->id) }}" method="POST"
+                                          onsubmit="return confirm('Delete this scholarship?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="px-3 py-1 text-xs font-semibold rounded"
+                                                style="background:rgba(248,113,113,0.15);color:#f87171;">Delete</button>
                                     </form>
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                        @empty
                         <tr>
-                            <td colspan="5" class="text-center py-14 text-gray-400">
-                                No scholarships found.
-                            </td>
+                            <td colspan="5" class="px-6 py-10 text-center text-sm" style="color:#8b949e;">No scholarships found.</td>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4" style="border-top:1px solid #1E3A8A;">
+                {{ $scholarships->links() }}
+            </div>
         </div>
-
-        <!-- Pagination -->
-        <div class="mt-6">
-            {{ $scholarships->links() }}
-        </div>
-
     </div>
 </x-app-layout>

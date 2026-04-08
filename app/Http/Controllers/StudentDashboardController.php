@@ -6,12 +6,13 @@ use App\Models\Application;
 use App\Models\CookieSettings;
 use App\Models\Announcement;
 use App\Models\Scholarship;
+use App\Models\Student;
 
 class StudentDashboardController extends Controller
 {
     public function index()
     {
-        $student = auth()->user()->load('student')->student;
+        $student = Student::where('user_id', auth()->id())->first();
         $studentId = $student?->id;
 
         // Single query for all application counts

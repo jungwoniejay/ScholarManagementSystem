@@ -1,75 +1,48 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Student Details</h2>
+    </x-slot>
 
-@section('content')
-<div class="flex h-screen">
-        @include('layouts.sidebar') <!-- your sidebar -->
+    <div class="max-w-3xl mx-auto">
+        <a href="{{ route('admin.students.index') }}" class="inline-flex items-center gap-1 text-sm mb-4" style="color:#8b949e;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Back to Students
+        </a>
 
-        <div class="flex-1 p-6 bg-gray-50 overflow-auto">
-            <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
-                <h1 class="text-2xl font-semibold mb-6">Student Details</h1>
+        <div class="rounded-2xl p-6" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <h1 class="text-xl font-bold mb-6" style="color:#FFD700;">
+                {{ $student->first_name }} {{ $student->last_name }}
+            </h1>
 
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">First Name</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->first_name }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->last_name }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Email</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->email }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Phone</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->phone }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Address</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->address }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->date_of_birth }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Gender</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->gender }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Enrollment Year</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->enrollment_year }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Course</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->course }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">GPA</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->gpa }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $student->status }}</p>
-                    </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @foreach([
+                    ['label'=>'First Name','value'=>$student->first_name],
+                    ['label'=>'Last Name','value'=>$student->last_name],
+                    ['label'=>'Email','value'=>$student->email],
+                    ['label'=>'Phone','value'=>$student->phone ?? '—'],
+                    ['label'=>'Address','value'=>$student->address ?? '—'],
+                    ['label'=>'Date of Birth','value'=>$student->date_of_birth?->format('M d, Y') ?? '—'],
+                    ['label'=>'Gender','value'=>ucfirst($student->gender ?? '—')],
+                    ['label'=>'Enrollment Year','value'=>$student->enrollment_year ?? '—'],
+                    ['label'=>'Course','value'=>$student->course ?? '—'],
+                    ['label'=>'GPA','value'=>$student->gpa ?? '—'],
+                    ['label'=>'Status','value'=>ucfirst($student->status ?? '—')],
+                ] as $field)
+                <div class="p-3 rounded-lg" style="background:#0A1628;">
+                    <p class="text-xs font-semibold mb-1" style="color:#8b949e;">{{ $field['label'] }}</p>
+                    <p class="text-sm" style="color:#e2e8f0;">{{ $field['value'] }}</p>
                 </div>
+                @endforeach
+            </div>
 
-                <div class="pt-4">
-                    <a href="{{ route('admin.students.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded shadow hover:bg-gray-700 transition">Back to List</a>
-                    <a href="{{ route('admin.students.edit', $student) }}" class="px-4 py-2 bg-cyan-600 text-white rounded shadow hover:bg-cyan-700 transition ml-2">Edit</a>
-                </div>
+            <div class="flex gap-3 pt-6">
+                <a href="{{ route('admin.students.edit', $student) }}"
+                   class="px-4 py-2 text-sm font-semibold rounded-lg transition"
+                   style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">Edit</a>
+                <a href="{{ route('admin.students.index') }}"
+                   class="px-4 py-2 text-sm font-medium rounded-lg transition"
+                   style="background:#0A1628;border:1px solid #1E3A8A;color:#8b949e;">Back to List</a>
             </div>
         </div>
     </div>
-@endsection
+</x-app-layout>

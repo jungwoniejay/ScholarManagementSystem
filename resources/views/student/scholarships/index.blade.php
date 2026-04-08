@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-student-layout>
     <div class="px-8 py-10 max-w-7xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
@@ -133,4 +133,4 @@
             </div>
         @endif
     </div>
-</x-app-layout>
+</x-student-layout>

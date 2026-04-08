@@ -1,74 +1,82 @@
-<x-app-layout>
-    <div class="px-8 py-10 max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900">Awaiting Student Response</h1>
-                <p class="text-gray-500 mt-1">Scholarships you funded that are waiting for student acceptance</p>
-            </div>
-            <a href="{{ route('donator.applications.index') }}" class="text-sm text-gray-600 hover:text-gray-900 flex items-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                </svg>
-                Back to Applications
-            </a>
-        </div>
+@extends('layouts.app')
+@section('content')
+<div class="px-6 py-8 max-w-7xl mx-auto">
 
-        @if($applications->count() > 0)
-            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Student</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Scholarship</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Amount</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Approved On</th>
+    {{-- Header --}}
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Awaiting Student Response</h1>
+            <p class="text-sm mt-1" style="color:#8b949e;">Scholarships you funded that are waiting for student acceptance</p>
+        </div>
+        <a href="{{ route('donator.applications.index') }}" class="flex items-center gap-1 text-sm" style="color:#8b949e;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Applications
+        </a>
+    </div>
+
+    @if($applications->count() > 0)
+        <div class="rounded-xl border overflow-hidden" style="background:#0F2044;border-color:#1E3A8A;">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr style="border-bottom:1px solid #1E3A8A;">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color:#8b949e;">Student</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color:#8b949e;">Scholarship</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color:#8b949e;">Amount</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color:#8b949e;">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color:#8b949e;">Approved On</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody>
                         @foreach($applications as $application)
-                            <tr class="hover:bg-gray-50">
+                            <tr style="border-bottom:1px solid rgba(30,58,138,0.4);" onmouseover="this.style.background='rgba(255,215,0,0.03)'" onmouseout="this.style.background='transparent'">
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-sm font-semibold">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
+                                             style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">
                                             {{ strtoupper(substr($application->student->user->name ?? 'S', 0, 1)) }}
                                         </div>
-                                        <div class="ml-3">
-                                            <div class="font-medium text-gray-900">{{ $application->student->user->name ?? 'Student' }}</div>
-                                            <div class="text-sm text-gray-500">{{ $application->student->user->email ?? 'N/A' }}</div>
+                                        <div>
+                                            <div class="font-medium text-white text-sm">{{ $application->student->user->name ?? 'Student' }}</div>
+                                            <div class="text-xs" style="color:#8b949e;">{{ $application->student->user->email ?? 'N/A' }}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">{{ $application->scholarship->name ?? 'N/A' }}</div>
+                                    <div class="font-medium text-white text-sm">{{ $application->scholarship->name ?? 'N/A' }}</div>
                                 </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900">
-                                    ${{ number_format($application->awarded_amount, 2) }}
+                                <td class="px-6 py-4 font-bold text-white text-sm">
+                                    ₱{{ number_format($application->awarded_amount, 2) }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgba(251,191,36,0.15);color:#FBBF24;">
                                         ⏳ Awaiting Response
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td class="px-6 py-4 text-sm" style="color:#8b949e;">
                                     {{ $application->donor_reviewed_at->format('M d, Y') }}
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <div class="px-6 py-4 border-t border-gray-200">
+            </div>
+            @if($applications->hasPages())
+                <div class="px-6 py-4" style="border-top:1px solid #1E3A8A;">
                     {{ $applications->links() }}
                 </div>
-            </div>
-        @else
-            <div class="bg-white rounded-xl shadow-sm border p-12 text-center">
-                <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">All Students Have Responded</h3>
-                <p class="text-gray-500">No scholarships are currently awaiting student responses.</p>
-            </div>
-        @endif
-    </div>
-</x-app-layout>
+            @endif
+        </div>
+    @else
+        <div class="rounded-xl border p-12 text-center" style="background:#0F2044;border-color:#1E3A8A;">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#FFD700;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-white mb-2">All Students Have Responded</h3>
+            <p style="color:#8b949e;">No scholarships are currently awaiting student responses.</p>
+        </div>
+    @endif
+</div>
+@endsection

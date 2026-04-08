@@ -1,75 +1,82 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Manage Donators') }}
-        </h2>
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Manage Donators</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-medium">Donators List</h3>
-                        <a href="{{ route('admin.donators.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Add New Donator
-                        </a>
-                    </div>
+    <div class="max-w-7xl mx-auto space-y-6">
 
-                    @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Person</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Fund</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Available Fund</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($donators as $donator)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $donator->organization_name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $donator->contact_person }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $donator->email }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${{ number_format($donator->total_fund, 2) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${{ number_format($donator->available_fund, 2) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $donator->account_status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                {{ ucfirst($donator->account_status) }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('admin.donators.show', $donator) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                            <a href="{{ route('admin.donators.edit', $donator) }}" class="ml-2 text-indigo-600 hover:text-indigo-900">Edit</a>
-                                            <form method="POST" action="{{ route('admin.donators.destroy', $donator) }}" class="inline ml-2">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to deactivate this donator?')">Deactivate</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">No donators found.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {{ $donators->links() }}
-                </div>
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold" style="color:#e2e8f0;">Donators</h1>
+                <p class="text-sm" style="color:#8b949e;">Manage all registered donators</p>
             </div>
+            <a href="{{ route('admin.donators.create') }}"
+               class="px-4 py-2 text-sm font-semibold rounded-lg transition"
+               style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">
+                + Add Donator
+            </a>
+        </div>
+
+        @if(session('success'))
+            <div class="px-4 py-3 rounded-lg text-sm font-medium" style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="rounded-xl overflow-hidden" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr style="background:#0A1628;border-bottom:1px solid #1E3A8A;">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Organization</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Contact Person</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Total Fund</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Available Fund</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($donators as $donator)
+                        <tr style="border-bottom:1px solid #1E3A8A;">
+                            <td class="px-6 py-4 text-sm font-semibold" style="color:#e2e8f0;">{{ $donator->organization_name }}</td>
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $donator->contact_person }}</td>
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $donator->email }}</td>
+                            <td class="px-6 py-4 text-sm font-semibold" style="color:#4ade80;">₱{{ number_format($donator->total_fund, 2) }}</td>
+                            <td class="px-6 py-4 text-sm font-semibold" style="color:#60a5fa;">₱{{ number_format($donator->available_fund, 2) }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full"
+                                    style="{{ $donator->account_status == 'active' ? 'background:rgba(34,197,94,0.15);color:#4ade80;' : 'background:rgba(248,113,113,0.15);color:#f87171;' }}">
+                                    {{ ucfirst($donator->account_status) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('admin.donators.show', $donator) }}"
+                                       class="px-2 py-1 text-xs font-semibold rounded"
+                                       style="background:rgba(96,165,250,0.15);color:#60a5fa;">View</a>
+                                    <a href="{{ route('admin.donators.edit', $donator) }}"
+                                       class="px-2 py-1 text-xs font-semibold rounded"
+                                       style="background:rgba(251,191,36,0.15);color:#fbbf24;">Edit</a>
+                                    <form method="POST" action="{{ route('admin.donators.destroy', $donator) }}" class="inline"
+                                          onsubmit="return confirm('Deactivate this donator?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="px-2 py-1 text-xs font-semibold rounded"
+                                                style="background:rgba(248,113,113,0.15);color:#f87171;">Deactivate</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-8 text-center text-sm" style="color:#8b949e;">No donators found.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4" style="border-top:1px solid #1E3A8A;">{{ $donators->links() }}</div>
         </div>
     </div>
 </x-app-layout>

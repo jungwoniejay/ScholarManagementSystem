@@ -229,10 +229,10 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body style="background:#060D1F;min-height:100vh;">
     <div class="py-6 px-4 sm:px-6 lg:px-8">
         <div class="mb-6">
-            <a href="{{ url()->previous() }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="{{ url()->previous() }}" class="inline-flex items-center text-sm transition-colors" style="color:#8b949e;">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
@@ -246,20 +246,20 @@
                 <p class="text-slate-300 mt-1">User Interactions & Data Flow Diagram</p>
             </div>
 
-            <div class="p-6 bg-gradient-to-br from-purple-50 via-white to-blue-50">
+            <div class="p-6" style="background:#0A1628;">
                 <!-- Legend -->
                 <div class="flex flex-wrap gap-6 mb-8 justify-center">
-                    <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 px-4 py-2 rounded-xl" style="background:#0F2044;border:1px solid #1E3A8A;">
                         <div class="w-8 h-8 rounded-lg" style="background: linear-gradient(135deg, #42a5f5, #2196f3);"></div>
-                        <span class="font-medium text-gray-700">Student</span>
+                        <span class="font-medium" style="color:#e2e8f0;">Student</span>
                     </div>
-                    <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 px-4 py-2 rounded-xl" style="background:#0F2044;border:1px solid #1E3A8A;">
                         <div class="w-8 h-8 rounded-lg" style="background: linear-gradient(135deg, #283593, #1a237e);"></div>
-                        <span class="font-medium text-gray-700">Admin</span>
+                        <span class="font-medium" style="color:#e2e8f0;">Admin</span>
                     </div>
-                    <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 px-4 py-2 rounded-xl" style="background:#0F2044;border:1px solid #1E3A8A;">
                         <div class="w-8 h-8 rounded-lg" style="background: linear-gradient(135deg, #66bb6a, #43a047);"></div>
-                        <span class="font-medium text-gray-700">Donor</span>
+                        <span class="font-medium" style="color:#e2e8f0;">Donor</span>
                     </div>
                 </div>
 
@@ -397,8 +397,8 @@
                 </div>
             </div>
 
-            <div class="bg-gray-50 px-6 py-4 border-t border-gray-100">
-                <p class="text-center text-sm text-gray-500">
+            <div class="px-6 py-4" style="background:#0A1628;border-top:1px solid #1E3A8A;">
+                <p class="text-center text-sm" style="color:#8b949e;">
                     🎯 Complete scholarship lifecycle from application to fund distribution
                 </p>
             </div>

@@ -3,884 +3,1258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScholarHub - Your Path to Educational Success</title>
+    <title>ScholarHub — Your Path to Educational Excellence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #10B981;
-            --primary-dark: #059669;
-            --secondary: #34D399;
-            --accent: #6EE7B7;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --dark: #0F172A;
-            --dark-light: #1E293B;
-            --gray: #64748B;
-            --light: #F8FAFC;
+            --midnight: #060D1F;
+            --navy-deep: #0B1735;
+            --navy: #0F2050;
+            --navy-light: #1A3570;
+            --gold: #E8B84B;
+            --gold-bright: #FFD060;
+            --gold-pale: #F5D98A;
+            --gold-dim: rgba(232, 184, 75, 0.15);
+            --cream: #FDF6E3;
             --white: #FFFFFF;
+            --white-80: rgba(255,255,255,0.8);
+            --white-50: rgba(255,255,255,0.5);
+            --white-20: rgba(255,255,255,0.2);
+            --white-10: rgba(255,255,255,0.08);
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'DM Sans', sans-serif;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
-            min-height: 100vh;
-            color: var(--dark);
-            position: relative;
+            font-family: var(--font-body);
+            background: var(--midnight);
+            color: var(--white);
             overflow-x: hidden;
+            cursor: none;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(52, 211, 153, 0.3) 0%, transparent 50%);
+        /* ── Custom Cursor ── */
+        .cursor {
+            position: fixed; top: 0; left: 0; z-index: 9999;
             pointer-events: none;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
+        .cursor-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--gold); position: absolute;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s;
+        }
+        .cursor-ring {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 1.5px solid rgba(232,184,75,0.5);
+            position: absolute; transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+        body:has(a:hover) .cursor-ring,
+        body:has(button:hover) .cursor-ring {
+            width: 56px; height: 56px;
+            border-color: var(--gold);
         }
 
-        /* Navigation */
+        /* ── Canvas for particles ── */
+        #particle-canvas {
+            position: absolute; inset: 0;
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ── NAV ── */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-            margin-bottom: 2rem;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 1.5rem 5vw;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background 0.4s, backdrop-filter 0.4s, padding 0.4s;
+        }
+        nav.scrolled {
+            background: rgba(6, 13, 31, 0.9);
+            backdrop-filter: blur(18px);
+            padding: 1rem 5vw;
+            border-bottom: 1px solid rgba(232,184,75,0.12);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--white);
-            font-size: 1.5rem;
-            font-weight: 700;
+            display: flex; align-items: center; gap: 0.75rem;
+            text-decoration: none; opacity: 0;
         }
-
-        .logo-icon {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #10B981, #34D399);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.75rem;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.95rem;
-        }
-
-        .btn-outline {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--white);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--white), #F1F5F9);
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Main Content */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            padding: 3rem 0;
-        }
-
-        .content-left {
-            color: var(--white);
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1.25rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #FFF 0%, #E0E7FF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .btn-large {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-        }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: var(--white);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-gradient:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(16, 185, 129, 0.5);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Card Section */
-        .content-right {
-            position: relative;
-        }
-
-        .card-container {
-            background: var(--white);
-            border-radius: 24px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        .logo-mark {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--gold), #C8830A);
+            border-radius: 10px;
+            display: grid; place-items: center;
+            box-shadow: 0 0 20px rgba(232,184,75,0.35);
             position: relative;
             overflow: hidden;
         }
-
-        .card-container::before {
+        .logo-mark::after {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #10B981, #34D399, #6EE7B7);
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 60%);
         }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.5rem; font-weight: 600;
+            color: var(--white); letter-spacing: 0.02em;
         }
+        .logo-text span { color: var(--gold); }
 
-        .card-header h2 {
-            font-size: 2rem;
-            color: var(--dark);
-            margin-bottom: 0.75rem;
+        .nav-links {
+            display: flex; gap: 2.5rem; list-style: none;
+            opacity: 0;
         }
-
-        .card-header p {
-            color: var(--gray);
-            font-size: 1rem;
+        .nav-links a {
+            color: var(--white-80); text-decoration: none;
+            font-size: 0.88rem; letter-spacing: 0.06em;
+            text-transform: uppercase; font-weight: 500;
+            position: relative; transition: color 0.3s;
         }
-
-        .feature-list {
-            list-style: none;
-            margin-bottom: 2rem;
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--gold);
+            transition: width 0.3s ease;
         }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
 
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            border-radius: 16px;
-            background: var(--light);
-            transition: all 0.3s ease;
+        .nav-cta {
+            display: flex; gap: 1rem; align-items: center;
+            opacity: 0;
         }
-
-        .feature-item:hover {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(52, 211, 153, 0.05));
-            transform: translateX(8px);
+        .btn-ghost {
+            background: none; border: 1px solid rgba(232,184,75,0.4);
+            color: var(--gold); padding: 0.6rem 1.4rem; border-radius: 8px;
+            font-family: var(--font-body); font-size: 0.875rem; font-weight: 500;
+            cursor: none; text-decoration: none;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+            letter-spacing: 0.04em;
         }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
+        .btn-ghost:hover {
+            background: rgba(232,184,75,0.1);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(232,184,75,0.15);
         }
-
-        .icon-purple {
-            background: linear-gradient(135d, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
+        .btn-solid {
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, #C8830A 100%);
+            color: var(--midnight); padding: 0.6rem 1.4rem; border-radius: 8px;
+            font-family: var(--font-body); font-size: 0.875rem; font-weight: 600;
+            cursor: none; text-decoration: none; border: none;
+            box-shadow: 0 4px 24px rgba(232,184,75,0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            letter-spacing: 0.04em;
         }
-
-        .icon-blue {
-            background: linear-gradient(135deg, rgba(52, 211, 153, 0.1), rgba(52, 211, 153, 0.2));
-        }
-
-        .icon-cyan {
-            background: linear-gradient(135deg, rgba(110, 231, 183, 0.1), rgba(110, 231, 183, 0.2));
-        }
-
-        .feature-content h3 {
-            font-size: 1.1rem;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-        }
-
-        .feature-content p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .action-card {
-            background: linear-gradient(135deg, #10B981, #059669);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            color: var(--white);
-        }
-
-        .action-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .action-card p {
-            margin-bottom: 1.5rem;
-            opacity: 0.95;
-        }
-
-        .btn-white {
-            background: var(--white);
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .btn-white:hover {
+        .btn-solid:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(232,184,75,0.55);
         }
 
-        /* Floating elements */
-        .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.1;
-            pointer-events: none;
-            animation: float 6s ease-in-out infinite;
+        /* ── HERO ── */
+        .hero {
+            position: relative; min-height: 100vh;
+            background: radial-gradient(ellipse 80% 70% at 50% 0%, #122356 0%, var(--midnight) 70%);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
-        .float-1 {
-            width: 100px;
-            height: 100px;
-            background: #34D399;
-            top: 10%;
-            right: -30px;
-            animation-delay: 0s;
+        /* Grid lines background */
+        .hero-grid {
+            position: absolute; inset: 0; z-index: 0;
+            background-image:
+                linear-gradient(rgba(232,184,75,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(232,184,75,0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
         }
 
-        .float-2 {
-            width: 60px;
-            height: 60px;
-            background: #6EE7B7;
-            bottom: 20%;
-            left: -20px;
-            animation-delay: 2s;
+        /* Glowing orbs */
+        .orb {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            filter: blur(80px);
+        }
+        .orb-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(232,184,75,0.18) 0%, transparent 70%);
+            top: -100px; left: -80px;
+        }
+        .orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(26,53,112,0.8) 0%, transparent 70%);
+            bottom: -50px; right: -60px;
+        }
+        .orb-3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(232,184,75,0.1) 0%, transparent 70%);
+            top: 40%; right: 10%;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+        /* Decorative arc lines */
+        .arc-lines {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px; height: 900px;
+            pointer-events: none; z-index: 0;
         }
 
-        /* How It Works Section */
-        .how-it-works {
-            padding: 5rem 0;
-            background: var(--white);
-            color: var(--dark);
+        .hero-inner {
+            position: relative; z-index: 2;
+            text-align: center; max-width: 900px;
+            padding: 8rem 2rem 6rem;
         }
 
-        .section-header {
-            text-align: center;
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: rgba(232,184,75,0.1); border: 1px solid rgba(232,184,75,0.25);
+            border-radius: 100px; padding: 0.4rem 1.2rem;
+            font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--gold-pale); margin-bottom: 2rem;
+            opacity: 0; transform: translateY(20px);
+        }
+        .eyebrow-pulse {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--gold); animation: eyepulse 2s ease-in-out infinite;
+        }
+        @keyframes eyepulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(232,184,75,0.5); }
+            50% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(232,184,75,0); }
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.2rem, 7vw, 6.5rem);
+            font-weight: 300; line-height: 1.1;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.5rem;
+            opacity: 0; transform: translateY(40px);
+        }
+        .hero-title em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, #E8A020 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-title strong { font-weight: 700; }
+
+        .hero-sub {
+            font-size: 1.1rem; line-height: 1.85; color: var(--white-80);
+            max-width: 560px; margin: 0 auto 3rem;
+            opacity: 0; transform: translateY(30px);
+            font-weight: 300;
+        }
+
+        .hero-actions {
+            display: flex; align-items: center; justify-content: center;
+            gap: 1.25rem; flex-wrap: wrap;
+            opacity: 0; transform: translateY(20px);
             margin-bottom: 4rem;
         }
 
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
+        .btn-hero-primary {
+            display: inline-flex; align-items: center; gap: 0.65rem;
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold), #C8830A);
+            color: var(--midnight); padding: 1rem 2.2rem;
+            border-radius: 12px; font-size: 0.95rem; font-weight: 700;
+            text-decoration: none; border: none; cursor: none;
+            box-shadow: 0 8px 36px rgba(232,184,75,0.45);
+            letter-spacing: 0.03em;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-hero-primary::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(232,184,75,0.6); }
+        .btn-hero-primary:hover::before { opacity: 1; }
+        .btn-arrow { transition: transform 0.3s; }
+        .btn-hero-primary:hover .btn-arrow { transform: translateX(4px); }
+
+        .btn-hero-secondary {
+            display: inline-flex; align-items: center; gap: 0.65rem;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18);
+            color: var(--white); padding: 1rem 2.2rem;
+            border-radius: 12px; font-size: 0.95rem; font-weight: 500;
+            text-decoration: none; cursor: none;
+            backdrop-filter: blur(10px);
+            transition: background 0.3s, border-color 0.3s;
+            letter-spacing: 0.03em;
+        }
+        .btn-hero-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.35);
         }
 
-        .section-header p {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
+        /* Stats row */
+        .hero-stats {
+            display: flex; justify-content: center; gap: 3.5rem;
+            flex-wrap: wrap;
+            opacity: 0; transform: translateY(20px);
+        }
+        .stat { text-align: center; }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 2.75rem; font-weight: 700; line-height: 1;
+            color: var(--white); display: block; margin-bottom: 0.3rem;
+        }
+        .stat-num span { color: var(--gold); }
+        .stat-lbl {
+            font-size: 0.78rem; color: var(--white-50);
+            letter-spacing: 0.08em; text-transform: uppercase;
+        }
+        .stat-divider {
+            width: 1px; background: rgba(255,255,255,0.1);
+            align-self: stretch;
         }
 
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
+        /* scroll indicator */
+        .scroll-ind {
+            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            opacity: 0; animation: fadein 1s ease 3s forwards;
+        }
+        @keyframes fadein { to { opacity: 0.5; } }
+        .scroll-ind span {
+            font-size: 0.7rem; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--white-50);
+        }
+        .scroll-line {
+            width: 1px; height: 40px;
+            background: linear-gradient(to bottom, rgba(232,184,75,0.6), transparent);
+            animation: scrolldown 2s ease-in-out 3s infinite;
+        }
+        @keyframes scrolldown {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
         }
 
-        .step {
-            text-align: center;
-            padding: 2rem;
-            border-radius: 20px;
-            background: var(--light);
-            transition: all 0.3s ease;
+        /* ── FEATURES ── */
+        .features {
+            background: var(--midnight);
+            padding: 8rem 5vw;
             position: relative;
         }
-
-        .step:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        .features::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,184,75,0.3), transparent);
         }
 
-        .step-number {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #10B981, #34D399);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        .section-label {
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: 0.78rem; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 1.25rem;
+        }
+        .section-label::before {
+            content: ''; width: 32px; height: 1px; background: var(--gold);
         }
 
-        .step h3 {
-            font-size: 1.5rem;
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 300; line-height: 1.2;
             margin-bottom: 1rem;
-            color: var(--dark);
+        }
+        .section-title strong { font-weight: 700; }
+
+        .features-header {
+            max-width: 540px; margin-bottom: 4.5rem;
+        }
+        .features-header p {
+            color: var(--white-50); font-size: 1rem; line-height: 1.8; font-weight: 300;
         }
 
-        .step p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: 5rem 0;
-            background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
-        }
-
-        .testimonials-grid {
+        .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            gap: 1.5px;
+            background: rgba(232,184,75,0.08);
+            border: 1px solid rgba(232,184,75,0.08);
+            border-radius: 20px; overflow: hidden;
         }
 
-        .testimonial {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        .feat-card {
+            background: var(--navy-deep);
+            padding: 2.5rem 2.25rem;
+            position: relative; overflow: hidden;
+            transition: background 0.4s;
+        }
+        .feat-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .feat-card:hover { background: #0e1e45; }
+        .feat-card:hover::before { transform: scaleX(1); }
+
+        .feat-number {
+            font-family: var(--font-display);
+            font-size: 5rem; font-weight: 700; line-height: 1;
+            color: rgba(232,184,75,0.08);
+            position: absolute; top: 1rem; right: 1.5rem;
+            transition: color 0.4s;
+        }
+        .feat-card:hover .feat-number { color: rgba(232,184,75,0.14); }
+
+        .feat-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: rgba(232,184,75,0.1); border: 1px solid rgba(232,184,75,0.2);
+            display: grid; place-items: center; margin-bottom: 1.75rem;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .feat-card:hover .feat-icon {
+            background: rgba(232,184,75,0.18);
+            border-color: rgba(232,184,75,0.5);
+            box-shadow: 0 0 20px rgba(232,184,75,0.2);
+        }
+
+        .feat-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem; font-weight: 600; margin-bottom: 0.75rem;
+        }
+        .feat-desc { color: var(--white-50); font-size: 0.9rem; line-height: 1.75; font-weight: 300; }
+        .feat-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            color: var(--gold); font-size: 0.82rem; letter-spacing: 0.08em;
+            text-transform: uppercase; text-decoration: none;
+            margin-top: 1.5rem; opacity: 0;
+            transition: opacity 0.3s, gap 0.3s;
+        }
+        .feat-card:hover .feat-link { opacity: 1; }
+        .feat-link:hover { gap: 0.75rem; }
+
+        /* ── HOW IT WORKS ── */
+        .how {
+            background: var(--navy-deep);
+            padding: 8rem 5vw;
+            position: relative; overflow: hidden;
+        }
+        .how::before, .how::after {
+            content: ''; position: absolute;
+            width: 600px; height: 600px; border-radius: 50%;
+            pointer-events: none; filter: blur(120px);
+        }
+        .how::before {
+            background: rgba(232,184,75,0.06);
+            top: -200px; right: -200px;
+        }
+        .how::after {
+            background: rgba(26,53,112,0.5);
+            bottom: -200px; left: -200px;
+        }
+
+        .how-inner {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+        }
+
+        .steps-list { display: flex; flex-direction: column; gap: 0; }
+
+        .step-item {
+            display: flex; gap: 1.75rem;
+            padding: 2rem 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: relative; cursor: none;
+        }
+        .step-item:last-child { border-bottom: none; }
+
+        .step-left { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .step-num-circle {
+            width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+            border: 1.5px solid rgba(232,184,75,0.25);
+            display: grid; place-items: center;
+            font-family: var(--font-display); font-size: 1.2rem; font-weight: 600;
+            color: var(--gold); transition: all 0.3s;
             position: relative;
         }
-
-        .testimonial::before {
-            content: '"';
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 4rem;
-            color: rgba(16, 185, 129, 0.1);
-            font-family: serif;
+        .step-item:hover .step-num-circle {
+            background: var(--gold);
+            color: var(--midnight);
+            border-color: var(--gold);
+            box-shadow: 0 0 24px rgba(232,184,75,0.4);
         }
-
-        .testimonial p {
-            font-style: italic;
-            color: var(--gray);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
+        .step-connector {
+            width: 1px; flex: 1; min-height: 20px;
+            background: linear-gradient(to bottom, rgba(232,184,75,0.2), transparent);
+            margin-top: 6px;
         }
+        .step-item:last-child .step-connector { display: none; }
 
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .step-content { padding-top: 0.6rem; }
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem;
         }
+        .step-desc { color: var(--white-50); font-size: 0.88rem; line-height: 1.7; font-weight: 300; }
 
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #10B981, #34D399);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-weight: 700;
+        /* Visual side */
+        .how-visual {
+            position: relative;
         }
-
-        .author-info h4 {
-            font-size: 1rem;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
+        .how-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(232,184,75,0.12);
+            border-radius: 20px; padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            position: relative; overflow: hidden;
         }
-
-        .author-info span {
-            font-size: 0.9rem;
-            color: var(--gray);
+        .how-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,184,75,0.5), transparent);
         }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: var(--white);
-            padding: 3rem 0 1rem;
+        .dashboard-preview {
+            display: flex; flex-direction: column; gap: 1rem;
         }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--white);
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
+        .dp-header {
+            display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 0.5rem;
         }
+        .dp-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem; font-weight: 600; color: var(--white-80);
+        }
+        .dp-badge {
+            background: rgba(232,184,75,0.15); border: 1px solid rgba(232,184,75,0.3);
+            color: var(--gold); padding: 0.2rem 0.7rem; border-radius: 20px;
+            font-size: 0.72rem; letter-spacing: 0.06em;
+        }
+        .dp-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(255,255,255,0.04); border-radius: 10px;
+            padding: 0.85rem 1.1rem;
+            border-left: 2px solid transparent;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .dp-row.active { border-left-color: var(--gold); background: rgba(232,184,75,0.06); }
+        .dp-row-label { font-size: 0.85rem; color: var(--white-80); display: flex; gap: 0.6rem; align-items: center; }
+        .dp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+        .dp-dot.green { background: #4ade80; }
+        .dp-dot.blue { background: #60a5fa; }
+        .dp-status {
+            font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 5px; letter-spacing: 0.04em;
+        }
+        .s-gold { background: rgba(232,184,75,0.15); color: var(--gold); }
+        .s-green { background: rgba(74,222,128,0.15); color: #4ade80; }
+        .s-blue { background: rgba(96,165,250,0.15); color: #60a5fa; }
 
-        .footer-section ul li a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .dp-progress-section { margin-top: 0.5rem; }
+        .dp-prog-label {
+            display: flex; justify-content: space-between;
+            font-size: 0.78rem; color: var(--white-50);
+            margin-bottom: 0.5rem;
+        }
+        .dp-prog-bar {
+            height: 5px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden;
+        }
+        .dp-prog-fill {
+            height: 100%; border-radius: 10px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+            animation: progfill 2s ease 1.5s both;
+        }
+        @keyframes progfill { from { width: 0; } }
+
+        /* decorative floating cards */
+        .float-badge {
+            position: absolute;
+            background: var(--navy); border: 1px solid rgba(232,184,75,0.2);
+            border-radius: 12px; padding: 0.7rem 1rem;
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.8rem; color: var(--white-80);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+            white-space: nowrap;
+        }
+        .fb-1 { top: -24px; right: 20px; animation: floatbadge 4s ease-in-out infinite; }
+        .fb-2 { bottom: -20px; left: 15px; animation: floatbadge 4s ease-in-out 2s infinite; }
+        @keyframes floatbadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        .footer-section ul li a:hover {
-            color: var(--primary);
+        /* ── TESTIMONIALS ── */
+        .testimonials {
+            background: var(--midnight);
+            padding: 8rem 5vw;
+            position: relative; overflow: hidden;
+        }
+        .testimonials::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,184,75,0.3), transparent);
         }
 
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1rem;
+        .t-header { text-align: center; max-width: 540px; margin: 0 auto 5rem; }
+        .t-header .section-label { justify-content: center; }
+        .t-header .section-label::before { display: none; }
+        .t-header p { color: var(--white-50); font-size: 0.95rem; line-height: 1.8; font-weight: 300; margin-top: 0.75rem; }
+
+        .t-grid {
+            display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 1.5rem; align-items: start;
+        }
+
+        .t-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px; padding: 2.25rem;
+            transition: border-color 0.3s, transform 0.3s;
+            position: relative;
+        }
+        .t-card:hover { border-color: rgba(232,184,75,0.25); transform: translateY(-4px); }
+        .t-card.featured {
+            border-color: rgba(232,184,75,0.2);
+            background: rgba(232,184,75,0.04);
+        }
+
+        .t-quote {
+            font-family: var(--font-display);
+            font-size: 3rem; line-height: 1; color: rgba(232,184,75,0.25);
+            margin-bottom: 0.5rem;
+        }
+        .t-text {
+            font-size: 0.95rem; line-height: 1.75; color: var(--white-80);
+            margin-bottom: 1.75rem; font-weight: 300;
+        }
+        .t-card.featured .t-text { font-size: 1.05rem; }
+        .t-author { display: flex; align-items: center; gap: 0.85rem; }
+        .t-avatar {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #C8830A);
+            display: grid; place-items: center;
+            font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+            color: var(--midnight); flex-shrink: 0;
+        }
+        .t-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.15rem; }
+        .t-role { font-size: 0.78rem; color: var(--white-50); }
+
+        .t-stars {
+            display: flex; gap: 3px; margin-bottom: 1.25rem;
+        }
+        .t-star { color: var(--gold); font-size: 0.85rem; }
+
+        /* ── CTA BAND ── */
+        .cta-band {
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 40%, #C8830A 100%);
+            padding: 6rem 5vw;
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
+            position: relative; overflow: hidden;
         }
-
-        /* Enhanced Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .cta-band::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 40%);
         }
-
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out;
+        .cta-band-inner { position: relative; z-index: 1; }
+        .cta-band h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 300; color: var(--midnight);
+            margin-bottom: 1rem; line-height: 1.15;
         }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .stats {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .card-container {
-                padding: 2rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .steps {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .cta-band h2 strong { font-weight: 700; }
+        .cta-band p {
+            color: rgba(6,13,31,0.7); font-size: 1.05rem;
+            max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.75; font-weight: 300;
         }
+        .btn-dark {
+            display: inline-flex; align-items: center; gap: 0.65rem;
+            background: var(--midnight); color: var(--gold);
+            padding: 1rem 2.5rem; border-radius: 12px;
+            font-size: 0.95rem; font-weight: 700; text-decoration: none;
+            cursor: none; letter-spacing: 0.04em;
+            box-shadow: 0 8px 32px rgba(6,13,31,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-dark:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(6,13,31,0.4); }
 
+        /* ── FOOTER ── */
+        footer {
+            background: #040810; padding: 4rem 5vw 2rem;
+            border-top: 1px solid rgba(232,184,75,0.1);
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 3rem; margin-bottom: 3rem;
+        }
+        .footer-brand {}
+        .footer-brand .logo { opacity: 1; margin-bottom: 1rem; display: inline-flex; }
+        .footer-brand p { color: var(--white-50); font-size: 0.88rem; line-height: 1.75; max-width: 260px; font-weight: 300; }
+        .footer-col h4 {
+            font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+            color: var(--white-80); margin-bottom: 1.25rem; letter-spacing: 0.02em;
+        }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+        .footer-col a {
+            color: var(--white-50); text-decoration: none; font-size: 0.87rem;
+            transition: color 0.25s; display: inline-block;
+        }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            color: rgba(255,255,255,0.25); font-size: 0.82rem;
+        }
+        .footer-bottom a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--gold); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .how-inner { grid-template-columns: 1fr; gap: 4rem; }
+            .t-grid { grid-template-columns: 1fr 1fr; }
+            .t-card.featured { grid-column: span 2; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+        }
         @media (max-width: 640px) {
-            .container {
-                padding: 0 1rem;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1.1rem;
-            }
-
-            .stats {
-                gap: 1rem;
-            }
-
-            .stat-number {
-                font-size: 1.5rem;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
+            .features-grid { grid-template-columns: 1fr; }
+            .t-grid { grid-template-columns: 1fr; }
+            .t-card.featured { grid-column: span 1; }
+            .hero-stats { gap: 2rem; }
+            .stat-divider { display: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav>
-            <div class="logo">
-                <div class="logo-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
-                        <path d="M2 17L12 22L22 17"/>
-                        <path d="M2 12L12 17L22 12"/>
+
+<!-- Custom cursor -->
+<div class="cursor">
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+</div>
+
+<!-- ══ NAVIGATION ══ -->
+<nav id="main-nav">
+    <a href="/" class="logo">
+        <div class="logo-mark">
+            <svg width="20" height="20" fill="none" stroke="#060D1F" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+        </div>
+        <span class="logo-text">Scholar<span>Hub</span></span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="/credentials" style="color:#FFD700;">🔑 Credentials</a></li>
+    </ul>
+
+    <div class="nav-cta" id="nav-cta">
+        <a href="/login" class="btn-ghost">Log In</a>
+        <a href="/register" class="btn-solid">Get Started</a>
+    </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Arc SVG -->
+    <svg class="arc-lines" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="450" cy="450" r="200" stroke="rgba(232,184,75,0.05)" stroke-width="1"/>
+        <circle cx="450" cy="450" r="300" stroke="rgba(232,184,75,0.04)" stroke-width="1"/>
+        <circle cx="450" cy="450" r="400" stroke="rgba(232,184,75,0.03)" stroke-width="1"/>
+        <circle cx="450" cy="450" r="200" stroke="rgba(232,184,75,0.12)" stroke-width="0.5" stroke-dasharray="4 14"/>
+        <line x1="50" y1="450" x2="850" y2="450" stroke="rgba(232,184,75,0.04)" stroke-width="0.5"/>
+        <line x1="450" y1="50" x2="450" y2="850" stroke="rgba(232,184,75,0.04)" stroke-width="0.5"/>
+    </svg>
+
+    <div class="hero-inner">
+        <div class="hero-eyebrow" id="hero-eyebrow">
+            <span class="eyebrow-pulse"></span>
+            Trusted by 50,000+ Students Worldwide
+        </div>
+
+        <h1 class="hero-title" id="hero-title">
+            Your Gateway to<br>
+            <em>Educational</em><br>
+            <strong>Excellence</strong>
+        </h1>
+
+        <p class="hero-sub" id="hero-sub">
+            Discover thousands of scholarship opportunities, manage applications seamlessly,
+            and transform your academic aspirations into lasting achievement.
+        </p>
+
+        <div class="hero-actions" id="hero-actions">
+            <a href="/register" class="btn-hero-primary">
+                Apply for Scholarships
+                <svg class="btn-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+            <a href="#how-it-works" class="btn-hero-secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Watch Demo
+            </a>
+        </div>
+
+        <div class="hero-stats" id="hero-stats">
+            <div class="stat">
+                <span class="stat-num"><span>5</span>,000+</span>
+                <span class="stat-lbl">Active Scholarships</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-num">$<span>50</span>M+</span>
+                <span class="stat-lbl">Awarded Annually</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-num"><span>98</span>%</span>
+                <span class="stat-lbl">Success Rate</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-ind">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features" id="features">
+    <div class="features-header">
+        <div class="section-label">Platform Features</div>
+        <h2 class="section-title">Everything you need<br><strong>to succeed</strong></h2>
+        <p>ScholarHub brings together powerful tools to discover, apply, and track scholarships — all in one beautifully crafted platform.</p>
+    </div>
+
+    <div class="features-grid" id="features-grid">
+        <div class="feat-card">
+            <span class="feat-number">01</span>
+            <div class="feat-icon">
+                <svg width="22" height="22" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+            </div>
+            <h3 class="feat-title">Smart Matching</h3>
+            <p class="feat-desc">Our AI-powered engine analyzes your academic profile and surfaces the most relevant scholarship opportunities tailored uniquely to you.</p>
+            <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+        <div class="feat-card">
+            <span class="feat-number">02</span>
+            <div class="feat-icon">
+                <svg width="22" height="22" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+            </div>
+            <h3 class="feat-title">Track Progress</h3>
+            <p class="feat-desc">Monitor every application in real-time through an elegant, intuitive dashboard. Know exactly where you stand at every stage.</p>
+            <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+        <div class="feat-card">
+            <span class="feat-number">03</span>
+            <div class="feat-icon">
+                <svg width="22" height="22" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+            </div>
+            <h3 class="feat-title">Deadline Alerts</h3>
+            <p class="feat-desc">Never miss a critical deadline. Automated, customizable reminders keep you perfectly on schedule with every scholarship opportunity.</p>
+            <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+    </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="how" id="how-it-works">
+    <div class="how-inner">
+        <div>
+            <div class="section-label">Process</div>
+            <h2 class="section-title" style="margin-bottom:0.75rem">Three steps to<br><strong>your scholarship</strong></h2>
+            <p style="color:var(--white-50);font-size:0.9rem;line-height:1.8;font-weight:300;margin-bottom:3rem;max-width:400px">A streamlined journey from profile creation to award notification.</p>
+
+            <div class="steps-list" id="steps-list">
+                <div class="step-item">
+                    <div class="step-left">
+                        <div class="step-num-circle">1</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Create Your Profile</h3>
+                        <p class="step-desc">Sign up and build your academic profile — qualifications, interests, and aspirations — in minutes.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-left">
+                        <div class="step-num-circle">2</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Discover Opportunities</h3>
+                        <p class="step-desc">Browse thousands of scholarships or let our AI instantly match you with the best-fit opportunities.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-left">
+                        <div class="step-num-circle">3</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Apply &amp; Celebrate</h3>
+                        <p class="step-desc">Submit polished applications and track every milestone with confidence until award day arrives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-visual" id="how-visual">
+            <div class="float-badge fb-1">
+                <svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Application Approved!
+            </div>
+            <div class="how-card">
+                <div class="dashboard-preview">
+                    <div class="dp-header">
+                        <span class="dp-title">My Applications</span>
+                        <span class="dp-badge">● Live</span>
+                    </div>
+                    <div class="dp-row active">
+                        <span class="dp-row-label"><span class="dp-dot"></span>STEM Excellence Award</span>
+                        <span class="dp-status s-gold">Under Review</span>
+                    </div>
+                    <div class="dp-row">
+                        <span class="dp-row-label"><span class="dp-dot green"></span>Future Leaders Grant</span>
+                        <span class="dp-status s-green">Awarded ✓</span>
+                    </div>
+                    <div class="dp-row">
+                        <span class="dp-row-label"><span class="dp-dot blue"></span>Merit Scholarship 2025</span>
+                        <span class="dp-status s-blue">Draft</span>
+                    </div>
+                    <div class="dp-progress-section">
+                        <div class="dp-prog-label">
+                            <span>Profile completeness</span>
+                            <span style="color:var(--gold)">87%</span>
+                        </div>
+                        <div class="dp-prog-bar">
+                            <div class="dp-prog-fill" style="width:87%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="float-badge fb-2">
+                <svg width="14" height="14" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                98% success rate
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="testimonials" id="testimonials">
+    <div class="t-header">
+        <div class="section-label">Testimonials</div>
+        <h2 class="section-title">Stories of<br><strong>real success</strong></h2>
+        <p>Students from around the world trust ScholarHub to find and secure the funding they deserve.</p>
+    </div>
+
+    <div class="t-grid" id="t-grid">
+        <div class="t-card featured">
+            <div class="t-stars">
+                <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+            </div>
+            <div class="t-quote">"</div>
+            <p class="t-text">ScholarHub completely transformed my approach to funding my education. I received three scholarship offers totaling $15,000 for my master's program — opportunities I never would have discovered without this platform's intelligent matching. The process felt personal, not overwhelming.</p>
+            <div class="t-author">
+                <div class="t-avatar">S</div>
+                <div>
+                    <div class="t-name">Sarah Johnson</div>
+                    <div class="t-role">Graduate Student, MIT</div>
+                </div>
+            </div>
+        </div>
+        <div class="t-card">
+            <div class="t-stars">
+                <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+            </div>
+            <div class="t-quote">"</div>
+            <p class="t-text">The matching algorithm is remarkable. It surfaced scholarships perfectly aligned with my engineering background that I would have never found through traditional searches.</p>
+            <div class="t-author">
+                <div class="t-avatar">M</div>
+                <div>
+                    <div class="t-name">Michael Chen</div>
+                    <div class="t-role">Undergraduate, Stanford</div>
+                </div>
+            </div>
+        </div>
+        <div class="t-card">
+            <div class="t-stars">
+                <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+            </div>
+            <div class="t-quote">"</div>
+            <p class="t-text">From first login to award notification, ScholarHub guided me through every step of the process. Joining this platform is the best academic decision I've made.</p>
+            <div class="t-author">
+                <div class="t-avatar">A</div>
+                <div>
+                    <div class="t-name">Amelia Rodriguez</div>
+                    <div class="t-role">PhD Candidate, Oxford</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<section class="cta-band">
+    <div class="cta-band-inner">
+        <h2>Begin your journey<br><strong>toward success today.</strong></h2>
+        <p>Join 50,000+ students who've already discovered how ScholarHub makes funding your education achievable.</p>
+        <a href="/register" class="btn-dark">
+            Create Free Account
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+        </a>
+    </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a href="/" class="logo">
+                <div class="logo-mark">
+                    <svg width="18" height="18" fill="none" stroke="#060D1F" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
                 </div>
-                <span>ScholarHub</span>
-            </div>
-            <div class="nav-buttons">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="btn btn-outline">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-outline">Log In</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
-                        @endif
-                    @endauth
-                @endif
-            </div>
-        </nav>
-
-        <main class="main-content">
-            <div class="content-left">
-                <div class="badge">
-                    <span class="badge-dot"></span>
-                    <span>Trusted by 50,000+ Students Worldwide</span>
-                </div>
-                
-                <h1>
-                    Your Gateway to
-                    <span class="gradient-text">Educational Excellence</span>
-                </h1>
-                
-                <p class="subtitle">
-                    Discover thousands of scholarship opportunities, manage applications seamlessly, and turn your academic dreams into reality. Start your journey to success today.
-                </p>
-
-                <div class="cta-buttons">
-                    <a href="{{ route('login') }}" class="btn btn-gradient btn-large">Explore Scholarships</a>
-                    <a href="#about" class="btn btn-outline btn-large">Learn More</a>
-                </div>
-
-                <div class="stats">
-                    <div class="stat-item">
-                        <span class="stat-number">5,000+</span>
-                        <span class="stat-label">Active Scholarships</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">$50M+</span>
-                        <span class="stat-label">Awarded Annually</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">98%</span>
-                        <span class="stat-label">Success Rate</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-right">
-                <div class="floating-element float-1"></div>
-                <div class="floating-element float-2"></div>
-                
-                <div class="card-container">
-                    <div class="card-header">
-                        <h2>Why Choose ScholarHub?</h2>
-                        <p>Everything you need to succeed in one platform</p>
-                    </div>
-
-                    <ul class="feature-list">
-                        <li class="feature-item">
-                            <div class="feature-icon icon-purple">
-                                🎯
-                            </div>
-                            <div class="feature-content">
-                                <h3>Smart Matching</h3>
-                                <p>AI-powered system matches you with scholarships that fit your profile perfectly</p>
-                            </div>
-                        </li>
-                        <li class="feature-item">
-                            <div class="feature-icon icon-blue">
-                                📊
-                            </div>
-                            <div class="feature-content">
-                                <h3>Track Progress</h3>
-                                <p>Monitor all your applications in real-time with our intuitive dashboard</p>
-                            </div>
-                        </li>
-                        <li class="feature-item">
-                            <div class="feature-icon icon-cyan">
-                                🔔
-                            </div>
-                            <div class="feature-content">
-                                <h3>Never Miss Deadlines</h3>
-                                <p>Automated reminders keep you on track with every application deadline</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="action-card">
-                        <h3>Ready to Get Started?</h3>
-                        <p>Join thousands of successful students who found their scholarships through our platform</p>
-                        <a href="{{ route('register') }}" class="btn btn-white">Create Free Account</a>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- How It Works Section -->
-        <section class="how-it-works fade-in-up" id="how-it-works">
-            <div class="container">
-                <div class="section-header">
-                    <h2>How It Works</h2>
-                    <p>Follow these simple steps to find and apply for scholarships that match your profile</p>
-                </div>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>Create Your Profile</h3>
-                        <p>Sign up and complete your academic profile with your qualifications, interests, and goals.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>Discover Scholarships</h3>
-                        <p>Browse through thousands of scholarships or let our AI match you with the best opportunities.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>Apply & Track</h3>
-                        <p>Submit applications seamlessly and track your progress with our intuitive dashboard.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section class="testimonials fade-in-up">
-            <div class="container">
-                <div class="section-header">
-                    <h2>What Our Students Say</h2>
-                    <p>Real stories from students who achieved their dreams with ScholarHub</p>
-                </div>
-                <div class="testimonials-grid">
-                    <div class="testimonial">
-                        <p>"ScholarHub made finding scholarships so easy! I received three offers totaling $15,000 for my master's degree."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">S</div>
-                            <div class="author-info">
-                                <h4>Sarah Johnson</h4>
-                                <span>Graduate Student</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial">
-                        <p>"The platform's matching algorithm is incredible. It found scholarships I never would have discovered otherwise."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">M</div>
-                            <div class="author-info">
-                                <h4>Michael Chen</h4>
-                                <span>Undergraduate</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial">
-                        <p>"From application to award, ScholarHub guided me through every step. Highly recommend to all students!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">A</div>
-                            <div class="author-info">
-                                <h4>Amelia Rodriguez</h4>
-                                <span>PhD Candidate</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h3>ScholarHub</h3>
-                        <p>Your gateway to educational excellence and scholarship success.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Quick Links</h3>
-                        <ul>
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                            <li><a href="#how-it-works">How It Works</a></li>
-                            <li><a href="#about">About Us</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Support</h3>
-                        <ul>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Connect</h3>
-                        <ul>
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">LinkedIn</a></li>
-                            <li><a href="#">Instagram</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2024 ScholarHub. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+                <span class="logo-text">Scholar<span>Hub</span></span>
+            </a>
+            <p>Your gateway to educational excellence and scholarship success, empowering students worldwide.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+                <li><a href="#">Browse Scholarships</a></li>
+                <li><a href="#">How It Works</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Pricing</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Account</h4>
+            <ul>
+                <li><a href="/login">Log In</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">My Applications</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
     </div>
+    <div class="footer-bottom">
+        <span>© 2025 ScholarHub. All rights reserved.</span>
+        <div style="display:flex;gap:1.25rem">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Instagram</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── Cursor ── */
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function animateCursor() {
+        rx += (mx - rx) * 0.15;
+        ry += (my - ry) * 0.15;
+        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    /* ── Particle canvas ── */
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+        W = canvas.width = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x = Math.random() * W;
+            this.y = Math.random() * H;
+            this.r = Math.random() * 1.8 + 0.3;
+            this.vx = (Math.random() - 0.5) * 0.3;
+            this.vy = -Math.random() * 0.5 - 0.1;
+            this.alpha = Math.random() * 0.5 + 0.1;
+            this.life = 0;
+            this.maxLife = Math.random() * 200 + 100;
+        }
+        update() {
+            this.x += this.vx; this.y += this.vy;
+            this.life++;
+            const t = this.life / this.maxLife;
+            this.currentAlpha = this.alpha * Math.sin(Math.PI * t);
+            if (this.life >= this.maxLife) this.reset();
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(232, 184, 75, ${this.currentAlpha})`;
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < 80; i++) {
+        const p = new Particle();
+        p.life = Math.random() * p.maxLife;
+        particles.push(p);
+    }
+
+    function animParticles() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animParticles);
+    }
+    animParticles();
+
+    /* ── Nav scroll ── */
+    window.addEventListener('scroll', () => {
+        document.getElementById('main-nav').classList.toggle('scrolled', scrollY > 60);
+    });
+
+    /* ── GSAP Hero timeline ── */
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.to('.logo', { opacity: 1, x: 0, duration: 0.6 })
+      .to('#nav-links', { opacity: 1, duration: 0.5 }, '-=0.3')
+      .to('#nav-cta', { opacity: 1, duration: 0.5 }, '-=0.3')
+      .to('#hero-eyebrow', { opacity: 1, y: 0, duration: 0.7 }, '-=0.1')
+      .to('#hero-title', { opacity: 1, y: 0, duration: 0.9 }, '-=0.4')
+      .to('#hero-sub', { opacity: 1, y: 0, duration: 0.8 }, '-=0.55')
+      .to('#hero-actions', { opacity: 1, y: 0, duration: 0.7 }, '-=0.5')
+      .to('#hero-stats', { opacity: 1, y: 0, duration: 0.7 }, '-=0.4');
+
+    /* ── Counter animation ── */
+    function animateCount(el, target, suffix) {
+        let start = 0;
+        const dur = 1800;
+        const step = timestamp => {
+            if (!start) start = timestamp;
+            const prog = Math.min((timestamp - start) / dur, 1);
+            const ease = 1 - Math.pow(1 - prog, 3);
+            el.querySelector('span').textContent = Math.round(ease * target);
+            if (prog < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+    }
+
+    ScrollTrigger.create({
+        trigger: '#hero-stats',
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+            document.querySelectorAll('.stat-num').forEach(el => {
+                const txt = el.textContent;
+                if (txt.includes('5,000')) animateCount(el, 5000, '+');
+                else if (txt.includes('50')) animateCount(el, 50, 'M');
+                else if (txt.includes('98')) animateCount(el, 98, '%');
+            });
+        }
+    });
+
+    /* ── Features stagger ── */
+    gsap.from('#features-grid .feat-card', {
+        scrollTrigger: { trigger: '#features-grid', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 60, scale: 0.96,
+        duration: 0.8, stagger: 0.15, ease: 'power3.out'
+    });
+
+    /* ── Steps ── */
+    gsap.from('#steps-list .step-item', {
+        scrollTrigger: { trigger: '#steps-list', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, x: -40,
+        duration: 0.7, stagger: 0.18, ease: 'power3.out'
+    });
+
+    /* ── How visual ── */
+    gsap.from('#how-visual', {
+        scrollTrigger: { trigger: '#how-visual', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, x: 60,
+        duration: 1, ease: 'power3.out'
+    });
+
+    /* ── Testimonials ── */
+    gsap.from('#t-grid .t-card', {
+        scrollTrigger: { trigger: '#t-grid', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 50,
+        duration: 0.8, stagger: 0.12, ease: 'power3.out'
+    });
+
+    /* ── Scroll fade headers ── */
+    gsap.utils.toArray('.section-label, .section-title, .features-header p').forEach(el => {
+        gsap.from(el, {
+            scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' },
+            opacity: 0, y: 25, duration: 0.7, ease: 'power2.out'
+        });
+    });
+
+    /* ── CTA band ── */
+    gsap.from('.cta-band-inner', {
+        scrollTrigger: { trigger: '.cta-band', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 40, duration: 1, ease: 'power3.out'
+    });
+
+    /* ── Magnetic button effect ── */
+    document.querySelectorAll('.btn-hero-primary, .btn-hero-secondary, .btn-solid, .btn-ghost, .btn-dark').forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+            const r = this.getBoundingClientRect();
+            const x = e.clientX - r.left - r.width / 2;
+            const y = e.clientY - r.top - r.height / 2;
+            gsap.to(this, { x: x * 0.15, y: y * 0.15, duration: 0.4, ease: 'power2.out' });
+        });
+        btn.addEventListener('mouseleave', function() {
+            gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.5)' });
+        });
+    });
+</script>
 </body>
 </html>

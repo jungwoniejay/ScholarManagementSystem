@@ -1,81 +1,46 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="p-6">
-    <div class="flex items-center gap-4 mb-8">
-        <a href="{{ route('admin.courses.index') }}" class="text-slate-500 hover:text-slate-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Create Course</h2>
+    </x-slot>
+    <div class="max-w-3xl mx-auto">
+        <a href="{{ route('admin.courses.index') }}" class="inline-flex items-center gap-1 text-sm mb-4" style="color:#8b949e;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Back to Courses
         </a>
-        <h1 class="text-3xl font-bold text-slate-900">Create Course</h1>
-    </div>
-
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 max-w-4xl">
-        <form method="POST" action="{{ route('admin.courses.store') }}" class="space-y-6">
-            @csrf
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- Code --}}
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Course Code</label>
-                    <input type="text" name="code" 
-                           value="{{ old('code') }}"
-                           class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all @error('code') border-red-500 ring-red-200 @enderror"
-                           placeholder="e.g., BSIT" required>
-                    @error('code')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+        <div class="rounded-2xl p-6" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <h1 class="text-xl font-bold mb-6" style="color:#e2e8f0;">Create Course</h1>
+            @php $is = 'background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;'; $ls = 'color:#8b949e;'; @endphp
+            <form method="POST" action="{{ route('admin.courses.store') }}" class="space-y-4">
+                @csrf
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Course Code</label>
+                        <input type="text" name="code" value="{{ old('code') }}" placeholder="e.g., BSIT" required
+                               class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">
+                        @error('code')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Course Name</label>
+                        <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g., Bachelor of Science in IT" required
+                               class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">
+                        @error('name')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                    </div>
                 </div>
-
-                {{-- Name --}}
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Course Name</label>
-                    <input type="text" name="name" 
-                           value="{{ old('name') }}"
-                           class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all @error('name') border-red-500 ring-red-200 @enderror"
-                           placeholder="e.g., Bachelor of Science in Information Technology" required>
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label class="block text-xs font-semibold mb-1.5" style="{{ $ls }}">Description (Optional)</label>
+                    <textarea name="description" rows="3" class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500" style="{{ $is }}">{{ old('description') }}</textarea>
                 </div>
-            </div>
-
-            {{-- Description --}}
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Description (Optional)</label>
-                <textarea name="description" rows="4" 
-                          class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-vertical @error('description') border-red-500 ring-red-200 @enderror"
-                          placeholder="Enter course description">{{ old('description') }}</textarea>
-                @error('description')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Status --}}
-            <div class="space-y-2">
-                <label class="flex items-center">
-                    <input type="checkbox" name="is_active" value="1" {{ old('is_active', 1) ? 'checked' : '' }}
-                           class="w-5 h-5 text-emerald-600 bg-slate-100 border-slate-300 rounded focus:ring-emerald-500">
-                    <span class="ml-3 text-sm font-semibold text-slate-700">Active</span>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" name="is_active" value="1" {{ old('is_active', 1) ? 'checked' : '' }} style="accent-color:#FFD700;">
+                    <span class="text-sm font-semibold" style="{{ $ls }}">Active — available for student enrollment</span>
                 </label>
-                <p class="text-xs text-slate-500 ml-8">Course will be available for student enrollment</p>
-            </div>
-
-            {{-- Actions --}}
-            <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-slate-200">
-                <button type="submit" 
-                        class="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 text-lg">
-                    <svg class="w-5 h-5 inline-block mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    Create Course
-                </button>
-                <a href="{{ route('admin.courses.index') }}" 
-                   class="flex-1 sm:w-auto text-center text-slate-700 hover:text-slate-900 font-semibold py-3 px-8 border border-slate-300 rounded-xl hover:bg-slate-50 transition-all duration-200">
-                    Cancel
-                </a>
-            </div>
-        </form>
+                <div class="flex gap-3 pt-2">
+                    <button type="submit" class="px-6 py-2.5 text-sm font-semibold rounded-xl"
+                            style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">Create Course</button>
+                    <a href="{{ route('admin.courses.index') }}" class="px-6 py-2.5 text-sm font-medium rounded-xl"
+                       style="background:#0A1628;border:1px solid #1E3A8A;color:#8b949e;">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-@endsection
+</x-app-layout>

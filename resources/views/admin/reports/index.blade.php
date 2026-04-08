@@ -1,58 +1,52 @@
 <x-app-layout>
-    <div class="px-8 py-10 max-w-7xl mx-auto">
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">System Logs & Reports</h2>
+    </x-slot>
 
-        <!-- Back to Dashboard -->
-        <a href="{{ route('admin.dashboard') }}"
-           class="inline-flex items-center gap-2 mb-6 text-sm font-medium text-gray-600 hover:text-gray-900 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 19l-7-7 7-7"/>
-            </svg>
-            Back to Dashboard
-        </a>
+    <div class="max-w-7xl mx-auto space-y-6">
 
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">
-            System Logs & Reports
-        </h1>
+        <div>
+            <h1 class="text-2xl font-bold" style="color:#e2e8f0;">System Logs & Reports</h1>
+            <p class="text-sm" style="color:#8b949e;">View all system activity and event logs</p>
+        </div>
 
-        <div class="bg-white rounded-2xl shadow border overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">ID</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Log Type</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Related ID</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">User ID</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Description</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
-                    </tr>
-                </thead>
-
-                <tbody class="divide-y divide-gray-100">
-                    @forelse($logs as $log)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">{{ $log->id }}</td>
-                            <td class="px-6 py-4">{{ $log->log_type }}</td>
-                            <td class="px-6 py-4">{{ $log->related_id ?? '—' }}</td>
-                            <td class="px-6 py-4">{{ $log->user_id ?? '—' }}</td>
-                            <td class="px-6 py-4 text-gray-700">{{ $log->description ?? '—' }}</td>
-                            <td class="px-6 py-4 text-gray-700">{{ $log->created_at->format('M d, Y H:i') }}</td>
+        <div class="rounded-xl overflow-hidden" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr style="background:#0A1628;border-bottom:1px solid #1E3A8A;">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Log Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Related ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">User ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase" style="color:#8b949e;">Date</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="py-10 text-center text-gray-400">
-                                No system logs found.
+                    </thead>
+                    <tbody>
+                        @forelse($logs as $log)
+                        <tr style="border-bottom:1px solid #1E3A8A;">
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $log->id }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full font-mono"
+                                      style="background:rgba(96,165,250,0.15);color:#60a5fa;">
+                                    {{ $log->log_type }}
+                                </span>
                             </td>
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $log->related_id ?? '—' }}</td>
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $log->user_id ?? '—' }}</td>
+                            <td class="px-6 py-4 text-sm max-w-xs truncate" style="color:#e2e8f0;">{{ $log->description ?? '—' }}</td>
+                            <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $log->created_at->format('M d, Y H:i') }}</td>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="px-6 py-10 text-center text-sm" style="color:#8b949e;">No system logs found.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4" style="border-top:1px solid #1E3A8A;">{{ $logs->links() }}</div>
         </div>
-
-        <!-- Pagination -->
-        <div class="mt-6">
-            {{ $logs->links() }}
-        </div>
-
     </div>
 </x-app-layout>

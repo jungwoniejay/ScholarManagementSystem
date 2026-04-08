@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-student-layout>
     <div class="px-8 py-10 max-w-6xl mx-auto">
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Scholarship Awards</h1>
@@ -62,7 +62,6 @@
                                 <div class="ml-4 flex flex-col gap-2">
                                     <form action="{{ route('student.scholarships.respond', $application) }}" method="POST" class="inline">
                                         @csrf
-                                        @method('PATCH')
                                         <input type="hidden" name="response" value="accept">
                                         <button type="submit" class="w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors text-sm">
                                             ✓ Accept
@@ -70,7 +69,6 @@
                                     </form>
                                     <form action="{{ route('student.scholarships.respond', $application) }}" method="POST" class="inline">
                                         @csrf
-                                        @method('PATCH')
                                         <input type="hidden" name="response" value="decline">
                                         <button type="submit" class="w-full bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors text-sm">
                                             ✗ Decline
@@ -139,4 +137,4 @@
             @endif
         </div>
     </div>
-</x-app-layout>
+</x-student-layout>

@@ -7,7 +7,7 @@
     #admin-sidebar,
     #admin-sidebar-mobile {
         font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-        background: #1E1E2E;
+        background: linear-gradient(180deg, #0A1628 0%, #0F2044 100%);
         color: #A8A8C0;
     }
 
@@ -17,7 +17,7 @@
         font-weight: 700;
         letter-spacing: 1.3px;
         text-transform: uppercase;
-        color: rgba(168,168,192,0.4);
+        color: rgba(168,168,192,0.75);
         padding: 12px 16px 4px;
     }
 
@@ -50,10 +50,12 @@
 
     /* ── Active state ── */
     .sb-item.active {
-        background: rgba(234,179,8,0.14);
-        color: #EAB308;
+        background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(184,134,11,0.1));
+        color: #FFD700;
+        border-left: 3px solid #FFD700;
+        padding-left: 9px;
     }
-    .sb-item.active svg { opacity: 1; color: #EAB308; }
+    .sb-item.active svg { opacity: 1; color: #FFD700; }
 
     /* ── Badges ── */
     .sb-badge {
@@ -65,7 +67,7 @@
         text-align: center;
         margin-left: auto;
     }
-    .sb-badge-amber { background: rgba(234,179,8,0.18); color: #EAB308; }
+    .sb-badge-amber { background: rgba(255,215,0,0.2); color: #FFD700; }
     .sb-badge-blue  { background: rgba(59,130,246,0.18); color: #60A5FA; }
     .sb-badge-green { background: rgba(34,197,94,0.18);  color: #4ADE80; }
     .sb-badge-red   { background: rgba(239,68,68,0.18);  color: #F87171; }
@@ -93,10 +95,10 @@
     }
     .sb-avatar {
         width: 34px; height: 34px;
-        background: linear-gradient(135deg, #EAB308, #D97706);
+        background: linear-gradient(135deg, #FFD700, #B8860B);
         border-radius: 8px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 13px; font-weight: 700; color: #1E1E2E;
+        font-size: 13px; font-weight: 700; color: #0A1628;
         flex-shrink: 0;
     }
     .sb-user-name  { font-size: 12.5px; font-weight: 600; color: #fff; line-height: 1.3; }
@@ -116,18 +118,18 @@
     .sb-brand {
         display: flex; align-items: center; gap: 12px;
         padding: 18px 16px 14px;
-        border-bottom: 1px solid rgba(255,255,255,0.07);
+        border-bottom: 1px solid rgba(255,215,0,0.1);
     }
     .sb-brand-icon {
         width: 38px; height: 38px;
-        background: linear-gradient(135deg, #EAB308, #D97706);
+        background: linear-gradient(135deg, #FFD700, #B8860B);
         border-radius: 10px;
         display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 0 16px rgba(234,179,8,0.25);
+        box-shadow: 0 0 20px rgba(255,215,0,0.3);
         flex-shrink: 0;
     }
     .sb-brand-name { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-    .sb-brand-tag  { font-size: 10px; color: rgba(234,179,8,0.7); font-weight: 500; }
+    .sb-brand-tag  { font-size: 10px; color: #FFD700; font-weight: 500; }
 
     /* ── Scrollbar ── */
     #admin-sidebar nav::-webkit-scrollbar,
@@ -432,7 +434,7 @@
             System Flow
         </a>
 
-        <a href="{{ route('admin.maintenance') }}"
+        <a href="{{ route('admin.maintenance.index') }}"
            class="sb-item {{ request()->routeIs('admin.maintenance*') ? 'active' : '' }}">
             <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -449,7 +451,7 @@
             Maintenance
         </a>
 
-        <a href="{{ route('admin.activity') }}"
+        <a href="{{ route('admin.activity.index') }}"
            class="sb-item {{ request()->routeIs('admin.activity*') ? 'active' : '' }}">
             <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -777,7 +779,7 @@
             System Flow
         </a>
 
-        <a href="{{ route('admin.maintenance') }}"
+        <a href="{{ route('admin.maintenance.index') }}"
            class="sb-item {{ request()->routeIs('admin.maintenance*') ? 'active' : '' }}">
             <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -794,7 +796,7 @@
             Maintenance
         </a>
 
-        <a href="{{ route('admin.activity') }}"
+        <a href="{{ route('admin.activity.index') }}"
            class="sb-item {{ request()->routeIs('admin.activity*') ? 'active' : '' }}">
             <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -850,4 +852,32 @@ function closeAdminSidebar() {
     overlay.classList.add('opacity-0');
     setTimeout(() => overlay.classList.add('hidden'), 300);
 }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+// GSAP Animations for sidebar
+window.addEventListener('DOMContentLoaded', () => {
+    if (typeof gsap !== 'undefined') {
+        gsap.from('#admin-sidebar .sb-item', {
+            opacity: 0,
+            x: -15,
+            duration: 0.4,
+            stagger: 0.03,
+            ease: 'power2.out',
+            delay: 0.2
+        });
+        
+        document.querySelectorAll('.sb-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    gsap.to(this, { x: 4, duration: 0.2, ease: 'power2.out' });
+                }
+            });
+            item.addEventListener('mouseleave', function() {
+                gsap.to(this, { x: 0, duration: 0.2, ease: 'power2.out' });
+            });
+        });
+    }
+});
 </script>

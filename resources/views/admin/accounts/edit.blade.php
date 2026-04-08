@@ -1,49 +1,67 @@
-@extends('layouts.app')
-@section('content')
-<div class="p-6 max-w-xl mx-auto">
-    <div class="mb-6">
-        <a href="{{ route('admin.accounts.index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1 mb-4">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight" style="color:#e2e8f0;">Edit Admin Account</h2>
+    </x-slot>
+
+    <div class="max-w-xl mx-auto">
+        <a href="{{ route('admin.accounts.index') }}" class="inline-flex items-center gap-1 text-sm mb-4" style="color:#8b949e;">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             Back to Accounts
         </a>
-        <h1 class="text-2xl font-bold text-slate-900">Edit Admin Account</h1>
-    </div>
 
-    <div class="bg-white rounded-2xl border border-slate-200 p-6">
-        <form method="POST" action="{{ route('admin.accounts.update', $account->id) }}" class="space-y-4">
-            @csrf @method('PUT')
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Full Name</label>
-                <input type="text" name="name" value="{{ old('name', $account->name) }}" required
-                    class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-                @error('name')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Email Address</label>
-                <input type="email" name="email" value="{{ old('email', $account->email) }}" required
-                    class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-                @error('email')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">New Password <span class="text-slate-400 font-normal">(leave blank to keep current)</span></label>
-                <input type="password" name="password"
-                    class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-                @error('password')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Confirm New Password</label>
-                <input type="password" name="password_confirmation"
-                    class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex gap-3 pt-2">
-                <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition">
-                    Save Changes
-                </button>
-                <a href="{{ route('admin.accounts.index') }}" class="px-5 py-2.5 border border-slate-200 text-slate-600 text-sm font-medium rounded-xl hover:bg-slate-50 transition">
-                    Cancel
-                </a>
-            </div>
-        </form>
+        <div class="rounded-2xl p-6" style="background:#0F2044;border:1px solid #1E3A8A;">
+            <h1 class="text-xl font-bold mb-4" style="color:#e2e8f0;">Edit Admin Account</h1>
+            <form method="POST" action="{{ route('admin.accounts.update', $account->id) }}" class="space-y-4">
+                @csrf @method('PUT')
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="color:#8b949e;">Full Name</label>
+                    <input type="text" name="full_name" value="{{ old('full_name', $account->full_name) }}" required
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;">
+                    @error('full_name')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="color:#8b949e;">Role</label>
+                    <input type="text" name="role" value="{{ old('role', $account->role) }}" required
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;">
+                    @error('role')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="color:#8b949e;">Email Address</label>
+                    <input type="email" name="email" value="{{ old('email', $account->email) }}" required
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;">
+                    @error('email')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="color:#8b949e;">Contact Number</label>
+                    <input type="text" name="contact_number" value="{{ old('contact_number', $account->contact_number) }}"
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="color:#8b949e;">
+                        New Password <span style="color:#4b5563;font-weight:400;">(leave blank to keep current)</span>
+                    </label>
+                    <input type="password" name="password"
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;">
+                    @error('password')<p class="text-xs mt-1" style="color:#f87171;">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1.5" style="color:#8b949e;">Confirm New Password</label>
+                    <input type="password" name="password_confirmation"
+                           class="w-full px-3 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                           style="background:#0A1628;border:1px solid #1E3A8A;color:#e2e8f0;">
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="submit" class="px-5 py-2.5 text-sm font-semibold rounded-xl transition"
+                            style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#0A1628;">Save Changes</button>
+                    <a href="{{ route('admin.accounts.index') }}" class="px-5 py-2.5 text-sm font-medium rounded-xl transition"
+                       style="background:#0A1628;border:1px solid #1E3A8A;color:#8b949e;">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-@endsection
+</x-app-layout>

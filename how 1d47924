@@ -1,0 +1,80 @@
+[33mb8aa106[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdonation-module[m[33m, [m[1;31morigin/donation-module[m[33m)[m HEAD@{0}: merge main: Merge made by the 'ort' strategy.
+[33m1d47924[m HEAD@{1}: commit: WIP before merging main into donation-module
+[33m3d8c4dd[m HEAD@{2}: merge main: updating HEAD
+[33m3d8c4dd[m HEAD@{3}: checkout: moving from donation-module to donation-module
+[33m3d8c4dd[m HEAD@{4}: checkout: moving from main to donation-module
+[33mb6081b2[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{5}: checkout: moving from feature-db to main
+[33mb43331f[m[33m ([m[1;31morigin/feature-db[m[33m, [m[1;32mfeature-db[m[33m)[m HEAD@{6}: checkout: moving from donation-module to feature-db
+[33m3d8c4dd[m HEAD@{7}: checkout: moving from feature-db to donation-module
+[33mb43331f[m[33m ([m[1;31morigin/feature-db[m[33m, [m[1;32mfeature-db[m[33m)[m HEAD@{8}: checkout: moving from main to feature-db
+[33mb6081b2[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{9}: checkout: moving from donation-module to main
+[33m3d8c4dd[m HEAD@{10}: commit: continue donation module
+[33mae30826[m[33m ([m[1;32mkurt[m[33m)[m HEAD@{11}: checkout: moving from feature-db to donation-module
+[33mb43331f[m[33m ([m[1;31morigin/feature-db[m[33m, [m[1;32mfeature-db[m[33m)[m HEAD@{12}: reset: moving to HEAD
+[33mb43331f[m[33m ([m[1;31morigin/feature-db[m[33m, [m[1;32mfeature-db[m[33m)[m HEAD@{13}: checkout: moving from main to feature-db
+[33mb6081b2[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{14}: Branch: renamed refs/heads/main to refs/heads/main
+[33mb6081b2[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{16}: Branch: renamed refs/heads/fix-student-sidebar to refs/heads/main
+[33mb6081b2[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{18}: commit: first commit
+[33mb43331f[m[33m ([m[1;31morigin/feature-db[m[33m, [m[1;32mfeature-db[m[33m)[m HEAD@{19}: pull origin main --rebase (finish): returning to refs/heads/fix-student-sidebar
+[33mb43331f[m[33m ([m[1;31morigin/feature-db[m[33m, [m[1;32mfeature-db[m[33m)[m HEAD@{20}: pull origin main --rebase (pick): Fix DB connection and edits
+[33m2b3dec3[m HEAD@{21}: pull origin main --rebase (start): checkout 2b3dec3444688220d489e0530c8a5fb1036f3ece
+[33m0f76f37[m HEAD@{22}: commit: Fix DB connection and edits
+[33m24b0c35[m HEAD@{23}: Branch: renamed refs/heads/blackboxai/fix-student-sidebar to refs/heads/fix-student-sidebar
+[33m24b0c35[m HEAD@{25}: commit: Fix student sidebar to match donor sidebar design
+[33mecd40dc[m HEAD@{26}: checkout: moving from main to blackboxai/fix-student-sidebar
+[33mecd40dc[m HEAD@{27}: checkout: moving from main to main
+[33mecd40dc[m HEAD@{28}: commit: Fix admin account registration error - SQLSTATE[HY000] Field 'full_name' doesn't have a default value
+[33m760489d[m HEAD@{29}: commit: Fix admin account creation - add required fields full_name, contact_number, password
+[33m2c1b24a[m[33m ([m[1;32madmin-register[m[33m)[m HEAD@{30}: merge admin-register: Fast-forward
+[33mebe02bb[m HEAD@{31}: checkout: moving from admin-register to main
+[33m2c1b24a[m[33m ([m[1;32madmin-register[m[33m)[m HEAD@{32}: checkout: moving from admin-register to admin-register
+[33m2c1b24a[m[33m ([m[1;32madmin-register[m[33m)[m HEAD@{33}: commit: Add admin register updates
+[33mebe02bb[m HEAD@{34}: checkout: moving from kurt to admin-register
+[33mae30826[m[33m ([m[1;32mkurt[m[33m)[m HEAD@{35}: checkout: moving from admin-register to kurt
+[33mebe02bb[m HEAD@{36}: checkout: moving from main to admin-register
+[33mebe02bb[m HEAD@{37}: pull origin main: Fast-forward
+[33mae30826[m[33m ([m[1;32mkurt[m[33m)[m HEAD@{38}: checkout: moving from jeth to main
+[33m88300ad[m[33m ([m[1;32mjeth[m[33m)[m HEAD@{39}: checkout: moving from main to jeth
+[33mae30826[m[33m ([m[1;32mkurt[m[33m)[m HEAD@{40}: merge origin/jethjeth: Fast-forward
+[33m5198c1e[m HEAD@{41}: checkout: moving from main to main
+[33m5198c1e[m HEAD@{42}: commit: Add Admin seeder and Dockerfile migration fix
+[33mb0545d1[m HEAD@{43}: commit: Add safe admin seeder
+[33m458d022[m HEAD@{44}: commit: Update Dockerfile and Vite config for production
+[33m86aa5a0[m HEAD@{45}: commit: Fix Laravel Vite build for production with logs
+[33m09ac298[m HEAD@{46}: commit: Fix Vite build in Docker
+[33med83535[m HEAD@{47}: commit: Fix Dockerfile: build Vite assets, fix permissions, prepare predeploy
+[33m91ae8db[m HEAD@{48}: commit: Fix Dockerfile: build Vite assets and set proper Laravel start
+[33mb9515d4[m HEAD@{49}: commit: Fix start command for Railway
+[33m77a7356[m HEAD@{50}: commit: Fix Dockerfile for Railway + MySQL
+[33mcb85ef7[m HEAD@{51}: commit: Fix Dockerfile: proper composer & artisan order
+[33mb72b7ff[m HEAD@{52}: commit: Fix Dockerfile: add composer install
+[33m76009fe[m HEAD@{53}: commit: Add optimized Dockerfile for Railway
+[33mc2ff47e[m HEAD@{54}: commit: Your message
+[33mfbe539b[m HEAD@{55}: commit: Switch to Docker deployment
+[33m2602fe2[m HEAD@{56}: commit: Remove nixpacks config
+[33md341fb5[m HEAD@{57}: commit: Fix nixpacks duplicate node issue
+[33m6b8614f[m HEAD@{58}: commit: Force clean rebuild
+[33mdef89dc[m HEAD@{59}: commit: Fix production build and deploy configuration
+[33m2b0d937[m HEAD@{60}: commit: Fix invalid URI env and Kernel location
+[33m7eae32f[m HEAD@{61}: commit: Fix Vite config for production build
+[33m94b78e0[m HEAD@{62}: commit: Add production assets
+[33m73008f8[m HEAD@{63}: commit: Update DB credentials for Railway
+[33m743148d[m HEAD@{64}: commit: Move Procfile to root and serve public folder on Railway
+[33m6607814[m HEAD@{65}: commit: Deploy to Railway with Procfile and cached configs
+[33m467da5f[m HEAD@{66}: commit: Add server.php router for Railway deployment
+[33mb1d9caa[m HEAD@{67}: commit: Merge feature/student-sidebar into main
+[33mfb36f08[m[33m ([m[1;32mfeature/student-sidebar[m[33m)[m HEAD@{68}: checkout: moving from feature/student-sidebar to main
+[33mfb36f08[m[33m ([m[1;32mfeature/student-sidebar[m[33m)[m HEAD@{69}: checkout: moving from main to feature/student-sidebar
+[33mfb36f08[m[33m ([m[1;32mfeature/student-sidebar[m[33m)[m HEAD@{70}: checkout: moving from feature/student-sidebar to main
+[33mfb36f08[m[33m ([m[1;32mfeature/student-sidebar[m[33m)[m HEAD@{71}: checkout: moving from main to feature/student-sidebar
+[33mfb36f08[m[33m ([m[1;32mfeature/student-sidebar[m[33m)[m HEAD@{72}: commit: Student dashboard initial implementation
+[33m81e6820[m[33m ([m[1;32mfeature/student-dashboard[m[33m)[m HEAD@{73}: checkout: moving from feature/student-dashboard to main
+[33m81e6820[m[33m ([m[1;32mfeature/student-dashboard[m[33m)[m HEAD@{74}: checkout: moving from main to feature/student-dashboard
+[33m81e6820[m[33m ([m[1;32mfeature/student-dashboard[m[33m)[m HEAD@{75}: checkout: moving from branch-admin to main
+[33m7343e67[m[33m ([m[1;32mbranch-admin[m[33m)[m HEAD@{76}: checkout: moving from branch-admin to branch-admin
+[33m7343e67[m[33m ([m[1;32mbranch-admin[m[33m)[m HEAD@{77}: checkout: moving from main to branch-admin
+[33m81e6820[m[33m ([m[1;32mfeature/student-dashboard[m[33m)[m HEAD@{78}: commit: Admin system updates, migrations, and UI changes
+[33m7343e67[m[33m ([m[1;32mbranch-admin[m[33m)[m HEAD@{79}: checkout: moving from branch-admin to main
+[33m7343e67[m[33m ([m[1;32mbranch-admin[m[33m)[m HEAD@{80}: checkout: moving from main to branch-admin
+[33m7343e67[m[33m ([m[1;32mbranch-admin[m[33m)[m HEAD@{81}: checkout: moving from main to main
+[33m7343e67[m[33m ([m[1;32mbranch-admin[m[33m)[m HEAD@{82}: merge branch-admin: Fast-forward
