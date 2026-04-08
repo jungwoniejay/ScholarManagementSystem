@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <!-- Graduation Cap Icon -->
+  <g id="icon">
+    <path d="M30 18L15 24v8c0 4 6.7 7 15 7s15-3 15-7v-8L30 18z" fill="#60A5FA"/>
+    <path d="M30 15l-18 7 18 7 18-7-18-7z" fill="#93C5FD"/>
+    <rect x="42" y="24" width="2" height="12" fill="#3B82F6"/>
+    <circle cx="43" cy="37" r="2" fill="#FCD34D"/>
+  </g>
+  
+  <!-- Text: ScholarHub -->
+  <text x="60" y="32" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#F1F5F9">
+    Scholar<tspan fill="#60A5FA">Hub</tspan>
+  </text>
+  
+  <!-- Tagline (optional) -->
+  <text x="60" y="45" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">
+    Scholarship Management System
+  </text>
+</svg>
