@@ -1,4 +1,7 @@
-<div class="w-64 bg-white shadow-xl flex flex-col border-r border-slate-200/60 fixed left-0 top-0 h-screen z-50">
+<div class="hidden md:flex w-64 bg-white shadow-xl flex-col
+            border-r border-slate-200/60
+            fixed left-0 top-0 h-screen z-50">
+
     <!-- Decorative gradient background -->
     <div class="absolute top-0 left-0 right-0 h-40 bg-gradient-to-br from-emerald-600/10 via-teal-600/5 to-green-700/5 pointer-events-none z-0"></div>
     
@@ -59,7 +62,13 @@
                     'color' => 'purple'
                 ],
                 [
-                    'route' => 'admin.documents.verify', 
+                    'route' => 'admin.donations.index', 
+                    'label' => 'Donations', 
+                    'icon' => 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+                    'color' => 'rose'
+                ],
+                [
+                    'route' => 'admin.documents.verify',
                     'label' => 'Verify Documents', 
                     'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
                     'color' => 'teal'

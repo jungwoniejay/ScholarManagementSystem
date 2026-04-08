@@ -1,4 +1,4 @@
-<x-student-layout>
+<x-app-layout>
     <!-- Welcome Section -->
     <div class="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-green-700 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-emerald-500/20">
         <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-full blur-3xl"></div>
@@ -123,4 +123,4 @@
     <!-- Available Scholarships -->
     @include('student.available-scholarships', ['scholarships' => \App\Models\Scholarship::where('status','active')->take(6)->get()])
 
-</x-student-layout>
+</x-app-layout>

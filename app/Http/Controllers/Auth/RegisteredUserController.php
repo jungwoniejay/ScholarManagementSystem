@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Donator;
 use App\Models\Student;
+use App\Models\AdminAccount;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -71,10 +72,8 @@ class RegisteredUserController extends Controller
 
         if ($user->role === 'donator') {
             return redirect()->route('donator.dashboard');
-        } elseif ($user->role === 'student') {
-            return redirect()->route('student.dashboard');
         } else {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('student.dashboard');
         }
     }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\DonationController as AdminDonationController;
 use App\Http\Controllers\StudentApplicationController;
 use App\Http\Controllers\StudentDocumentController;
 use App\Http\Controllers\DonationController;
@@ -34,17 +35,45 @@ Route::get('/', function () {
 */
 
 Route::get('/dashboard', function () {
-    $user = auth()->user();
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    } elseif ($user->role === 'donator') {
-        return redirect()->route('donator.dashboard');
-    } elseif ($user->role === 'student') {
-        return redirect()->route('student.dashboard');
-    } else {
-        return redirect()->route('admin.dashboard');
-    }
-})->middleware(['auth'])->name('dashboard');
+
+    return match(auth()->user()->role) {
+        'admin'   => redirect()->route('admin.dashboard'),
+        'donator' => redirect()->route('donator.dashboard'),
+        'student' => redirect()->route('student.dashboard'),
+    };
+
+})->middleware('auth')->name('dashboard');
+//admin dashboard
+Route::middleware(['auth','role:admin'])
+->prefix('admin')
+->name('admin.')
+->group(function () {
+
+    Route::view('/dashboard','admin.dashboard')
+        ->name('dashboard');
+
+});
+//donator dashboard
+Route::middleware(['auth','role:donator'])
+->prefix('donator')
+->name('donator.')
+->group(function () {
+
+    Route::view('/dashboard','donator.dashboard')
+        ->name('dashboard');
+
+});
+//student dashboard
+Route::middleware(['auth','role:student'])
+->prefix('student')
+->name('student.')
+->group(function () {
+
+    Route::view('/dashboard','student.dashboard')
+        ->name('dashboard');
+
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +167,13 @@ Route::middleware(['auth', 'admin'])
         // Funds
         Route::get('funds/monitor', [FundController::class, 'monitor'])
             ->name('funds.monitor');
+
+        // Donations
+        Route::get('donations', [AdminDonationController::class, 'index'])
+            ->name('donations.index');
+
+        Route::get('donations/{donation}', [AdminDonationController::class, 'show'])
+            ->name('donations.show');
 
         // Notifications
         Route::get('/notifications', [NotificationController::class, 'all'])
