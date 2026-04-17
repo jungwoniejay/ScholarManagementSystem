@@ -55,9 +55,7 @@ RUN mkdir -p storage/framework/{cache,sessions,views} \
 # ------------------------------
 # Clear caches safely
 # ------------------------------
-RUN php artisan config:clear || true \
- && php artisan cache:clear || true \
- && php artisan view:clear || true
+RUN php artisan config:clear || true
 
 # ------------------------------
 # IMPORTANT: DO NOT RUN MIGRATIONS HERE
