@@ -47,30 +47,28 @@ RUN npm install
 RUN npm run build
 
 # ------------------------------
-# Permissions (important for Laravel)
+# Fix permissions for Laravel
 # ------------------------------
 RUN mkdir -p storage/framework/{cache,sessions,views} \
     && chmod -R 775 storage bootstrap/cache
 
 # ------------------------------
-# Clear caches (safe for build)
+# Clear caches safely
 # ------------------------------
-RUN php artisan config:clear \
- && php artisan cache:clear \
+RUN php artisan config:clear || true \
+ && php artisan cache:clear || true \
  && php artisan view:clear || true
 
 # ------------------------------
-# DO NOT RUN MIGRATIONS HERE
-# (Railway handles runtime DB)
+# IMPORTANT: DO NOT RUN MIGRATIONS HERE
 # ------------------------------
 
 # ------------------------------
-# Expose port (Railway uses $PORT dynamically)
+# Expose Railway port
 # ------------------------------
 EXPOSE 8080
 
 # ------------------------------
-# Start Laravel using PHP built-in server
-# (IMPORTANT: uses Railway $PORT correctly)
+# Start Laravel safely for Railway
 # ------------------------------
-CMD php -S 0.0.0.0:$PORT -t public
+CMD sh -c "php -S 0.0.0.0:${PORT:-8080} -t public"
