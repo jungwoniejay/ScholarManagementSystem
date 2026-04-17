@@ -36,9 +36,7 @@ use App\Http\Controllers\Admin\MaintenanceController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingPageController::class, 'show'])->name('home');
 
 Route::get('/credentials', function () {
     return view('credentials');

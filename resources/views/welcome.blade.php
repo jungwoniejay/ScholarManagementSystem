@@ -85,7 +85,7 @@
 
         .logo {
             display: flex; align-items: center; gap: 0.75rem;
-            text-decoration: none; opacity: 0;
+            text-decoration: none;
         }
         .logo-mark {
             width: 40px; height: 40px;
@@ -110,7 +110,6 @@
 
         .nav-links {
             display: flex; gap: 2.5rem; list-style: none;
-            opacity: 0;
         }
         .nav-links a {
             color: var(--white-80); text-decoration: none;
@@ -128,7 +127,6 @@
 
         .nav-cta {
             display: flex; gap: 1rem; align-items: center;
-            opacity: 0;
         }
         .btn-ghost {
             background: none; border: 1px solid rgba(232,184,75,0.4);
@@ -216,7 +214,6 @@
             border-radius: 100px; padding: 0.4rem 1.2rem;
             font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
             color: var(--gold-pale); margin-bottom: 2rem;
-            opacity: 0; transform: translateY(20px);
         }
         .eyebrow-pulse {
             width: 6px; height: 6px; border-radius: 50%;
@@ -233,7 +230,6 @@
             font-weight: 300; line-height: 1.1;
             letter-spacing: -0.01em;
             margin-bottom: 1.5rem;
-            opacity: 0; transform: translateY(40px);
         }
         .hero-title em {
             font-style: italic;
@@ -246,14 +242,12 @@
         .hero-sub {
             font-size: 1.1rem; line-height: 1.85; color: var(--white-80);
             max-width: 560px; margin: 0 auto 3rem;
-            opacity: 0; transform: translateY(30px);
             font-weight: 300;
         }
 
         .hero-actions {
             display: flex; align-items: center; justify-content: center;
             gap: 1.25rem; flex-wrap: wrap;
-            opacity: 0; transform: translateY(20px);
             margin-bottom: 4rem;
         }
 
@@ -297,7 +291,6 @@
         .hero-stats {
             display: flex; justify-content: center; gap: 3.5rem;
             flex-wrap: wrap;
-            opacity: 0; transform: translateY(20px);
         }
         .stat { text-align: center; }
         .stat-num {
@@ -781,18 +774,15 @@
     <div class="hero-inner">
         <div class="hero-eyebrow" id="hero-eyebrow">
             <span class="eyebrow-pulse"></span>
-            Trusted by 50,000+ Students Worldwide
+            {{ $page->hero_badge }}
         </div>
 
         <h1 class="hero-title" id="hero-title">
-            Your Gateway to<br>
-            <em>Educational</em><br>
-            <strong>Excellence</strong>
+            {{ $page->hero_title }}
         </h1>
 
         <p class="hero-sub" id="hero-sub">
-            Discover thousands of scholarship opportunities, manage applications seamlessly,
-            and transform your academic aspirations into lasting achievement.
+            {{ $page->hero_subtitle }}
         </p>
 
         <div class="hero-actions" id="hero-actions">
@@ -813,18 +803,18 @@
 
         <div class="hero-stats" id="hero-stats">
             <div class="stat">
-                <span class="stat-num"><span>5</span>,000+</span>
-                <span class="stat-lbl">Active Scholarships</span>
+                <span class="stat-num">{{ $page->stat1_number }}</span>
+                <span class="stat-lbl">{{ $page->stat1_label }}</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
-                <span class="stat-num">$<span>50</span>M+</span>
-                <span class="stat-lbl">Awarded Annually</span>
+                <span class="stat-num">{{ $page->stat2_number }}</span>
+                <span class="stat-lbl">{{ $page->stat2_label }}</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
-                <span class="stat-num"><span>98</span>%</span>
-                <span class="stat-lbl">Success Rate</span>
+                <span class="stat-num">{{ $page->stat3_number }}</span>
+                <span class="stat-lbl">{{ $page->stat3_label }}</span>
             </div>
         </div>
     </div>
@@ -839,44 +829,21 @@
 <section class="features" id="features">
     <div class="features-header">
         <div class="section-label">Platform Features</div>
-        <h2 class="section-title">Everything you need<br><strong>to succeed</strong></h2>
-        <p>ScholarHub brings together powerful tools to discover, apply, and track scholarships — all in one beautifully crafted platform.</p>
+        <h2 class="section-title">{{ $page->card_title }}<br><strong>{{ $page->card_subtitle }}</strong></h2>
     </div>
 
     <div class="features-grid" id="features-grid">
+        @foreach([1,2,3] as $i)
         <div class="feat-card">
-            <span class="feat-number">01</span>
-            <div class="feat-icon">
-                <svg width="22" height="22" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
+            <span class="feat-number">0{{ $i }}</span>
+            <div class="feat-icon" style="font-size:1.4rem;">
+                {{ $page->{"feature{$i}_icon"} }}
             </div>
-            <h3 class="feat-title">Smart Matching</h3>
-            <p class="feat-desc">Our AI-powered engine analyzes your academic profile and surfaces the most relevant scholarship opportunities tailored uniquely to you.</p>
+            <h3 class="feat-title">{{ $page->{"feature{$i}_title"} }}</h3>
+            <p class="feat-desc">{{ $page->{"feature{$i}_desc"} }}</p>
             <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
         </div>
-        <div class="feat-card">
-            <span class="feat-number">02</span>
-            <div class="feat-icon">
-                <svg width="22" height="22" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-            </div>
-            <h3 class="feat-title">Track Progress</h3>
-            <p class="feat-desc">Monitor every application in real-time through an elegant, intuitive dashboard. Know exactly where you stand at every stage.</p>
-            <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-        </div>
-        <div class="feat-card">
-            <span class="feat-number">03</span>
-            <div class="feat-icon">
-                <svg width="22" height="22" fill="none" stroke="#E8B84B" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-            </div>
-            <h3 class="feat-title">Deadline Alerts</h3>
-            <p class="feat-desc">Never miss a critical deadline. Automated, customizable reminders keep you perfectly on schedule with every scholarship opportunity.</p>
-            <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-        </div>
+        @endforeach
     </div>
 </section>
 
@@ -889,36 +856,18 @@
             <p style="color:var(--white-50);font-size:0.9rem;line-height:1.8;font-weight:300;margin-bottom:3rem;max-width:400px">A streamlined journey from profile creation to award notification.</p>
 
             <div class="steps-list" id="steps-list">
+                @foreach([1,2,3] as $i)
                 <div class="step-item">
                     <div class="step-left">
-                        <div class="step-num-circle">1</div>
+                        <div class="step-num-circle">{{ $i }}</div>
                         <div class="step-connector"></div>
                     </div>
                     <div class="step-content">
-                        <h3 class="step-title">Create Your Profile</h3>
-                        <p class="step-desc">Sign up and build your academic profile — qualifications, interests, and aspirations — in minutes.</p>
+                        <h3 class="step-title">{{ $page->{"step{$i}_title"} }}</h3>
+                        <p class="step-desc">{{ $page->{"step{$i}_desc"} }}</p>
                     </div>
                 </div>
-                <div class="step-item">
-                    <div class="step-left">
-                        <div class="step-num-circle">2</div>
-                        <div class="step-connector"></div>
-                    </div>
-                    <div class="step-content">
-                        <h3 class="step-title">Discover Opportunities</h3>
-                        <p class="step-desc">Browse thousands of scholarships or let our AI instantly match you with the best-fit opportunities.</p>
-                    </div>
-                </div>
-                <div class="step-item">
-                    <div class="step-left">
-                        <div class="step-num-circle">3</div>
-                        <div class="step-connector"></div>
-                    </div>
-                    <div class="step-content">
-                        <h3 class="step-title">Apply &amp; Celebrate</h3>
-                        <p class="step-desc">Submit polished applications and track every milestone with confidence until award day arrives.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -973,56 +922,30 @@
     </div>
 
     <div class="t-grid" id="t-grid">
-        <div class="t-card featured">
+        @foreach([1,2,3] as $i)
+        <div class="t-card {{ $i === 1 ? 'featured' : '' }}">
             <div class="t-stars">
                 <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
             </div>
             <div class="t-quote">"</div>
-            <p class="t-text">ScholarHub completely transformed my approach to funding my education. I received three scholarship offers totaling $15,000 for my master's program — opportunities I never would have discovered without this platform's intelligent matching. The process felt personal, not overwhelming.</p>
+            <p class="t-text">{{ $page->{"testimonial{$i}_text"} }}</p>
             <div class="t-author">
-                <div class="t-avatar">S</div>
+                <div class="t-avatar">{{ strtoupper(substr($page->{"testimonial{$i}_name"}, 0, 1)) }}</div>
                 <div>
-                    <div class="t-name">Sarah Johnson</div>
-                    <div class="t-role">Graduate Student, MIT</div>
+                    <div class="t-name">{{ $page->{"testimonial{$i}_name"} }}</div>
+                    <div class="t-role">{{ $page->{"testimonial{$i}_role"} }}</div>
                 </div>
             </div>
         </div>
-        <div class="t-card">
-            <div class="t-stars">
-                <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
-            </div>
-            <div class="t-quote">"</div>
-            <p class="t-text">The matching algorithm is remarkable. It surfaced scholarships perfectly aligned with my engineering background that I would have never found through traditional searches.</p>
-            <div class="t-author">
-                <div class="t-avatar">M</div>
-                <div>
-                    <div class="t-name">Michael Chen</div>
-                    <div class="t-role">Undergraduate, Stanford</div>
-                </div>
-            </div>
-        </div>
-        <div class="t-card">
-            <div class="t-stars">
-                <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
-            </div>
-            <div class="t-quote">"</div>
-            <p class="t-text">From first login to award notification, ScholarHub guided me through every step of the process. Joining this platform is the best academic decision I've made.</p>
-            <div class="t-author">
-                <div class="t-avatar">A</div>
-                <div>
-                    <div class="t-name">Amelia Rodriguez</div>
-                    <div class="t-role">PhD Candidate, Oxford</div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 </section>
 
 <!-- ══ CTA BAND ══ -->
 <section class="cta-band">
     <div class="cta-band-inner">
-        <h2>Begin your journey<br><strong>toward success today.</strong></h2>
-        <p>Join 50,000+ students who've already discovered how ScholarHub makes funding your education achievable.</p>
+        <h2>{{ $page->cta_title }}</h2>
+        <p>{{ $page->cta_desc }}</p>
         <a href="/register" class="btn-dark">
             Create Free Account
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -1044,7 +967,7 @@
                 </div>
                 <span class="logo-text">Scholar<span>Hub</span></span>
             </a>
-            <p>Your gateway to educational excellence and scholarship success, empowering students worldwide.</p>
+            <p>{{ $page->footer_tagline }}</p>
         </div>
         <div class="footer-col">
             <h4>Platform</h4>
@@ -1075,12 +998,12 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2025 ScholarHub. All rights reserved.</span>
+        <span>{{ $page->footer_copyright }}</span>
         <div style="display:flex;gap:1.25rem">
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">Instagram</a>
+            @if($page->footer_facebook && $page->footer_facebook !== '#')<a href="{{ $page->footer_facebook }}">Facebook</a>@endif
+            @if($page->footer_twitter && $page->footer_twitter !== '#')<a href="{{ $page->footer_twitter }}">Twitter</a>@endif
+            @if($page->footer_linkedin && $page->footer_linkedin !== '#')<a href="{{ $page->footer_linkedin }}">LinkedIn</a>@endif
+            @if($page->footer_instagram && $page->footer_instagram !== '#')<a href="{{ $page->footer_instagram }}">Instagram</a>@endif
         </div>
     </div>
 </footer>
@@ -1162,6 +1085,11 @@
     });
 
     /* ── GSAP Hero timeline ── */
+    gsap.set(['.logo', '#nav-links', '#nav-cta', '#hero-eyebrow', '#hero-title', '#hero-sub', '#hero-actions', '#hero-stats'], { opacity: 0 });
+    gsap.set(['#hero-eyebrow', '#hero-stats', '#hero-actions'], { y: 20 });
+    gsap.set('#hero-title', { y: 40 });
+    gsap.set('#hero-sub', { y: 30 });
+
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     tl.to('.logo', { opacity: 1, x: 0, duration: 0.6 })
