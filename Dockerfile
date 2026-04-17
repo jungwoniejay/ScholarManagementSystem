@@ -1,10 +1,10 @@
 # ------------------------------
-# Base PHP image
+# Base Image
 # ------------------------------
 FROM php:8.2-cli
 
 # ------------------------------
-# Install system dependencies including Node
+# System dependencies
 # ------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     unzip \
     libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
     nodejs \
     npm \
  && docker-php-ext-install pdo pdo_mysql zip \
@@ -23,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # ------------------------------
-# Set working directory
+# Working directory
 # ------------------------------
 WORKDIR /var/www/html
 
@@ -38,36 +41,36 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # ------------------------------
-# Install Node dependencies & build frontend assets (Vite)
+# Install frontend dependencies + build assets
 # ------------------------------
-RUN npm install --verbose
-RUN npm run build --verbose
-
-# Verify the build output
-RUN echo "Listing public/build directory:" && ls -la public/build
+RUN npm install
+RUN npm run build
 
 # ------------------------------
-# Run migrations and seed admin user
+# Permissions (important for Laravel)
 # ------------------------------
-RUN php artisan migrate --force \
- && php artisan db:seed --class=AdminUserSeeder || true
+RUN mkdir -p storage/framework/{cache,sessions,views} \
+    && chmod -R 775 storage bootstrap/cache
 
 # ------------------------------
-# Clear caches and fix permissions
+# Clear caches (safe for build)
 # ------------------------------
 RUN php artisan config:clear \
  && php artisan cache:clear \
- && php artisan view:clear \
- && mkdir -p storage/framework/{cache,sessions,views} \
- && chmod -R 775 storage bootstrap/cache \
- && php artisan storage:link || true
+ && php artisan view:clear || true
 
 # ------------------------------
-# Expose Railway port
+# DO NOT RUN MIGRATIONS HERE
+# (Railway handles runtime DB)
+# ------------------------------
+
+# ------------------------------
+# Expose port (Railway uses $PORT dynamically)
 # ------------------------------
 EXPOSE 8080
 
 # ------------------------------
-# Start Laravel using Railway $PORT
+# Start Laravel using PHP built-in server
+# (IMPORTANT: uses Railway $PORT correctly)
 # ------------------------------
-CMD sh -c "php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
+CMD php -S 0.0.0.0:$PORT -t public
