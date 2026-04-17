@@ -13,9 +13,7 @@ return new class extends Migration {
             // Hero
             $table->string('hero_badge')->default('Scholarship Management System');
             $table->string('hero_title')->default('Your Gateway to Educational Excellence');
-
-            // ❌ FIX: removed TEXT default
-            $table->text('hero_subtitle');
+            $table->text('hero_subtitle')->nullable();
 
             // Stats
             $table->string('stat1_number')->default('5,000+');
@@ -25,27 +23,25 @@ return new class extends Migration {
             $table->string('stat3_number')->default('98%');
             $table->string('stat3_label')->default('Success Rate');
 
-            // Features card
+            // Features
             $table->string('card_title')->default('Why Choose Us?');
             $table->string('card_subtitle')->default('Everything you need to succeed in one platform');
 
             $table->string('feature1_icon')->default('🎯');
             $table->string('feature1_title')->default('Smart Matching');
-            $table->string('feature1_desc')->default('AI-powered system matches you with scholarships that fit your profile perfectly');
+            $table->text('feature1_desc')->nullable();
 
             $table->string('feature2_icon')->default('📊');
             $table->string('feature2_title')->default('Track Progress');
-            $table->string('feature2_desc')->default('Monitor all your applications in real-time with our intuitive dashboard');
+            $table->text('feature2_desc')->nullable();
 
             $table->string('feature3_icon')->default('🔔');
             $table->string('feature3_title')->default('Never Miss Deadlines');
-            $table->string('feature3_desc')->default('Automated reminders keep you on track with every application deadline');
+            $table->text('feature3_desc')->nullable();
 
-            // CTA card
+            // CTA
             $table->string('cta_title')->default('Ready to Get Started?');
-
-            // ❌ FIX: removed TEXT default
-            $table->text('cta_desc');
+            $table->text('cta_desc')->nullable();
 
             // Footer
             $table->string('footer_text')->default('Your gateway to educational excellence and scholarship success.');
