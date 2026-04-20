@@ -11,7 +11,11 @@ class LandingPageController extends Controller
     public function show()
     {
         $page = LandingPage::firstOrCreate(['id' => 1]);
-        return view('welcome', compact('page'));
+        $announcements = \App\Models\Announcement::active()
+            ->where('show_on_landing', true)
+            ->latest()
+            ->get();
+        return view('welcome', compact('page', 'announcements'));
     }
 
     public function edit()
