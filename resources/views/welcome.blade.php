@@ -729,40 +729,199 @@
     <div class="cursor-ring" id="cursor-ring"></div>
 </div>
 
-<!-- ══ ANNOUNCEMENTS ══ -->
+<!-- ══ ANNOUNCEMENTS TICKER ══ -->
 @if($announcements->count() > 0)
-<div style="position:fixed;top:0;left:0;right:0;z-index:200;">
-    @foreach($announcements as $ann)
-    @php
-        $colors = [
-            'info'    => ['bg'=>'#1E3A8A','border'=>'#3B82F6','text'=>'#93C5FD','icon'=>'#60A5FA'],
-            'success' => ['bg'=>'#064E3B','border'=>'#10B981','text'=>'#6EE7B7','icon'=>'#34D399'],
-            'warning' => ['bg'=>'#78350F','border'=>'#F59E0B','text'=>'#FCD34D','icon'=>'#FBBF24'],
-            'danger'  => ['bg'=>'#7F1D1D','border'=>'#EF4444','text'=>'#FCA5A5','icon'=>'#F87171'],
-        ];
-        $c = $colors[$ann->type] ?? $colors['info'];
-    @endphp
-    <div style="background:{{ $c['bg'] }};border-bottom:1px solid {{ $c['border'] }};padding:10px 5vw;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
-        <div style="display:flex;align-items:center;gap:10px;flex:1;">
-            <svg width="16" height="16" fill="none" stroke="{{ $c['icon'] }}" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
-            </svg>
-            <span style="font-size:0.82rem;font-weight:600;color:{{ $c['text'] }};">
-                {{ $ann->title }}:
-            </span>
-            <span style="font-size:0.82rem;color:{{ $c['text'] }};opacity:0.85;">{{ $ann->body }}</span>
+@php
+    $annColors = [
+        'info'    => ['bg'=>'linear-gradient(135deg,#1E3A8A,#1e40af)','glow'=>'rgba(59,130,246,0.4)','badge'=>'#60A5FA','text'=>'#e0f2fe','border'=>'rgba(96,165,250,0.4)'],
+        'success' => ['bg'=>'linear-gradient(135deg,#064E3B,#065f46)','glow'=>'rgba(16,185,129,0.4)','badge'=>'#34D399','text'=>'#d1fae5','border'=>'rgba(52,211,153,0.4)'],
+        'warning' => ['bg'=>'linear-gradient(135deg,#78350F,#92400e)','glow'=>'rgba(245,158,11,0.4)','badge'=>'#FBBF24','text'=>'#fef3c7','border'=>'rgba(251,191,36,0.4)'],
+        'danger'  => ['bg'=>'linear-gradient(135deg,#7F1D1D,#991b1b)','glow'=>'rgba(239,68,68,0.4)','badge'=>'#F87171','text'=>'#fee2e2','border'=>'rgba(248,113,113,0.4)'],
+    ];
+@endphp
+<style>
+    #ann-wrapper {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    }
+    .ann-bar {
+        position: relative;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-bottom: 1px solid;
+        box-shadow: 0 4px 24px var(--ann-glow);
+    }
+    .ann-label {
+        flex-shrink: 0;
+        display: flex; align-items: center; gap: 8px;
+        padding: 0 20px;
+        height: 100%;
+        font-size: 0.72rem; font-weight: 800;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        border-right: 1px solid rgba(255,255,255,0.15);
+        background: rgba(0,0,0,0.25);
+        z-index: 2;
+        white-space: nowrap;
+    }
+    .ann-label-dot {
+        width: 7px; height: 7px; border-radius: 50%;
+        animation: annpulse 1.2s ease-in-out infinite;
+    }
+    @keyframes annpulse {
+        0%,100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+    }
+    .ann-track {
+        flex: 1; overflow: hidden; position: relative;
+    }
+    .ann-ticker {
+        display: flex; align-items: center; gap: 0;
+        white-space: nowrap;
+        will-change: transform;
+    }
+    .ann-item {
+        display: inline-flex; align-items: center; gap: 14px;
+        padding: 0 60px;
+        font-size: 1rem; font-weight: 600;
+        letter-spacing: 0.01em;
+    }
+    .ann-item-icon {
+        width: 28px; height: 28px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(255,255,255,0.12);
+        flex-shrink: 0;
+    }
+    .ann-item-title {
+        font-weight: 800; font-size: 1rem;
+        margin-right: 6px;
+    }
+    .ann-item-body {
+        font-weight: 400; font-size: 0.95rem;
+        opacity: 0.9;
+    }
+    .ann-sep {
+        display: inline-flex; align-items: center;
+        padding: 0 40px;
+        opacity: 0.3; font-size: 1.2rem;
+    }
+    .ann-close {
+        flex-shrink: 0;
+        width: 56px; height: 56px;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(0,0,0,0.2);
+        border: none; border-left: 1px solid rgba(255,255,255,0.15);
+        cursor: pointer;
+        transition: background 0.2s;
+        z-index: 2;
+    }
+    .ann-close:hover { background: rgba(0,0,0,0.4); }
+    .ann-progress {
+        position: absolute; bottom: 0; left: 0;
+        height: 3px;
+        background: rgba(255,255,255,0.5);
+        animation: annprogress 60s linear forwards;
+        transform-origin: left;
+    }
+    @keyframes annprogress {
+        from { width: 100%; }
+        to   { width: 0%; }
+    }
+</style>
+
+<div id="ann-wrapper">
+    @foreach($announcements as $index => $ann)
+    @php $c = $annColors[$ann->type] ?? $annColors['info']; @endphp
+    <div class="ann-bar" id="ann-bar-{{ $ann->id }}"
+         style="background:{{ $c['bg'] }};border-color:{{ $c['border'] }};--ann-glow:{{ $c['glow'] }};">
+
+        {{-- Label --}}
+        <div class="ann-label" style="color:{{ $c['badge'] }};">
+            <span class="ann-label-dot" style="background:{{ $c['badge'] }};"></span>
+            📢 Announcement
         </div>
-        <button onclick="this.parentElement.remove()"
-                style="background:transparent;border:none;cursor:pointer;color:{{ $c['text'] }};opacity:0.6;padding:2px;flex-shrink:0;"
-                onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+        {{-- Scrolling ticker --}}
+        <div class="ann-track">
+            <div class="ann-ticker" id="ann-ticker-{{ $ann->id }}">
+                {{-- Repeated 3x for seamless loop --}}
+                @for($r = 0; $r < 3; $r++)
+                <span class="ann-item" style="color:{{ $c['text'] }};">
+                    <span class="ann-item-icon">
+                        <svg width="14" height="14" fill="none" stroke="{{ $c['badge'] }}" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                        </svg>
+                    </span>
+                    <span class="ann-item-title">{{ $ann->title }}</span>
+                    <span style="opacity:0.4;margin:0 4px;">—</span>
+                    <span class="ann-item-body">{{ $ann->body }}</span>
+                </span>
+                <span class="ann-sep">✦</span>
+                @endfor
+            </div>
+        </div>
+
+        {{-- Close button --}}
+        <button class="ann-close" onclick="dismissAnn({{ $ann->id }})" style="color:{{ $c['text'] }};">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
         </button>
+
+        {{-- Progress bar countdown (60s) --}}
+        <div class="ann-progress" id="ann-prog-{{ $ann->id }}"></div>
     </div>
     @endforeach
 </div>
-<div style="height:{{ $announcements->count() * 41 }}px;"></div>
+
+{{-- Spacer so content doesn't hide under the bar --}}
+<div id="ann-spacer" style="height:{{ $announcements->count() * 56 }}px;"></div>
+
+<script>
+(function() {
+    // Start ticker scroll animations
+    @foreach($announcements as $ann)
+    (function() {
+        const ticker = document.getElementById('ann-ticker-{{ $ann->id }}');
+        if (!ticker) return;
+        let pos = 0;
+        // Speed: pixels per second — 60s to cross full width
+        const speed = ticker.scrollWidth / 3 / 60; // one copy width / 60s
+        let last = null;
+        function step(ts) {
+            if (!last) last = ts;
+            const dt = (ts - last) / 1000;
+            last = ts;
+            pos += speed * dt;
+            const oneWidth = ticker.scrollWidth / 3;
+            if (pos >= oneWidth) pos -= oneWidth;
+            ticker.style.transform = 'translateX(-' + pos + 'px)';
+            requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    })();
+    @endforeach
+
+    // Auto-dismiss after 60 seconds
+    @foreach($announcements as $ann)
+    setTimeout(function() { dismissAnn({{ $ann->id }}); }, 60000);
+    @endforeach
+
+    window.dismissAnn = function(id) {
+        const bar = document.getElementById('ann-bar-' + id);
+        if (!bar) return;
+        bar.style.transition = 'opacity 0.5s, transform 0.5s';
+        bar.style.opacity = '0';
+        bar.style.transform = 'translateY(-100%)';
+        setTimeout(function() {
+            bar.remove();
+            // Shrink spacer
+            const spacer = document.getElementById('ann-spacer');
+            if (spacer) spacer.style.height = (parseInt(spacer.style.height) - 56) + 'px';
+        }, 500);
+    };
+})();
+</script>
 @endif
 
 <!-- ══ NAVIGATION ══ -->
