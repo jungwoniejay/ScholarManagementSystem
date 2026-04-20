@@ -36,7 +36,23 @@ class CookieSettings extends Model
 
     public static function getSettings()
     {
-        return self::firstOrCreate(['id' => 1]);
+        return self::firstOrCreate(
+            ['id' => 1],
+            [
+                'enabled'                   => true,
+                'banner_title'              => 'We use cookies',
+                'banner_message'            => 'We use cookies to improve your experience on our site.',
+                'accept_label'              => 'Accept All',
+                'decline_label'             => 'Decline',
+                'analytics_enabled'         => false,
+                'marketing_enabled'         => false,
+                'expiry_days'               => 365,
+                'show_on_landing'           => true,
+                'show_on_student_dashboard' => false,
+                'privacy_url'               => '/privacy-policy',
+                'terms_url'                 => '/terms-and-conditions',
+            ]
+        );
     }
 }
 ?>
