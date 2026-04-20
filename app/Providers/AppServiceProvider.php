@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use App\Models\CookieSettings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,8 +17,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (app()->environment('production')) {
-            // Force HTTPS for assets & URLs
             URL::forceScheme('https');
         }
+
+        // Share cookie settings with all views
+        View::composer('*', function ($view) {
+            try {
+                $view->with('cookieSettings', CookieSettings::getSettings());
+            } catch (\Exception $e) {
+                $view->with('cookieSettings', new CookieSettings());
+            }
+        });
     }
 }
