@@ -44,5 +44,8 @@ const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cu
 window.showToast=function(message,type='success'){const container=document.getElementById('toast-container'),toast=document.createElement('div'),bgColors={success:'bg-emerald-500',error:'bg-red-500',warning:'bg-amber-500',info:'bg-blue-500'};toast.className=`${bgColors[type]} text-white px-6 py-4 rounded-lg shadow-lg transition-all duration-300 max-w-sm`;toast.innerHTML=`<div class="flex items-center gap-3"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span>${message}</span></div>`;container.appendChild(toast);setTimeout(()=>{toast.classList.add('opacity-0','translate-x-full');setTimeout(()=>toast.remove(),300)},3000)};
 if(typeof gsap!=='undefined'){document.querySelectorAll('a,button').forEach(btn=>{btn.addEventListener('mousemove',function(e){const r=this.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;gsap.to(this,{x:x*.15,y:y*.15,duration:.4,ease:'power2.out'})});btn.addEventListener('mouseleave',function(){gsap.to(this,{x:0,y:0,duration:.5,ease:'elastic.out(1,0.5)'})})})}
 </script>
+
+@include('components.cookie-banner', ['settings' => $cookieSettings])
+
 </body>
 </html>
