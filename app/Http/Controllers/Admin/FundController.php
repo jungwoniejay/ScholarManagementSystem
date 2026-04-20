@@ -42,7 +42,7 @@ class FundController extends Controller
             ->take(5)
             ->get();
 
-        return view('funds.monitor', compact(
+        return view('admin.funds.monitor', compact(
             'totalDonations',
             'totalDonationAmount',
             'totalDonors',
