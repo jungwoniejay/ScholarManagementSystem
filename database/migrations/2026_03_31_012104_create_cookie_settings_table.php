@@ -13,8 +13,7 @@ return new class extends Migration {
             $table->boolean('enabled')->default(true);
             $table->string('banner_title')->default('We use cookies');
 
-            // ❌ FIX: removed default from TEXT
-            $table->text('banner_message');
+            $table->text('banner_message')->default('We use cookies to improve your experience on our site.');
 
             $table->string('accept_label')->default('Accept All');
             $table->string('decline_label')->default('Decline');
