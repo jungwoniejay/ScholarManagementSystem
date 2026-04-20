@@ -11,6 +11,7 @@ class AdminAccount extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'user_id',
         'full_name',
         'role',
         'email',
