@@ -940,7 +940,6 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
-        <li><a href="/credentials" style="color:#FFD700;">🔑 Credentials</a></li>
     </ul>
 
     <div class="nav-cta" id="nav-cta">
