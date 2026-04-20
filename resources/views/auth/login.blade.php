@@ -5,21 +5,23 @@
     <div class="mb-5 p-3 rounded-xl" style="background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(184,134,11,0.08));border:1px solid rgba(255,215,0,0.25);">
         <div class="flex items-start gap-2.5">
             <span style="font-size:1rem;">🔑</span>
-            <div style="flex:1;font-size:0.72rem;">
-                <p style="color:#B8860B;font-weight:600;margin-bottom:0.35rem;">Demo Credentials</p>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-                    <div>
-                        <div style="color:#8b949e;">Admin:</div>
-                        <div style="color:#B8860B;font-weight:600;">admin@scholarhub.com</div>
-                        <div style="color:#B8860B;font-weight:600;">admin123</div>
+            <div style="flex:1;font-size:0.7rem;">
+                <p style="color:#B8860B;font-weight:600;margin-bottom:0.4rem;">Demo Credentials</p>
+                <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                    <div style="display:flex;gap:0.5rem;">
+                        <span style="color:#8b949e;min-width:40px;">Admin:</span>
+                        <div style="color:#B8860B;font-weight:600;line-height:1.3;">
+                            admin@scholarhub.com<br>admin123
+                        </div>
                     </div>
-                    <div>
-                        <div style="color:#8b949e;">Donor:</div>
-                        <div style="color:#B8860B;font-weight:600;">donor@scholarhub.com</div>
-                        <div style="color:#B8860B;font-weight:600;">donor123</div>
+                    <div style="display:flex;gap:0.5rem;">
+                        <span style="color:#8b949e;min-width:40px;">Donor:</span>
+                        <div style="color:#B8860B;font-weight:600;line-height:1.3;">
+                            donor@scholarhub.com<br>donor123
+                        </div>
                     </div>
                 </div>
-                <a href="/credentials" style="color:#B8860B;margin-top:0.35rem;display:inline-block;text-decoration:underline;">View all credentials →</a>
+                <a href="/credentials" style="color:#B8860B;margin-top:0.4rem;display:inline-block;text-decoration:underline;font-size:0.65rem;">View all →</a>
             </div>
         </div>
     </div>
