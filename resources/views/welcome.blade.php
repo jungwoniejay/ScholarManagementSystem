@@ -729,6 +729,42 @@
     <div class="cursor-ring" id="cursor-ring"></div>
 </div>
 
+<!-- ══ ANNOUNCEMENTS ══ -->
+@if($announcements->count() > 0)
+<div style="position:fixed;top:0;left:0;right:0;z-index:200;">
+    @foreach($announcements as $ann)
+    @php
+        $colors = [
+            'info'    => ['bg'=>'#1E3A8A','border'=>'#3B82F6','text'=>'#93C5FD','icon'=>'#60A5FA'],
+            'success' => ['bg'=>'#064E3B','border'=>'#10B981','text'=>'#6EE7B7','icon'=>'#34D399'],
+            'warning' => ['bg'=>'#78350F','border'=>'#F59E0B','text'=>'#FCD34D','icon'=>'#FBBF24'],
+            'danger'  => ['bg'=>'#7F1D1D','border'=>'#EF4444','text'=>'#FCA5A5','icon'=>'#F87171'],
+        ];
+        $c = $colors[$ann->type] ?? $colors['info'];
+    @endphp
+    <div style="background:{{ $c['bg'] }};border-bottom:1px solid {{ $c['border'] }};padding:10px 5vw;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+        <div style="display:flex;align-items:center;gap:10px;flex:1;">
+            <svg width="16" height="16" fill="none" stroke="{{ $c['icon'] }}" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+            </svg>
+            <span style="font-size:0.82rem;font-weight:600;color:{{ $c['text'] }};">
+                {{ $ann->title }}:
+            </span>
+            <span style="font-size:0.82rem;color:{{ $c['text'] }};opacity:0.85;">{{ $ann->body }}</span>
+        </div>
+        <button onclick="this.parentElement.remove()"
+                style="background:transparent;border:none;cursor:pointer;color:{{ $c['text'] }};opacity:0.6;padding:2px;flex-shrink:0;"
+                onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+    @endforeach
+</div>
+<div style="height:{{ $announcements->count() * 41 }}px;"></div>
+@endif
+
 <!-- ══ NAVIGATION ══ -->
 <nav id="main-nav">
     <a href="/" class="logo">
