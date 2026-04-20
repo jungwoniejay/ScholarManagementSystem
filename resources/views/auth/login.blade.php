@@ -1,30 +1,6 @@
 <x-guest-layout>
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <!-- Demo Credentials Banner -->
-    <div class="mb-5 p-3 rounded-xl" style="background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(184,134,11,0.08));border:1px solid rgba(255,215,0,0.25);">
-        <div class="flex items-start gap-2.5">
-            <span style="font-size:1rem;">🔑</span>
-            <div style="flex:1;font-size:0.7rem;">
-                <p style="color:#B8860B;font-weight:600;margin-bottom:0.4rem;">Demo Credentials</p>
-                <div style="display:flex;flex-direction:column;gap:0.4rem;">
-                    <div style="display:flex;gap:0.5rem;">
-                        <span style="color:#8b949e;min-width:40px;">Admin:</span>
-                        <div style="color:#B8860B;font-weight:600;line-height:1.3;">
-                            admin@scholarhub.com<br>admin123
-                        </div>
-                    </div>
-                    <div style="display:flex;gap:0.5rem;">
-                        <span style="color:#8b949e;min-width:40px;">Donor:</span>
-                        <div style="color:#B8860B;font-weight:600;line-height:1.3;">
-                            donor@scholarhub.com<br>donor123
-                        </div>
-                    </div>
-                </div>
-                <a href="/credentials" style="color:#B8860B;margin-top:0.4rem;display:inline-block;text-decoration:underline;font-size:0.65rem;">View all →</a>
-            </div>
-        </div>
-    </div>
 
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-slate-900">Welcome back</h2>
