@@ -9,7 +9,10 @@ class DonationController extends Controller
 {
     public function index()
     {
-        $donations = Donation::latest()->paginate(10);
+        $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
+        $donations = $donator
+            ? Donation::where('donator_id', $donator->donator_id)->latest()->paginate(10)
+            : collect();
         return view('donator.donation', compact('donations'));
     }
 
@@ -46,32 +49,37 @@ class DonationController extends Controller
 
     public function show(Donation $donation)
     {
+        $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
+        abort_if(!$donator || $donation->donator_id !== $donator->donator_id, 403);
         return view('donator.view', compact('donation'));
     }
 
     public function edit(Donation $donation)
     {
+        $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
+        abort_if(!$donator || $donation->donator_id !== $donator->donator_id, 403);
         return view('donator.edit', compact('donation'));
     }
 
     public function update(Request $request, Donation $donation)
     {
+        $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
+        abort_if(!$donator || $donation->donator_id !== $donator->donator_id, 403);
         $request->validate([
             'donor_name' => 'required',
             'amount' => 'required|numeric',
             'donation_date' => 'required|date',
         ]);
-
         $donation->update($request->all());
-
         return redirect()->route('donator.donations.index')
             ->with('success', 'Donation updated');
     }
 
     public function destroy(Donation $donation)
     {
+        $donator = \App\Models\Donator::where('user_id', auth()->id())->first();
+        abort_if(!$donator || $donation->donator_id !== $donator->donator_id, 403);
         $donation->delete();
-
         return redirect()->route('donator.donations.index')
             ->with('success', 'Donation deleted');
     }
