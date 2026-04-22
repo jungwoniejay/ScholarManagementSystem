@@ -1138,10 +1138,9 @@
         <div class="footer-col">
             <h4>Platform</h4>
             <ul>
-                <li><a href="#">Browse Scholarships</a></li>
-                <li><a href="#">How It Works</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Pricing</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -1149,17 +1148,15 @@
             <ul>
                 <li><a href="/login">Log In</a></li>
                 <li><a href="/register">Register</a></li>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">My Applications</a></li>
             </ul>
         </div>
         <div class="footer-col">
             <h4>Company</h4>
             <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/terms-and-conditions">Terms &amp; Conditions</a></li>
             </ul>
         </div>
     </div>
