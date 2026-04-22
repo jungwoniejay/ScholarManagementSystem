@@ -4,10 +4,18 @@
             <div class="flex">
             @auth
 
-            {{-- Mobile sidebar toggle (admin only) --}}
+            {{-- Mobile sidebar toggle --}}
             @if(auth()->user()->role === 'admin')
             <div class="flex items-center lg:hidden mr-2">
                 <button onclick="toggleAdminSidebar()" class="p-2 rounded-lg" style="color:#8b949e;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            @elseif(auth()->user()->role === 'donator')
+            <div class="flex items-center lg:hidden mr-2">
+                <button onclick="openSidebar('donator')" class="p-2 rounded-lg" style="color:#8b949e;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>

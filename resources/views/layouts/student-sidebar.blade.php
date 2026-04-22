@@ -23,10 +23,16 @@
     .st-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 5px 14px; }
 </style>
 
-{{-- DESKTOP --}}
+{{-- Mobile overlay --}}
+<div id="student-sidebar-overlay"
+     class="fixed inset-0 z-40 lg:hidden"
+     style="background:rgba(0,0,0,0.6);display:none;"
+     onclick="closeSidebar('student')"></div>
+
+{{-- SIDEBAR --}}
 <div id="student-sidebar"
-     class="fixed left-0 top-0 bottom-0 w-64 z-50 hidden lg:flex flex-col h-screen overflow-hidden"
-     style="background: linear-gradient(180deg, #0A1628 0%, #0F2044 60%, #0A1628 100%); border-right: 1px solid rgba(255,215,0,0.1); box-shadow: 4px 0 24px rgba(0,0,0,0.3);">
+     class="fixed left-0 top-0 bottom-0 w-64 z-50 flex flex-col h-screen overflow-hidden"
+     style="background: linear-gradient(180deg, #0A1628 0%, #0F2044 60%, #0A1628 100%); border-right: 1px solid rgba(255,215,0,0.1); box-shadow: 4px 0 24px rgba(0,0,0,0.3); transform: translateX(-100%); transition: transform 0.3s ease;">
 
     {{-- Glow blob --}}
     <div class="absolute top-0 right-0 w-40 h-40 rounded-full pointer-events-none" style="background:rgba(255,215,0,0.06);filter:blur(40px);"></div>

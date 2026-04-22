@@ -17,17 +17,24 @@
 
 <body style="background:#0A1628;" class="font-sans antialiased">
 
-<div class="flex h-screen" style="background: linear-gradient(135deg, #0A1628 0%, #0F2044 60%, #0A1628 100%);">
+<div class="min-h-screen" style="background: linear-gradient(135deg, #0A1628 0%, #0F2044 60%, #0A1628 100%);">
 
     {{-- Student Sidebar ONLY --}}
     @include('layouts.student-sidebar')
 
     {{-- Main Content --}}
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex flex-col min-h-screen lg:ml-64">
 
         {{-- Top Bar --}}
         <header style="background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,215,0,0.1);" class="px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center justify-between">
+                {{-- Hamburger (mobile only) --}}
+                <button class="lg:hidden mr-3 p-2 rounded-lg" style="color:rgba(255,215,0,0.7);border:1px solid rgba(255,215,0,0.2);"
+                        onclick="openSidebar('student')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold" style="color:#FFD700;">
                         {{ $header ?? 'Student Portal' }}
@@ -58,6 +65,31 @@
 
     </div>
 </div>
+
+<script>
+function openSidebar(name) {
+    document.getElementById(name+'-sidebar').style.transform = 'translateX(0)';
+    var ov = document.getElementById(name+'-sidebar-overlay');
+    if (ov) ov.style.display = 'block';
+}
+function closeSidebar(name) {
+    document.getElementById(name+'-sidebar').style.transform = 'translateX(-100%)';
+    var ov = document.getElementById(name+'-sidebar-overlay');
+    if (ov) ov.style.display = 'none';
+}
+// On desktop (>=1024px) always show sidebar
+function handleResize() {
+    if (window.innerWidth >= 1024) {
+        document.getElementById('student-sidebar').style.transform = 'translateX(0)';
+        var ov = document.getElementById('student-sidebar-overlay');
+        if (ov) ov.style.display = 'none';
+    } else {
+        document.getElementById('student-sidebar').style.transform = 'translateX(-100%)';
+    }
+}
+window.addEventListener('resize', handleResize);
+handleResize();
+</script>
 
 </body>
 </html>
