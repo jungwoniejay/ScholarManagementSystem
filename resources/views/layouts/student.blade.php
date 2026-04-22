@@ -15,22 +15,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        body {
-            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-        }
-        
-        /* Sidebar transition */
-        .sidebar-overlay {
-            transition: opacity 0.3s ease;
-        }
-        
-        .sidebar-panel {
-            transition: transform 0.3s ease;
-        }
+        body { background:#0A1628; }
     </style>
 </head>
 
-<body class="bg-slate-50 font-sans antialiased">
+<body style="background:#0A1628;" class="font-sans antialiased">
 
 <!-- Mobile Sidebar Overlay -->
 <div id="sidebar-overlay"
@@ -39,11 +28,11 @@
      onclick="toggleMobileSidebar()">
 </div>
 
-<div class="flex h-screen" style="background:linear-gradient(135deg,#0A1628 0%,#0F2044 60%,#0A1628 100%);">
+<div style="background:#0A1628;min-height:100vh;">
 
     @include('layouts.student-sidebar')
 
-    <div class="flex-1 flex flex-col overflow-hidden" id="student-main-content">
+    <div class="flex flex-col min-h-screen" id="student-main-content" style="margin-left:0;">
 
         <header style="background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,215,0,0.1);" class="px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center justify-between">
@@ -75,7 +64,7 @@
             </div>
         </header>
 
-        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8" style="background:#0A1628;">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8" style="background:#0A1628;">
             <div class="max-w-7xl mx-auto">
                 {{ $slot }}
             </div>
