@@ -23,7 +23,7 @@
     @include('layouts.student-sidebar')
 
     {{-- Main Content --}}
-    <div class="flex flex-col min-h-screen lg:ml-64">
+    <div class="flex flex-col min-h-screen" id="main-content" style="margin-left:0; transition: margin-left 0.3s ease;">
 
         {{-- Top Bar --}}
         <header style="background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,215,0,0.1);" class="px-4 sm:px-6 lg:px-8 py-4">
@@ -77,18 +77,21 @@ function closeSidebar(name) {
     var ov = document.getElementById(name+'-sidebar-overlay');
     if (ov) ov.style.display = 'none';
 }
-// On desktop (>=1024px) always show sidebar
 function handleResize() {
+    var sb = document.getElementById('student-sidebar');
+    var mc = document.getElementById('main-content');
+    var ov = document.getElementById('student-sidebar-overlay');
     if (window.innerWidth >= 1024) {
-        document.getElementById('student-sidebar').style.transform = 'translateX(0)';
-        var ov = document.getElementById('student-sidebar-overlay');
+        sb.style.transform = 'translateX(0)';
+        if (mc) mc.style.marginLeft = '256px';
         if (ov) ov.style.display = 'none';
     } else {
-        document.getElementById('student-sidebar').style.transform = 'translateX(-100%)';
+        sb.style.transform = 'translateX(-100%)';
+        if (mc) mc.style.marginLeft = '0';
     }
 }
 window.addEventListener('resize', handleResize);
-handleResize();
+document.addEventListener('DOMContentLoaded', handleResize);
 </script>
 
 </body>
