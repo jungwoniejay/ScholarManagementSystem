@@ -13,13 +13,10 @@
         :root{--midnight:#060D1F;--navy-deep:#0B1735;--navy:#0F2050;--gold:#E8B84B;--gold-bright:#FFD060;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'DM Sans',sans-serif}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:var(--font-body);background:var(--midnight);color:#fff;overflow-x:hidden}
-        .cursor{position:fixed;top:0;left:0;z-index:9999;pointer-events:none}
-        .cursor-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);position:absolute;transform:translate(-50%,-50%);transition:transform .1s}
-        .cursor-ring{display:none}
     </style>
 </head>
-<body style="cursor:none;">
-<div class="cursor"><div class="cursor-dot" id="cursor-dot"></div><div class="cursor-ring" id="cursor-ring"></div></div>
+<body>
+
 @if(auth()->user()->isAdmin())
 @include('layouts.admin-sidebar')
 @elseif(auth()->user()->isDonator())
@@ -40,7 +37,32 @@
 </div>
 <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
 <script>
-const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');let mx=0,my=0,rx=0,ry=0;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});function animateCursor(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;dot.style.left=mx+'px';dot.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateCursor)}animateCursor();
+function openSidebar(name) {
+    document.getElementById(name+'-sidebar').style.transform = 'translateX(0)';
+    var ov = document.getElementById(name+'-sidebar-overlay');
+    if (ov) ov.style.display = 'block';
+}
+function closeSidebar(name) {
+    document.getElementById(name+'-sidebar').style.transform = 'translateX(-100%)';
+    var ov = document.getElementById(name+'-sidebar-overlay');
+    if (ov) ov.style.display = 'none';
+}
+function handleResize() {
+    var names = ['donator','student'];
+    names.forEach(function(name) {
+        var sb = document.getElementById(name+'-sidebar');
+        if (!sb) return;
+        if (window.innerWidth >= 1024) {
+            sb.style.transform = 'translateX(0)';
+            var ov = document.getElementById(name+'-sidebar-overlay');
+            if (ov) ov.style.display = 'none';
+        } else {
+            sb.style.transform = 'translateX(-100%)';
+        }
+    });
+}
+window.addEventListener('resize', handleResize);
+handleResize();
 window.showToast=function(message,type='success'){const container=document.getElementById('toast-container'),toast=document.createElement('div'),bgColors={success:'bg-emerald-500',error:'bg-red-500',warning:'bg-amber-500',info:'bg-blue-500'};toast.className=`${bgColors[type]} text-white px-6 py-4 rounded-lg shadow-lg transition-all duration-300 max-w-sm`;toast.innerHTML=`<div class="flex items-center gap-3"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span>${message}</span></div>`;container.appendChild(toast);setTimeout(()=>{toast.classList.add('opacity-0','translate-x-full');setTimeout(()=>toast.remove(),300)},3000)};
 if(typeof gsap!=='undefined'){document.querySelectorAll('a,button').forEach(btn=>{btn.addEventListener('mousemove',function(e){const r=this.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;gsap.to(this,{x:x*.15,y:y*.15,duration:.4,ease:'power2.out'})});btn.addEventListener('mouseleave',function(){gsap.to(this,{x:0,y:0,duration:.5,ease:'elastic.out(1,0.5)'})})})}
 </script>
