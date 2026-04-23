@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+use App\Services\AiScreeningService;
+
 class StudentApplicationController extends Controller
 {
     public function index()
@@ -75,6 +77,14 @@ class StudentApplicationController extends Controller
             }
 
             DB::commit();
+
+            // Run AI screening
+            try {
+                (new AiScreeningService())->screen($application);
+            } catch (\Exception $e) {
+                // AI screening failure should not block submission
+            }
+
             return redirect()->route('student.scholarships.status')
                 ->with('success', 'Application submitted successfully! We will review it shortly.');
         } catch (\Exception $e) {
