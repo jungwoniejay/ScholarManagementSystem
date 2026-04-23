@@ -9,16 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cookie_settings', function (Blueprint $table) {
-            $table->text('banner_message')
-                ->default('We use cookies to improve your experience on our site.')
-                ->change();
+            $table->text('banner_message')->change();
         });
     }
 
     public function down(): void
     {
         Schema::table('cookie_settings', function (Blueprint $table) {
-            $table->text('banner_message')->default(null)->change();
+            $table->text('banner_message')->change();
         });
     }
 };
