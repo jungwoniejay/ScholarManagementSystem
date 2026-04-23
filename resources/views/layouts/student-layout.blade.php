@@ -19,7 +19,7 @@
 
 <div class="min-h-screen" style="background: linear-gradient(135deg, #0A1628 0%, #0F2044 60%, #0A1628 100%);">
 
-    {{-- Student Sidebar ONLY --}}
+    {{-- Student Sidebar --}}
     @include('layouts.student-sidebar')
 
     {{-- Main Content --}}
@@ -30,7 +30,7 @@
             <div class="flex items-center justify-between">
                 {{-- Hamburger (mobile only) --}}
                 <button class="lg:hidden mr-3 p-2 rounded-lg" style="color:rgba(255,215,0,0.7);border:1px solid rgba(255,215,0,0.2);"
-                        onclick="openSidebar('student')">
+                        onclick="openStudentSidebar()">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -67,26 +67,11 @@
 </div>
 
 <script>
-function openSidebar(name) {
-    document.getElementById(name+'-sidebar').style.transform = 'translateX(0)';
-    var ov = document.getElementById(name+'-sidebar-overlay');
-    if (ov) ov.style.display = 'block';
-}
-function closeSidebar(name) {
-    document.getElementById(name+'-sidebar').style.transform = 'translateX(-100%)';
-    var ov = document.getElementById(name+'-sidebar-overlay');
-    if (ov) ov.style.display = 'none';
-}
 function handleResize() {
-    var sb = document.getElementById('student-sidebar');
     var mc = document.getElementById('main-content');
-    var ov = document.getElementById('student-sidebar-overlay');
     if (window.innerWidth >= 1024) {
-        sb.style.transform = 'translateX(0)';
         if (mc) mc.style.marginLeft = '256px';
-        if (ov) ov.style.display = 'none';
     } else {
-        sb.style.transform = 'translateX(-100%)';
         if (mc) mc.style.marginLeft = '0';
     }
 }

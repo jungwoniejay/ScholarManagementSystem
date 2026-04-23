@@ -136,10 +136,49 @@
                             <div class="p-3 rounded-lg mb-2 text-xs" style="background:#0A1628;color:#60A5FA;border:1px solid rgba(96,165,250,0.2);">
                                 📄 Submit Grade 12 Report Card, Certificate of Indigency, and Proof of Income for a higher AI score.
                             </div>
-                            <input type="file" name="documents[]" multiple
-                                   class="w-full text-xs rounded-lg p-2 border"
-                                   style="background:#0A1628;border-color:#1E3A8A;color:#8b949e;">
+
+                            {{-- Drop zone --}}
+                            <div id="drop-zone"
+                                 onclick="document.getElementById('doc-input').click()"
+                                 ondragover="event.preventDefault();this.style.borderColor='#FFD700';this.style.background='rgba(255,215,0,0.05)'"
+                                 ondragleave="this.style.borderColor='#1E3A8A';this.style.background='#0A1628'"
+                                 ondrop="handleDrop(event)"
+                                 class="w-full rounded-lg p-4 text-center cursor-pointer transition-all"
+                                 style="background:#0A1628;border:2px dashed #1E3A8A;">
+                                <svg class="mx-auto mb-1" width="22" height="22" fill="none" stroke="rgba(255,215,0,0.5)" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                </svg>
+                                <p class="text-xs" style="color:#8b949e;">Click or drag &amp; drop files here</p>
+                                <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.25);">PDF, JPG, PNG — max 10MB each</p>
+                            </div>
+                            <input id="doc-input" type="file" name="documents[]" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileList(this.files)">
+
+                            {{-- File list --}}
+                            <ul id="file-list" class="mt-2 space-y-1"></ul>
                         </div>
+
+                        <script>
+                        function updateFileList(files) {
+                            const list = document.getElementById('file-list');
+                            list.innerHTML = '';
+                            Array.from(files).forEach((f, i) => {
+                                const li = document.createElement('li');
+                                li.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);font-size:11px;color:#e2e8f0;';
+                                li.innerHTML = `<span style="truncate;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">📄 ${f.name}</span><span style="color:rgba(255,255,255,0.35);flex-shrink:0;margin-left:8px;">${(f.size/1024/1024).toFixed(1)} MB</span>`;
+                                list.appendChild(li);
+                            });
+                        }
+
+                        function handleDrop(e) {
+                            e.preventDefault();
+                            const zone = document.getElementById('drop-zone');
+                            zone.style.borderColor = '#1E3A8A';
+                            zone.style.background = '#0A1628';
+                            const input = document.getElementById('doc-input');
+                            input.files = e.dataTransfer.files;
+                            updateFileList(input.files);
+                        }
+                        </script>
 
                         <button type="submit"
                                 class="w-full py-3 rounded-xl font-bold text-sm"
