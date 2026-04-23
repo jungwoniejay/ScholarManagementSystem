@@ -52,7 +52,7 @@
                         {{ ucfirst($document->status ?? 'pending') }}
                     </span>
                     @if($document->file_path)
-                    <a href="{{ Storage::url($document->file_path) }}" target="_blank"
+                    <a href="{{ asset(Storage::url($document->file_path)) }}" target="_blank"
                        class="text-xs font-semibold px-3 py-1 rounded-lg transition"
                        style="color:rgba(255,215,0,0.7);border:1px solid rgba(255,215,0,0.2);"
                        onmouseover="this.style.background='rgba(255,215,0,0.08)'"

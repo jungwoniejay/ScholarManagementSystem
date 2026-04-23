@@ -38,7 +38,7 @@
                             <td class="px-6 py-4 text-sm" style="color:#8b949e;">{{ $document->created_at->format('M d, Y') }}</td>
                             <td class="px-6 py-4 text-sm">
                                 @if($document->file_path)
-                                    <a href="{{ Storage::url($document->file_path) }}" target="_blank"
+                                    <a href="{{ asset(Storage::url($document->file_path)) }}" target="_blank"
                                        class="text-xs font-semibold" style="color:#60a5fa;">View File</a>
                                 @else
                                     <span style="color:#8b949e;">No file</span>
