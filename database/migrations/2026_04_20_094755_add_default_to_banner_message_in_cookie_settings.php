@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cookie_settings', function (Blueprint $table) {
-            $table->text('banner_message')
+            $table->string('banner_message', 500)
                 ->default('We use cookies to improve your experience on our site.')
                 ->change();
         });
@@ -18,7 +18,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cookie_settings', function (Blueprint $table) {
-            $table->text('banner_message')->default(null)->change();
+            $table->text('banner_message')->nullable()->change();
         });
     }
 };
