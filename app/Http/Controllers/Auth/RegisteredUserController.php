@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Donator;
 use App\Models\Student;
-use App\Models\AdminAccount;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,7 +35,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:student,donator,admin'],
+            'role' => ['required', 'in:student,donator'],
         ]);
 
         $user = User::create([
@@ -64,24 +63,13 @@ class RegisteredUserController extends Controller
                 'last_name' => '',
                 'email' => $request->email,
             ]);
-        } elseif ($request->role === 'admin') {
-            AdminAccount::create([
-                'user_id'        => $user->id,
-                'full_name'      => $request->name,
-                'email'          => $request->email,
-                'role'           => 'admin',
-                'contact_number' => '',
-                'password'       => Hash::make($request->password),
-            ]);
         }
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->role === 'donator') {
+        if ($user->role === 'donator') {
             return redirect()->route('donator.dashboard');
         } else {
             return redirect()->route('student.dashboard');
