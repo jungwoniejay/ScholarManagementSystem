@@ -924,7 +924,6 @@
     </ul>
 
     <div class="nav-cta" id="nav-cta">
-        <a href="/login" class="btn-ghost">Log In</a>
         <a href="/register" class="btn-solid">Get Started</a>
     </div>
 </nav>
