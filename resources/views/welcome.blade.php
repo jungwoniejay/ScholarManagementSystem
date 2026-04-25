@@ -1043,10 +1043,9 @@
 @php $detail = $page->{"feature{$i}_detail"}; @endphp
 @if($detail)
 <div id="feat-modal-{{ $i }}"
-     style="display:none;position:fixed;inset:0;z-index:999;align-items:center;justify-content:center;padding:1rem;"
-     onclick="if(event.target===this)closeFeatureModal({{ $i }})">
-    <div style="position:absolute;inset:0;background:rgba(6,13,31,0.85);backdrop-filter:blur(8px);"></div>
-    <div style="position:relative;z-index:1;background:linear-gradient(180deg,#0B1735,#0F2050);border:1px solid rgba(232,184,75,0.2);border-radius:20px;padding:2.5rem;max-width:560px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.6);">
+     style="display:none;position:fixed;inset:0;z-index:999;align-items:center;justify-content:center;padding:1rem;">
+    <div onclick="closeFeatureModal({{ $i }})" style="position:absolute;inset:0;background:rgba(6,13,31,0.85);backdrop-filter:blur(8px);"></div>
+    <div style="position:relative;z-index:2;background:linear-gradient(180deg,#0B1735,#0F2050);border:1px solid rgba(232,184,75,0.2);border-radius:20px;padding:2.5rem;max-width:560px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.6);">
         {{-- Top bar --}}
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
             <div style="display:flex;align-items:center;gap:0.85rem;">
