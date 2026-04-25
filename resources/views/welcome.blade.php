@@ -1042,14 +1042,15 @@
 @foreach([1,2,3] as $i)
 @php $detail = $page->{"feature{$i}_detail"}; @endphp
 @if($detail)
-<div id="feat-modal-{{ $i }}"
-     style="display:none;position:fixed;inset:0;z-index:999;align-items:center;justify-content:center;padding:1rem;">
-    <div onclick="closeFeatureModal({{ $i }})" style="position:absolute;inset:0;background:rgba(6,13,31,0.85);backdrop-filter:blur(8px);"></div>
-    <div style="position:relative;z-index:2;background:linear-gradient(180deg,#0B1735,#0F2050);border:1px solid rgba(232,184,75,0.2);border-radius:20px;padding:2.5rem;max-width:560px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.6);">
-        {{-- Top bar --}}
+<div id="feat-modal-{{ $i }}" style="display:none;position:fixed;inset:0;z-index:9999;">
+    {{-- Backdrop --}}
+    <div onclick="closeFeatureModal({{ $i }})" style="position:absolute;inset:0;background:rgba(6,13,31,0.88);backdrop-filter:blur(8px);"></div>
+    {{-- Box --}}
+    <div id="feat-modal-box-{{ $i }}" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.95);opacity:0;transition:transform 0.25s ease,opacity 0.25s ease;background:linear-gradient(180deg,#0B1735,#0F2050);border:1px solid rgba(232,184,75,0.2);border-radius:20px;padding:2.5rem;width:min(560px,calc(100vw - 2rem));max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.6);">
+        {{-- Header --}}
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
             <div style="display:flex;align-items:center;gap:0.85rem;">
-                <div style="width:46px;height:46px;border-radius:12px;background:rgba(232,184,75,0.12);border:1px solid rgba(232,184,75,0.25);display:grid;place-items:center;font-size:1.4rem;">
+                <div style="width:46px;height:46px;border-radius:12px;background:rgba(232,184,75,0.12);border:1px solid rgba(232,184,75,0.25);display:grid;place-items:center;font-size:1.4rem;flex-shrink:0;">
                     {{ $page->{"feature{$i}_icon"} }}
                 </div>
                 <div>
@@ -1057,9 +1058,7 @@
                     <div style="font-size:0.78rem;color:rgba(232,184,75,0.7);letter-spacing:0.06em;text-transform:uppercase;">Feature 0{{ $i }}</div>
                 </div>
             </div>
-            <button onclick="closeFeatureModal({{ $i }})" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);cursor:pointer;display:grid;place-items:center;flex-shrink:0;">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+            <button onclick="closeFeatureModal({{ $i }})" style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;line-height:1;">&times;</button>
         </div>
         {{-- Divider --}}
         <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(232,184,75,0.3),transparent);margin-bottom:1.5rem;"></div>
@@ -1075,25 +1074,22 @@
 <script>
 function openFeatureModal(i) {
     const m = document.getElementById('feat-modal-' + i);
-    if (!m) return;
-    m.style.display = 'flex';
+    const box = document.getElementById('feat-modal-box-' + i);
+    if (!m || !box) return;
+    m.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    m.querySelector('div[style*="position:relative"]').style.transform = 'scale(0.95)';
-    m.querySelector('div[style*="position:relative"]').style.opacity = '0';
     requestAnimationFrame(() => {
-        m.querySelector('div[style*="position:relative"]').style.transition = 'transform 0.25s ease, opacity 0.25s ease';
-        m.querySelector('div[style*="position:relative"]').style.transform = 'scale(1)';
-        m.querySelector('div[style*="position:relative"]').style.opacity = '1';
+        box.style.transform = 'translate(-50%,-50%) scale(1)';
+        box.style.opacity = '1';
     });
 }
 function closeFeatureModal(i) {
     const m = document.getElementById('feat-modal-' + i);
-    if (!m) return;
-    const box = m.querySelector('div[style*="position:relative"]');
-    box.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
-    box.style.transform = 'scale(0.95)';
+    const box = document.getElementById('feat-modal-box-' + i);
+    if (!m || !box) return;
+    box.style.transform = 'translate(-50%,-50%) scale(0.95)';
     box.style.opacity = '0';
-    setTimeout(() => { m.style.display = 'none'; document.body.style.overflow = ''; }, 200);
+    setTimeout(() => { m.style.display = 'none'; document.body.style.overflow = ''; }, 220);
 }
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') [1,2,3].forEach(closeFeatureModal);
