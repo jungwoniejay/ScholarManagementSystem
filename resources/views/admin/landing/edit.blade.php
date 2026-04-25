@@ -159,6 +159,16 @@
                                 <input type="text" name="feature{{ $i }}_desc" value="{{ old("feature{$i}_desc", $page->{"feature{$i}_desc"}) }}" class="ed-input">
                             </div>
                         </div>
+                        <div class="grid grid-cols-2 gap-3 mt-3">
+                            <div>
+                                <label class="ed-label">Learn More — Button Label</label>
+                                <input type="text" name="feature{{ $i }}_link_label" value="{{ old("feature{$i}_link_label", $page->{"feature{$i}_link_label"} ?? 'Learn more') }}" class="ed-input" placeholder="Learn more">
+                            </div>
+                            <div>
+                                <label class="ed-label">Learn More — URL</label>
+                                <input type="text" name="feature{{ $i }}_link_url" value="{{ old("feature{$i}_link_url", $page->{"feature{$i}_link_url"} ?? '#') }}" class="ed-input" placeholder="https:// or #section">
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>

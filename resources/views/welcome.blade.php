@@ -1015,7 +1015,12 @@
             </div>
             <h3 class="feat-title">{{ $page->{"feature{$i}_title"} }}</h3>
             <p class="feat-desc">{{ $page->{"feature{$i}_desc"} }}</p>
-            <a href="#" class="feat-link">Learn more <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+            @php $linkLabel = $page->{"feature{$i}_link_label"} ?? 'Learn more'; $linkUrl = $page->{"feature{$i}_link_url"} ?? '#'; @endphp
+            @if($linkUrl && $linkUrl !== '#')
+            <a href="{{ $linkUrl }}" class="feat-link">{{ $linkLabel }} <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+            @else
+            <span class="feat-link" style="cursor:default;">{{ $linkLabel }} <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
+            @endif
         </div>
         @endforeach
     </div>
