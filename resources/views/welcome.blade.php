@@ -398,11 +398,14 @@
             display: inline-flex; align-items: center; gap: 0.4rem;
             color: var(--gold); font-size: 0.82rem; letter-spacing: 0.08em;
             text-transform: uppercase; text-decoration: none;
-            margin-top: 1.5rem; opacity: 0;
-            transition: opacity 0.3s, gap 0.3s;
+            margin-top: 1.5rem; opacity: 1;
+            transition: gap 0.3s;
         }
-        .feat-card:hover .feat-link { opacity: 1; }
         .feat-link:hover { gap: 0.75rem; }
+        @media (hover: hover) {
+            .feat-link { opacity: 0; transition: opacity 0.3s, gap 0.3s; }
+            .feat-card:hover .feat-link { opacity: 1; }
+        }
 
         /* ── HOW IT WORKS ── */
         .how {
@@ -685,9 +688,14 @@
             .t-card.featured { grid-column: span 2; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .nav-links { display: none; }
+            .feat-card { padding: 2rem 1.75rem; }
         }
         @media (max-width: 640px) {
             .features-grid { grid-template-columns: 1fr; }
+            .feat-card { padding: 1.75rem 1.5rem; }
+            .feat-number { font-size: 3.5rem; }
+            .feat-title { font-size: 1.35rem; }
+            .feat-link { opacity: 1; margin-top: 1.25rem; }
             .t-grid { grid-template-columns: 1fr; }
             .t-card.featured { grid-column: span 1; }
             .hero-stats { gap: 2rem; }
