@@ -159,6 +159,10 @@
                                 <input type="text" name="feature{{ $i }}_desc" value="{{ old("feature{$i}_desc", $page->{"feature{$i}_desc"}) }}" class="ed-input">
                             </div>
                         </div>
+                        <div class="mt-3">
+                            <label class="ed-label">Detail (shown when Learn More is clicked)</label>
+                            <textarea name="feature{{ $i }}_detail" rows="4" class="ed-input" placeholder="Add detailed information about this feature...">{{ old("feature{$i}_detail", $page->{"feature{$i}_detail"}) }}</textarea>
+                        </div>
                         <div class="grid grid-cols-2 gap-3 mt-3">
                             <div>
                                 <label class="ed-label">Learn More — Button Label</label>

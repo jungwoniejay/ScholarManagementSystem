@@ -400,6 +400,8 @@
             text-transform: uppercase; text-decoration: none;
             margin-top: 1.5rem; opacity: 1;
             transition: gap 0.3s;
+            background: none; border: none; cursor: pointer; padding: 0;
+            font-family: var(--font-body);
         }
         .feat-link:hover { gap: 0.75rem; }
         @media (hover: hover) {
@@ -1008,6 +1010,11 @@
 
     <div class="features-grid" id="features-grid">
         @foreach([1,2,3] as $i)
+        @php
+            $detail = $page->{"feature{$i}_detail"};
+            $linkLabel = $page->{"feature{$i}_link_label"} ?? 'Learn more';
+            $linkUrl   = $page->{"feature{$i}_link_url"} ?? '#';
+        @endphp
         <div class="feat-card">
             <span class="feat-number">0{{ $i }}</span>
             <div class="feat-icon" style="font-size:1.4rem;">
@@ -1015,16 +1022,84 @@
             </div>
             <h3 class="feat-title">{{ $page->{"feature{$i}_title"} }}</h3>
             <p class="feat-desc">{{ $page->{"feature{$i}_desc"} }}</p>
-            @php $linkLabel = $page->{"feature{$i}_link_label"} ?? 'Learn more'; $linkUrl = $page->{"feature{$i}_link_url"} ?? '#'; @endphp
-            @if($linkUrl && $linkUrl !== '#')
-            <a href="{{ $linkUrl }}" class="feat-link">{{ $linkLabel }} <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-            @else
-            <span class="feat-link" style="cursor:default;">{{ $linkLabel }} <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
+            @if($detail)
+                <button type="button" onclick="openFeatureModal({{ $i }})" class="feat-link">
+                    {{ $linkLabel }}
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+            @elseif($linkUrl && $linkUrl !== '#')
+                <a href="{{ $linkUrl }}" class="feat-link">
+                    {{ $linkLabel }}
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
             @endif
         </div>
         @endforeach
     </div>
 </section>
+
+{{-- Feature Detail Modals --}}
+@foreach([1,2,3] as $i)
+@php $detail = $page->{"feature{$i}_detail"}; @endphp
+@if($detail)
+<div id="feat-modal-{{ $i }}"
+     style="display:none;position:fixed;inset:0;z-index:999;align-items:center;justify-content:center;padding:1rem;"
+     onclick="if(event.target===this)closeFeatureModal({{ $i }})">
+    <div style="position:absolute;inset:0;background:rgba(6,13,31,0.85);backdrop-filter:blur(8px);"></div>
+    <div style="position:relative;z-index:1;background:linear-gradient(180deg,#0B1735,#0F2050);border:1px solid rgba(232,184,75,0.2);border-radius:20px;padding:2.5rem;max-width:560px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.6);">
+        {{-- Top bar --}}
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+            <div style="display:flex;align-items:center;gap:0.85rem;">
+                <div style="width:46px;height:46px;border-radius:12px;background:rgba(232,184,75,0.12);border:1px solid rgba(232,184,75,0.25);display:grid;place-items:center;font-size:1.4rem;">
+                    {{ $page->{"feature{$i}_icon"} }}
+                </div>
+                <div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:#fff;">{{ $page->{"feature{$i}_title"} }}</div>
+                    <div style="font-size:0.78rem;color:rgba(232,184,75,0.7);letter-spacing:0.06em;text-transform:uppercase;">Feature 0{{ $i }}</div>
+                </div>
+            </div>
+            <button onclick="closeFeatureModal({{ $i }})" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);cursor:pointer;display:grid;place-items:center;flex-shrink:0;">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        {{-- Divider --}}
+        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(232,184,75,0.3),transparent);margin-bottom:1.5rem;"></div>
+        {{-- Short desc --}}
+        <p style="font-size:0.95rem;color:rgba(255,255,255,0.6);margin-bottom:1.25rem;line-height:1.7;">{{ $page->{"feature{$i}_desc"} }}</p>
+        {{-- Detail body --}}
+        <div style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.85;white-space:pre-line;">{{ $detail }}</div>
+    </div>
+</div>
+@endif
+@endforeach
+
+<script>
+function openFeatureModal(i) {
+    const m = document.getElementById('feat-modal-' + i);
+    if (!m) return;
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    m.querySelector('div[style*="position:relative"]').style.transform = 'scale(0.95)';
+    m.querySelector('div[style*="position:relative"]').style.opacity = '0';
+    requestAnimationFrame(() => {
+        m.querySelector('div[style*="position:relative"]').style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        m.querySelector('div[style*="position:relative"]').style.transform = 'scale(1)';
+        m.querySelector('div[style*="position:relative"]').style.opacity = '1';
+    });
+}
+function closeFeatureModal(i) {
+    const m = document.getElementById('feat-modal-' + i);
+    if (!m) return;
+    const box = m.querySelector('div[style*="position:relative"]');
+    box.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+    box.style.transform = 'scale(0.95)';
+    box.style.opacity = '0';
+    setTimeout(() => { m.style.display = 'none'; document.body.style.overflow = ''; }, 200);
+}
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') [1,2,3].forEach(closeFeatureModal);
+});
+</script>
 
 <!-- ══ HOW IT WORKS ══ -->
 <section class="how" id="how-it-works">
