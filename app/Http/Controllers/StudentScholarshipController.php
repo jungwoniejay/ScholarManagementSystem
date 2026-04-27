@@ -112,36 +112,23 @@ class StudentScholarshipController extends Controller
         DB::beginTransaction();
 
         try {
-            $application->student_response    = $request->response;
-            $application->student_responded_at = now();
-            $application->status              = $request->response === 'accept' ? 'completed' : 'declined';
+            $application->student_response     = $request->response;
+            $application->student_responded_at  = now();
+            $application->status                = $request->response === 'accept' ? 'completed' : 'declined';
             $application->save();
-
-            // Auto-credit wallet on acceptance
-            if ($request->response === 'accept') {
-                $creditAmount = (float) ($application->awarded_amount > 0
-                    ? $application->awarded_amount
-                    : $application->scholarship->amount ?? 0);
-
-                if ($creditAmount > 0) {
-                    $wallet = $student->getOrCreateWallet();
-                    $wallet->credit(
-                        $creditAmount,
-                        'Scholarship award: ' . ($application->scholarship->name ?? 'Scholarship'),
-                        $application->id
-                    );
-                }
-            }
 
             // If declined, restore donor's available fund
             if ($request->response === 'decline' && $application->donator) {
                 $application->donator->increment('available_fund', $application->awarded_amount);
             }
 
+            // NOTE: funds are NOT auto-credited here.
+            // Admin must manually disburse via Admin > Completed Applications > Disburse.
+
             DB::commit();
 
             $message = $request->response === 'accept'
-                ? 'Congratulations! You have accepted the scholarship. The funds will be disbursed according to the scholarship terms.'
+                ? 'You have accepted the scholarship. Funds will be released by the admin shortly.'
                 : 'You have declined the scholarship. Thank you for your response.';
 
             return redirect()->route('student.scholarships.awarded')

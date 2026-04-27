@@ -9,10 +9,13 @@ class WalletTransaction extends Model
     protected $fillable = [
         'student_wallet_id', 'type', 'amount', 'status',
         'description', 'method', 'account_name', 'account_number',
-        'bank_name', 'application_id',
+        'bank_name', 'application_id', 'approved_at', 'approved_by', 'rejection_reason',
     ];
 
-    protected $casts = ['amount' => 'decimal:2'];
+    protected $casts = [
+        'amount'      => 'decimal:2',
+        'approved_at' => 'datetime',
+    ];
 
     public function wallet()
     {

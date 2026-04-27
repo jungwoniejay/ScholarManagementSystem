@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\LandingPageController;
 use App\Http\Controllers\Admin\CookieSettingsController;
+use App\Http\Controllers\Admin\DisbursementController;
 use App\Http\Controllers\Admin\MaintenanceController;
 
 /*
@@ -231,6 +232,12 @@ Route::middleware(['auth', 'role:admin'])
         // Cookie Settings
         Route::get('/cookies', [CookieSettingsController::class, 'index'])->name('cookies.index');
         Route::post('/cookies', [CookieSettingsController::class, 'update'])->name('cookies.update');
+
+        // Disbursements
+        Route::post('applications/{application}/disburse', [DisbursementController::class, 'disburse'])->name('disbursements.disburse');
+        Route::get('disbursements/withdrawals', [DisbursementController::class, 'withdrawals'])->name('disbursements.withdrawals');
+        Route::patch('disbursements/withdrawals/{transaction}/approve', [DisbursementController::class, 'approveWithdrawal'])->name('disbursements.withdrawals.approve');
+        Route::patch('disbursements/withdrawals/{transaction}/reject', [DisbursementController::class, 'rejectWithdrawal'])->name('disbursements.withdrawals.reject');
 
         // Maintenance
         Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
