@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use App\Models\AiRule;
 use App\Models\CookieSettings;
+use App\Services\ActivityMonitor;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(ActivityMonitor::class, fn() => new ActivityMonitor());
     }
 
     public function boot(): void

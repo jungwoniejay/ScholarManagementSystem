@@ -7,8 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Jenssegers\Agent\Agent;
-
 class ActivityMonitor
 {
     /**
@@ -32,23 +30,23 @@ class ActivityMonitor
         ?string $suspicionReason = null
     ): ActivityLog {
         $request = request();
-        $agent = new Agent();
+        $ua = $request->userAgent() ?? '';
 
         return ActivityLog::create([
-            'user_id' => $user?->id ?? auth()->id(),
-            'log_type' => $logType,
-            'description' => $description,
-            'subject_type' => $subjectType,
-            'subject_id' => $subjectId,
-            'properties' => !empty($properties) ? json_encode($properties) : null,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'browser' => $agent->browser() . ' ' . $agent->version($agent->browser()),
-            'device' => $agent->device() . ' (' . $agent->platform() . ')',
-            'location' => $this->getIPLocation($request->ip()),
-            'is_suspicious' => $isSuspicious,
+            'user_id'          => $user?->id ?? auth()->id(),
+            'log_type'         => $logType,
+            'description'      => $description,
+            'subject_type'     => $subjectType,
+            'subject_id'       => $subjectId,
+            'properties'       => !empty($properties) ? json_encode($properties) : null,
+            'ip_address'       => $request->ip(),
+            'user_agent'       => $ua,
+            'browser'          => $this->parseBrowser($ua),
+            'device'           => $this->parseDevice($ua),
+            'location'         => $this->getIPLocation($request->ip()),
+            'is_suspicious'    => $isSuspicious,
             'suspicion_reason' => $suspicionReason,
-            'occurred_at' => now(),
+            'occurred_at'      => now(),
         ]);
     }
 
@@ -243,6 +241,35 @@ class ActivityMonitor
         }
         
         return "Unusual activity detected";
+    }
+
+    /**
+     * Parse browser from user agent string
+     */
+    protected function parseBrowser(string $ua): string
+    {
+        foreach ([
+            'Edg'     => 'Edge',
+            'OPR'     => 'Opera',
+            'Chrome'  => 'Chrome',
+            'Firefox' => 'Firefox',
+            'Safari'  => 'Safari',
+            'MSIE'    => 'IE',
+            'Trident' => 'IE',
+        ] as $key => $name) {
+            if (str_contains($ua, $key)) return $name;
+        }
+        return 'Unknown';
+    }
+
+    /**
+     * Parse device/platform from user agent string
+     */
+    protected function parseDevice(string $ua): string
+    {
+        if (str_contains($ua, 'Mobile') || str_contains($ua, 'Android')) return 'Mobile';
+        if (str_contains($ua, 'Tablet') || str_contains($ua, 'iPad'))    return 'Tablet';
+        return 'Desktop';
     }
 
     /**
