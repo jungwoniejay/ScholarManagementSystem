@@ -17,7 +17,7 @@ class DisbursementController extends Controller
             return redirect()->back()->with('error', 'This application has already been disbursed or is not eligible.');
         }
 
-        $application->loadMissing('scholarship', 'student');
+        $application->loadMissing('scholarship', 'student', 'donator');
 
         $amount = (float) ($application->awarded_amount > 0
             ? $application->awarded_amount
@@ -29,12 +29,18 @@ class DisbursementController extends Controller
 
         DB::beginTransaction();
         try {
+            // Credit student wallet
             $wallet = $application->student->getOrCreateWallet();
             $wallet->credit(
                 $amount,
                 'Scholarship disbursement: ' . ($application->scholarship->name ?? 'Scholarship'),
                 $application->id
             );
+
+            // Deduct from donor's available fund
+            if ($application->donator) {
+                $application->donator->decrement('available_fund', $amount);
+            }
 
             $application->disbursed_at = now();
             $application->disbursed_by = auth()->id();
